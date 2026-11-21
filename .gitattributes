@@ -1,0 +1,6 @@
+# Scripts, compose and site files run on Linux (VPS): LF everywhere, also in a Windows checkout.
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.pdf binary
+*.xlsx binary

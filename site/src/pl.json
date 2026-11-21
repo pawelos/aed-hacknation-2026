@@ -1,0 +1,53 @@
+{
+  "name": "Polski",
+  "locale": "pl_PL",
+  "slugs": {
+    "home": "",
+    "solution": "rozwiazanie",
+    "audience": "dla-kogo",
+    "materials": "materialy",
+    "team": "zespol",
+    "contact": "kontakt"
+  },
+  "nav": {
+    "home": "Start",
+    "solution": "Rozwiązanie",
+    "audience": "Dla kogo",
+    "materials": "Materiały",
+    "team": "Zespół",
+    "contact": "Kontakt"
+  },
+  "ui": {
+    "skip": "Przejdź do treści",
+    "menu": "Menu",
+    "main_nav": "Menu główne",
+    "theme": "Przełącz tryb jasny / ciemny",
+    "login": "Zaloguj",
+    "login_label": "Zaloguj się do aplikacji AED",
+    "lang_label": "Język",
+    "search": "Szukaj…",
+    "search_label": "Szukaj języka",
+    "no_matches": "Brak wyników",
+    "home_label": "AED Radar – strona główna",
+    "breadcrumb": "Ścieżka",
+    "footer": "© 2026 AED Radar · projekt na <a href=\"https://hacknation.pl\">HackNation 2026</a>, zadanie „Misja AED – Dane na ratunek” Ministerstwa Cyfryzacji.",
+    "soon": "wkrótce"
+  },
+  "titles": {
+    "home": "AED Radar – otwarte dane o defibrylatorach | HackNation 2026",
+    "solution": "Rozwiązanie – AED Radar",
+    "audience": "Dla kogo – AED Radar",
+    "materials": "Materiały projektu – AED Radar",
+    "team": "Zespół – AED Radar",
+    "contact": "Kontakt – AED Radar"
+  },
+  "description": "AED Radar łączy rozproszone dane o defibrylatorach AED w jeden otwarty zbiór w portalu dane.gov.pl. Projekt zespołu na HackNation 2026 (zadanie „Misja AED – Dane na ratunek”).",
+  "og_title": "AED Radar – Udostępnij dane. Daj komuś szansę.",
+  "leads": {
+    "solution": "Jak AED Radar zbiera, sprawdza i publikuje dane o defibrylatorach.",
+    "audience": "Dla służb ratunkowych, dysponentów AED i każdego z nas.",
+    "materials": "Prototyp, kod, dane i materiały do zgłoszenia.",
+    "team": "Ludzie stojący za AED Radar.",
+    "contact": "Masz dane o AED albo pytanie? Napisz do nas."
+  }
+}

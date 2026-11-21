@@ -1,0 +1,49 @@
+# Local dev edge (Windows, Docker Desktop): Traefik with HTTPS in front of the wizytówka, on the same kind of
+# addresses as the VPS. Pattern: C:\car-reminder\deploy\edge\local.
+#   ./deploy/scripts/local.sh up          (certificates, hosts entries and the rest: deploy/edge/local/README.md)
+#
+#   https://hacknation-2026.test       -> site (busybox httpd, site/public)
+#   https://www.hacknation-2026.test   -> 301 to the apex
+#   https://aed.hacknation-2026.test   -> prototype web on this computer (port 3000, later)
+#
+# No Let's Encrypt and no Docker provider: routes are in routes.yml, the certificate comes from
+# ./deploy/scripts/local.sh certs (own local CA). Ports 80/443 are shared with the Car Reminder local edge:
+# run one of them at a time, or set HTTP_PORT / HTTPS_PORT (e.g. 8080 / 8443).
+
+name: hacknation-local-edge
+
+services:
+  traefik:
+    image: traefik:v3.7.14
+    container_name: hacknation-local-traefik
+    restart: unless-stopped
+    command:
+      - --global.checkNewVersion=false
+      - --global.sendAnonymousUsage=false
+      - --log.level=INFO
+      - --entryPoints.web.address=:80
+      - --entryPoints.web.http.redirections.entryPoint.to=websecure
+      - --entryPoints.web.http.redirections.entryPoint.scheme=https
+      - --entryPoints.websecure.address=:443
+      - --entryPoints.websecure.http.aliasHeadersStrategy=delete
+      - --providers.file.directory=/etc/traefik/dynamic
+    ports:
+      - "${HTTP_PORT:-80}:80"
+      - "${HTTPS_PORT:-443}:443"
+    extra_hosts:
+      # Docker Desktop has it already; Docker Engine on Linux needs the mapping.
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./routes.yml:/etc/traefik/dynamic/routes.yml:ro
+      - ./certs:/certs:ro
+
+  # Same container as on the VPS (deploy/stacks/site.yml), files mounted read-only: edits show after a reload.
+  site:
+    image: busybox:1.38.0
+    container_name: hacknation-local-site
+    restart: unless-stopped
+    user: "65534:65534"
+    command: ["httpd", "-f", "-p", "8080", "-h", "/www", "-c", "/etc/httpd.conf"]
+    volumes:
+      - ../../../site/public:/www:ro
+      - ../../stacks/httpd.conf:/etc/httpd.conf:ro

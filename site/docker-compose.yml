@@ -1,0 +1,17 @@
+# Local preview of the wizytówka in the same container as on the VPS (busybox httpd), without Traefik.
+#   docker compose -f site/docker-compose.yml up      -> http://localhost:8080   (Ctrl+C to stop)
+# The VPS runs deploy/stacks/site.yml (same image and files, behind Traefik with TLS and headers).
+
+name: hacknation-local
+
+services:
+  site:
+    image: busybox:1.38.0
+    container_name: hacknation-site-local
+    user: "65534:65534"
+    command: ["httpd", "-f", "-p", "8080", "-h", "/www", "-c", "/etc/httpd.conf"]
+    ports:
+      - "127.0.0.1:${SITE_PORT:-8080}:8080"
+    volumes:
+      - ./public:/www:ro
+      - ../deploy/stacks/httpd.conf:/etc/httpd.conf:ro

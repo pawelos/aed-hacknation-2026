@@ -1,0 +1,61 @@
+# Local dev routes (file provider). Changes need ./deploy/scripts/local.sh restart (no file watch on Windows mounts).
+# No HSTS here: it would stick to the *.test hosts in the browser.
+
+http:
+  routers:
+    local-site:
+      rule: Host(`hacknation-2026.test`)
+      entryPoints:
+        - websecure
+      service: local-site
+      middlewares:
+        - site-headers
+      tls: {}
+    local-site-www:
+      rule: Host(`www.hacknation-2026.test`)
+      entryPoints:
+        - websecure
+      service: noop@internal
+      middlewares:
+        - www-to-apex
+      tls: {}
+    # Prototype web (apps/web, next dev) on this computer, once it exists; until then Traefik answers 502.
+    local-aed:
+      rule: Host(`aed.hacknation-2026.test`)
+      entryPoints:
+        - websecure
+      service: local-aed
+      tls: {}
+
+  middlewares:
+    www-to-apex:
+      redirectRegex:
+        regex: ^https://www\.(.+)
+        replacement: https://${1}
+        permanent: true
+    # Same policy as the VPS (deploy/stacks/site.yml), so a blocked script or style shows up locally first.
+    site-headers:
+      headers:
+        contentSecurityPolicy: "default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'"
+        contentTypeNosniff: true
+        referrerPolicy: strict-origin-when-cross-origin
+        permissionsPolicy: "camera=(), microphone=(), geolocation=()"
+        customResponseHeaders:
+          Cache-Control: "no-store"
+
+  services:
+    local-site:
+      loadBalancer:
+        servers:
+          - url: http://site:8080
+    local-aed:
+      loadBalancer:
+        servers:
+          - url: http://host.docker.internal:3000
+
+tls:
+  stores:
+    default:
+      defaultCertificate:
+        certFile: /certs/dev.crt
+        keyFile: /certs/dev.key

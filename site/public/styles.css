@@ -1,0 +1,955 @@
+/* AED Radar — wizytówka. Header like the Car Reminder marketing site (logo, menu, login, language), toolbar
+   sizes like the app (40 px buttons, 20 px icons, 24 px flag), home page in the sign-in split layout.
+   Mobile-first, system fonts, light/dark (system or the toggle in assets/site.js), WCAG 2.2 AA contrast. */
+
+:root {
+  --bg: #ffffff;
+  --bg-soft: #f5f8fb;
+  --surface: #ffffff;
+  --heading: #0b1f3a;
+  --text: #3d4f6a;           /* 8.3:1 on white */
+  --border: #e2e8f0;
+  --hover: #f1f5f9;
+  --primary: #00843a;        /* buttons, links: white text 4.8:1 */
+  --primary-hover: #006f31;
+  --primary-subtle: #00b04a1a;
+  --on-primary: #ffffff;
+  --danger: #c8102e;
+  --focus: #1a56db;
+  --radius: 12px;
+  --shadow: 0 1px 2px rgb(15 23 42 / 0.04), 0 8px 24px rgb(15 23 42 / 0.06);
+  --shadow-menu: 0 10px 30px rgb(15 23 42 / 0.12);
+  --header-h: 4.5rem;
+  color-scheme: light;
+}
+
+/* Dark: system setting (unless the toggle chose light) or the toggle. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111827;
+    --bg-soft: #0d1320;
+    --surface: #1a2233;
+    --heading: #f3f6fb;
+    --text: #a8b4c8;         /* 8.5:1 on --bg */
+    --border: #2a3446;
+    --hover: #1f2937;
+    --primary: #2bc96a;      /* 8.2:1 on --bg */
+    --primary-hover: #5bd98c;
+    --primary-subtle: #2bc96a1f;
+    --on-primary: #05210f;
+    --danger: #ff7a8a;
+    --focus: #8ab4ff;
+    --shadow: none;
+    --shadow-menu: 0 10px 30px rgb(0 0 0 / 0.5);
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #111827;
+  --bg-soft: #0d1320;
+  --surface: #1a2233;
+  --heading: #f3f6fb;
+  --text: #a8b4c8;
+  --border: #2a3446;
+  --hover: #1f2937;
+  --primary: #2bc96a;
+  --primary-hover: #5bd98c;
+  --primary-subtle: #2bc96a1f;
+  --on-primary: #05210f;
+  --danger: #ff7a8a;
+  --focus: #8ab4ff;
+  --shadow: none;
+  --shadow-menu: 0 10px 30px rgb(0 0 0 / 0.5);
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--header-h);
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+a {
+  color: var(--primary);
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  color: var(--primary-hover);
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+h1,
+h2,
+h3,
+.h3 {
+  margin: 0 0 0.5em;
+  color: var(--heading);
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: clamp(1.9rem, 4vw, 2.4rem);
+  font-weight: 700;
+}
+
+h2 {
+  font-size: clamp(1.5rem, 3vw, 1.9rem);
+  font-weight: 600;
+}
+
+h3,
+.h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+p {
+  margin: 0 0 1em;
+}
+
+.muted {
+  color: var(--text);
+  font-style: italic;
+}
+
+.container {
+  width: 100%;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 1rem;
+  z-index: 60;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  background: var(--primary);
+  color: var(--on-primary);
+  font-weight: 600;
+}
+
+.skip-link:focus {
+  top: 1rem;
+  color: var(--on-primary);
+}
+
+/* ---------- Header ---------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  max-width: 80rem;
+  min-height: var(--header-h);
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.logo {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--heading);
+  text-decoration: none;
+}
+
+.logo img {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.logo-text {
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.logo-text span {
+  color: var(--primary);
+}
+
+.logo:hover {
+  color: var(--heading);
+}
+
+/* Desktop menu (centre); below 64rem the hamburger dropdown takes over. */
+.main-nav {
+  display: none;
+  flex: 1;
+  justify-content: center;
+}
+
+.main-nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.main-nav a,
+.nav-mobile .dropdown-panel a {
+  display: block;
+  padding: 0.5rem 0;
+  color: var(--heading);
+  font-size: 1.05rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.main-nav a:hover,
+.main-nav a[aria-current="page"] {
+  color: var(--primary);
+}
+
+.main-nav a[aria-current="page"] {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.45em;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+@media (min-width: 64rem) {
+  .main-nav {
+    display: flex;
+  }
+  .header-actions {
+    margin-left: 0;
+  }
+  .nav-mobile {
+    display: none;
+  }
+}
+
+/* 40 px round button, 20 px icon (app ModeToggle). */
+.icon-button {
+  display: inline-grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--heading);
+  cursor: pointer;
+}
+
+.icon-button:hover {
+  background: var(--hover);
+}
+
+.icon-button svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.theme-toggle .icon-moon {
+  display: none;
+}
+
+:root[data-theme="dark"] .theme-toggle .icon-sun {
+  display: none;
+}
+
+:root[data-theme="dark"] .theme-toggle .icon-moon {
+  display: block;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-toggle .icon-sun {
+    display: none;
+  }
+  :root:not([data-theme="light"]) .theme-toggle .icon-moon {
+    display: block;
+  }
+}
+
+.button.button-login {
+  min-height: 2.5rem;
+  padding: 0.4rem 1.1rem;
+  font-size: 1rem;
+}
+
+.button-login svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+@media (max-width: 29.99rem) {
+  .button.button-login {
+    width: 2.5rem;
+    padding: 0;
+  }
+  .button-login span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+}
+
+/* ---------- Dropdowns (<details>, work without script) ---------- */
+.dropdown {
+  position: relative;
+}
+
+.dropdown summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+.dropdown summary::-webkit-details-marker {
+  display: none;
+}
+
+.dropdown-panel {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  z-index: 55;
+  min-width: 15rem;
+  padding: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow-menu);
+}
+
+.dropdown-panel ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav-mobile .dropdown-panel a {
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+}
+
+.nav-mobile .dropdown-panel a:hover,
+.nav-mobile .dropdown-panel a[aria-current="page"] {
+  background: var(--primary-subtle);
+  color: var(--heading);
+}
+
+/* Language: 24 px flag (+ name on wide screens), list with 18 px flags and a tick on the current one. */
+.lang summary {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.5rem;
+  padding: 0 0.5rem;
+  border-radius: 999px;
+  color: var(--heading);
+  font-weight: 500;
+}
+
+.lang summary:hover {
+  background: var(--hover);
+}
+
+.lang-name,
+.lang .chevron {
+  display: none;
+}
+
+@media (min-width: 64rem) {
+  .lang-name {
+    display: inline;
+  }
+  .lang .chevron {
+    display: block;
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+.flag {
+  display: block;
+  flex: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  overflow: hidden;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px var(--border);
+}
+
+.flag svg {
+  width: 100%;
+  height: 100%;
+}
+
+.flag-sm {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.lang-search {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.4rem;
+  padding: 0 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.lang-search:focus-within {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 1px var(--primary);
+}
+
+.lang-search svg {
+  flex: none;
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.lang-search input {
+  width: 100%;
+  min-height: 2.5rem;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--heading);
+  font: inherit;
+}
+
+.lang-search input::placeholder {
+  color: var(--text);
+}
+
+.lang-list a {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 8px;
+  color: var(--heading);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.lang-list a:hover {
+  background: var(--hover);
+  color: var(--heading);
+}
+
+.lang-list .tick {
+  width: 1.15rem;
+  height: 1.15rem;
+  margin-left: auto;
+  color: var(--primary);
+}
+
+.lang-empty {
+  margin: 0;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+}
+
+/* ---------- Buttons ---------- */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3.25rem;
+  padding: 0.75rem 1.5rem;
+  border: 0;
+  border-radius: var(--radius);
+  font-size: 1.05rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.button-primary {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+
+.button-primary:hover {
+  background: var(--primary-hover);
+  color: var(--on-primary);
+}
+
+.button-block {
+  width: 100%;
+}
+
+.badge {
+  padding: 0.05rem 0.5rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.link-strong {
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.link-strong:hover {
+  text-decoration: underline;
+}
+
+/* ---------- Home: split hero (sign-in look) ---------- */
+.split {
+  display: flex;
+  flex-direction: column;
+  min-height: min(calc(100svh - var(--header-h)), 52rem);
+  padding: 0 1rem 1rem;
+}
+
+@media (min-width: 64rem) {
+  .split {
+    flex-direction: row;
+    padding: 1rem;
+  }
+}
+
+.split-main {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+}
+
+.split-inner {
+  width: 100%;
+  max-width: 540px;
+  padding: 2rem 0.5rem;
+}
+
+@media (min-width: 40rem) {
+  .split-inner {
+    padding: 2.5rem 2rem;
+  }
+}
+
+.split-aside {
+  display: none;
+}
+
+@media (min-width: 64rem) {
+  .split-aside {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    max-width: 640px;
+    padding: 2.5rem;
+    text-align: center;
+  }
+  .split-aside img {
+    width: 100%;
+    max-width: 520px;
+    height: auto;
+  }
+  .split-aside p {
+    max-width: 28rem;
+    margin: 0 auto;
+    font-size: 1.15rem;
+  }
+}
+
+.eyebrow {
+  margin-bottom: 0.75rem;
+  color: var(--primary);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.lead {
+  margin-bottom: 2rem;
+  font-size: 1.05rem;
+}
+
+.features {
+  display: grid;
+  gap: 0.9rem;
+  margin: 0 0 2rem;
+  padding: 0;
+  list-style: none;
+}
+
+.feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.feature-icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 10px;
+  background: var(--primary-subtle);
+  color: var(--primary);
+}
+
+.feature-icon svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.feature strong {
+  display: block;
+  color: var(--heading);
+  font-weight: 600;
+}
+
+.feature span {
+  font-size: 0.95rem;
+}
+
+.below-button {
+  margin: 1.5rem 0 0;
+  text-align: center;
+}
+
+/* ---------- Subpage banner with breadcrumb (marketing site "Home > Contacts") ---------- */
+.page-banner {
+  padding: 2.5rem 0 2rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-soft);
+}
+
+.breadcrumb ol {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 0 0 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  background: var(--surface);
+  list-style: none;
+}
+
+.breadcrumb li {
+  display: inline-flex;
+  align-items: center;
+  color: var(--heading);
+}
+
+.breadcrumb li + li::before {
+  content: "›";
+  margin: 0 0.6rem;
+  color: var(--text);
+}
+
+.breadcrumb a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+/* ---------- Content sections ---------- */
+.section {
+  padding: 3.5rem 0;
+}
+
+.section + .section {
+  border-top: 1px solid var(--border);
+}
+
+.section-soft {
+  background: var(--bg-soft);
+}
+
+.section-intro {
+  max-width: 44rem;
+  font-size: 1.05rem;
+}
+
+.section-more {
+  margin: 2rem 0 0;
+}
+
+.grid {
+  display: grid;
+  gap: 1rem;
+  margin: 2rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.section-intro + .grid {
+  margin-top: 2rem;
+}
+
+.container > .grid:first-child {
+  margin-top: 0;
+}
+
+@media (min-width: 40rem) {
+  .grid-2,
+  .grid-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 64rem) {
+  .grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.card {
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.card p:last-child {
+  margin-bottom: 0;
+}
+
+.card-accent {
+  border-left: 4px solid var(--danger);
+}
+
+.contact-card .feature-icon {
+  margin-bottom: 1rem;
+}
+
+.steps {
+  display: grid;
+  gap: 1rem;
+  margin: 2rem 0 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+
+@media (min-width: 48rem) {
+  .steps {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.steps li {
+  position: relative;
+  padding: 1.5rem 1.5rem 1.5rem 4.25rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  counter-increment: step;
+}
+
+.steps li::before {
+  content: counter(step);
+  position: absolute;
+  top: 1.4rem;
+  left: 1.25rem;
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background: var(--primary);
+  color: var(--on-primary);
+  font-weight: 700;
+}
+
+.steps strong {
+  display: block;
+  color: var(--heading);
+  font-size: 1.1rem;
+}
+
+.cta {
+  text-align: center;
+}
+
+.cta .section-intro {
+  margin: 0 auto 1.5rem;
+}
+
+.links a,
+.links .soon {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 3.5rem;
+  padding: 0.9rem 1.2rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--heading);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.links a:hover {
+  border-color: var(--primary);
+}
+
+.links small {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.role {
+  margin: 0;
+}
+
+.member .role {
+  margin: 0.25rem 0 1rem;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.member-links {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.member-links li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 2.75rem; /* cel dotyku ≥ 44 px (WCAG 2.5.8) */
+}
+
+.member-links svg {
+  flex: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--primary);
+}
+
+.member-links a {
+  overflow-wrap: anywhere;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+
+.site-footer p {
+  margin: 0;
+}
+
+/* ---------- 404 ---------- */
+.not-found {
+  display: grid;
+  min-height: 80vh;
+  place-items: center;
+  text-align: center;
+}
+
+.not-found img {
+  margin: 0 auto 1.5rem;
+}
+
+.not-found .actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}

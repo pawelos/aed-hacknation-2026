@@ -1,0 +1,59 @@
+# Wizytówka hacknation-2026.pl (+ www → 301 to the apex) on the OVH VPS, behind the car-reminder edge Traefik
+# (C:\car-reminder\deploy\edge: ports 80/443, Let's Encrypt resolver "le", shared middlewares *@file).
+#   ./deploy/scripts/deploy.sh up
+#
+# Static files only: busybox httpd serves site/public read-only, no image build, no secrets.
+# Hosts: SITE_HOST (default hacknation-2026.pl); its www. variant redirects to it.
+
+name: hacknation
+
+services:
+  site:
+    image: busybox:1.38.0
+    container_name: hacknation-site
+    restart: unless-stopped
+    user: "65534:65534"
+    deploy:
+      resources:
+        limits:
+          memory: 16m
+          cpus: "0.1"
+    command: ["httpd", "-f", "-p", "8080", "-h", "/www", "-c", "/etc/httpd.conf"]
+    volumes:
+      - ../../site/public:/www:ro
+      - ./httpd.conf:/etc/httpd.conf:ro
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:8080/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    labels:
+      - traefik.enable=true
+      # Apex: the site.
+      - traefik.http.routers.hn-site.rule=Host(`${SITE_HOST:-hacknation-2026.pl}`)
+      - traefik.http.routers.hn-site.entrypoints=websecure
+      - traefik.http.routers.hn-site.service=hn-site
+      - traefik.http.routers.hn-site.middlewares=hn-site-headers,security-headers@file,compress@file,web-in-flight@file,web-rate-limit@file
+      - traefik.http.services.hn-site.loadbalancer.server.port=8080
+      # www: own certificate, permanent redirect to the apex.
+      - traefik.http.routers.hn-site-www.rule=Host(`www.${SITE_HOST:-hacknation-2026.pl}`)
+      - traefik.http.routers.hn-site-www.entrypoints=websecure
+      - traefik.http.routers.hn-site-www.service=noop@internal
+      - traefik.http.routers.hn-site-www.middlewares=hn-www-to-apex
+      - traefik.http.middlewares.hn-www-to-apex.redirectregex.regex=^https://www\.(.+)
+      - traefik.http.middlewares.hn-www-to-apex.redirectregex.replacement=https://$${1}
+      - traefik.http.middlewares.hn-www-to-apex.redirectregex.permanent=true
+      # Own files only (assets/theme.js is the one script), no inline code, no third-party resources.
+      - "traefik.http.middlewares.hn-site-headers.headers.contentSecurityPolicy=default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'"
+      - traefik.http.middlewares.hn-site-headers.headers.contentTypeNosniff=true
+      - traefik.http.middlewares.hn-site-headers.headers.referrerPolicy=strict-origin-when-cross-origin
+      - traefik.http.middlewares.hn-site-headers.headers.permissionsPolicy=camera=(), microphone=(), geolocation=()
+      - traefik.http.middlewares.hn-site-headers.headers.customResponseHeaders.Cache-Control=public, max-age=300
+    networks:
+      - car-reminder-edge
+
+networks:
+  # Created by the car-reminder edge (scripts/edge.sh); deploy.sh creates it too when missing.
+  car-reminder-edge:
+    name: car-reminder-edge
+    external: true

@@ -1,0 +1,70 @@
+# HackNation 2026: deploy of the wizytówka (site/ + deploy/) to the OVH VPS on every push to main that touches site/ or deploy/.
+#   git archive -> SSH copy -> unpack into ~/hacknation-2026 -> deploy/scripts/deploy.sh up / health
+# No source build and no registry; the VPS holds only git-tracked files. Pattern: C:\car-reminder\deploy\azure-pipelines.yml.
+#
+# One-time setup in Azure DevOps (deploy/WDROZENIE.md):
+#   - pipeline from the YAML file /deploy/azure-pipelines.yml;
+#   - SSH service connection "vps-hacknation" (host 152.228.135.251, user ubuntu), allowed for this pipeline;
+#   - environment "hacknation" (no checks).
+
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - site/*
+      - deploy/*
+pr: none
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  vpsDir: /home/ubuntu/hacknation-2026
+  vpsInbox: /home/ubuntu/deploy-in
+
+stages:
+  - stage: Deploy
+    displayName: Deploy (hacknation-2026.pl)
+    jobs:
+      - deployment: Site
+        environment: hacknation
+        timeoutInMinutes: 15
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: self
+                  fetchDepth: 1
+
+                - bash: git archive --format=tar.gz -o "$(Build.ArtifactStagingDirectory)/hacknation.tar.gz" HEAD site deploy
+                  displayName: Pack site/ and deploy/ (git-tracked files, not apps/ or docs/)
+
+                - task: CopyFilesOverSSH@0
+                  displayName: Copy hacknation.tar.gz
+                  inputs:
+                    sshEndpoint: vps-hacknation
+                    sourceFolder: $(Build.ArtifactStagingDirectory)
+                    contents: hacknation.tar.gz
+                    targetFolder: $(vpsInbox)
+                    overwrite: true
+
+                - task: SSH@0
+                  displayName: Unpack and start the site
+                  inputs:
+                    sshEndpoint: vps-hacknation
+                    runOptions: inline
+                    # docker logs progress to stderr: sent to stdout, a failing command still fails the step.
+                    failOnStdErr: false
+                    inline: |
+                      set -euo pipefail
+                      exec 2>&1
+                      mkdir -p $(vpsDir)
+                      # Files removed from the repo disappear from the server too (no secrets live in these folders).
+                      rm -rf $(vpsDir)/site $(vpsDir)/deploy
+                      tar -xzf $(vpsInbox)/hacknation.tar.gz -C $(vpsDir)
+                      cd $(vpsDir)
+                      chmod +x deploy/scripts/*.sh
+                      ./deploy/scripts/deploy.sh up
+                      ./deploy/scripts/deploy.sh health

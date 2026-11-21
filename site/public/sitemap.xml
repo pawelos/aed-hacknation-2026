@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://hacknation-2026.pl/</loc>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://hacknation-2026.pl/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hacknation-2026.pl/en/"/>
+  </url>
+  <url>
+    <loc>https://hacknation-2026.pl/en/</loc>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://hacknation-2026.pl/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hacknation-2026.pl/en/"/>
+  </url>
+  <url>
+    <loc>https://hacknation-2026.pl/rozwiazanie/</loc>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://hacknation-2026.pl/rozwiazanie/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hacknation-2026.pl/en/solution/"/>
+  </url>
+  <url>
+    <loc>https://hacknation-2026.pl/en/solution/</loc>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://hacknation-2026.pl/rozwiazanie/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hacknation-2026.pl/en/solution/"/>
+  </url>
+  <url>
+    <loc>https://hacknation-2026.pl/dla-kogo/</loc>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://hacknation-2026.pl/dla-kogo/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hacknation-2026.pl/en/who-it-is-for/"/>
+  </url>
+  <url>
+    <loc>https://hacknation-2026.pl/en/who-it-is-for/</loc>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://hacknation-2026.pl/dla-kogo/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hacknation-2026.pl/en/who-it-is-for/"/>
+  </url>
+  <url>
+    <loc>https://hacknation-2026.pl/materialy/</loc>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://hacknation-2026.pl/materialy/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hacknation-2026.pl/en/materials/"/>
+  </url>
+  <url>
+    <loc>https://hacknation-2026.pl/en/materials/</loc>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://hacknation-2026.pl/materialy/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hacknation-2026.pl/en/materials/"/>
+  </url>
+  <url>
+    <loc>https://hacknation-2026.pl/zespol/</loc>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://hacknation-2026.pl/zespol/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hacknation-2026.pl/en/team/"/>
+  </url>
+  <url>
+    <loc>https://hacknation-2026.pl/en/team/</loc>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://hacknation-2026.pl/zespol/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hacknation-2026.pl/en/team/"/>
+  </url>
+  <url>
+    <loc>https://hacknation-2026.pl/kontakt/</loc>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://hacknation-2026.pl/kontakt/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hacknation-2026.pl/en/contact/"/>
+  </url>
+  <url>
+    <loc>https://hacknation-2026.pl/en/contact/</loc>
+    <xhtml:link rel="alternate" hreflang="pl" href="https://hacknation-2026.pl/kontakt/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hacknation-2026.pl/en/contact/"/>
+  </url>
+</urlset>

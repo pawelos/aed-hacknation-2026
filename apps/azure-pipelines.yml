@@ -1,0 +1,21 @@
+# AED prototype: build of the VPS images (placeholder, no code yet).
+#
+# Planned, as in C:\car-reminder\apps\azure-pipelines.yml:
+#   - build images aed/api and aed/web (tag: date + commit hash), docker save | gzip;
+#   - publish artifact "release" (images.tar.gz + version.txt);
+#   - deploy/azure-pipelines.yml then loads them on the VPS (stack deploy/stacks/app.yml, host aed.hacknation-2026.pl).
+#
+# One-time setup: pipeline from the YAML file /apps/azure-pipelines.yml, named "apps".
+
+trigger: none
+pr: none
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+  - checkout: self
+    fetchDepth: 1
+
+  - bash: echo "apps: no build yet (skeleton)."
+    displayName: Placeholder

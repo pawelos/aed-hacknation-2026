@@ -1,0 +1,53 @@
+{
+  "name": "English",
+  "locale": "en_GB",
+  "slugs": {
+    "home": "en",
+    "solution": "en/solution",
+    "audience": "en/who-it-is-for",
+    "materials": "en/materials",
+    "team": "en/team",
+    "contact": "en/contact"
+  },
+  "nav": {
+    "home": "Home",
+    "solution": "Solution",
+    "audience": "Who it is for",
+    "materials": "Materials",
+    "team": "Team",
+    "contact": "Contact"
+  },
+  "ui": {
+    "skip": "Skip to content",
+    "menu": "Menu",
+    "main_nav": "Main menu",
+    "theme": "Toggle light / dark mode",
+    "login": "Log in",
+    "login_label": "Log in to the AED app",
+    "lang_label": "Language",
+    "search": "Search…",
+    "search_label": "Search languages",
+    "no_matches": "No matches",
+    "home_label": "AED Radar – home",
+    "breadcrumb": "Breadcrumb",
+    "footer": "© 2026 AED Radar · a <a href=\"https://hacknation.pl\">HackNation 2026</a> project for the Ministry of Digital Affairs challenge \"AED Mission – Data to the Rescue\".",
+    "soon": "soon"
+  },
+  "titles": {
+    "home": "AED Radar – open data on defibrillators | HackNation 2026",
+    "solution": "Solution – AED Radar",
+    "audience": "Who it is for – AED Radar",
+    "materials": "Project materials – AED Radar",
+    "team": "Team – AED Radar",
+    "contact": "Contact – AED Radar"
+  },
+  "description": "AED Radar brings scattered data on AED defibrillators together into one open dataset on dane.gov.pl, the Polish open data portal. A HackNation 2026 project (\"AED Mission – Data to the Rescue\").",
+  "og_title": "AED Radar – Share the data. Give someone a chance.",
+  "leads": {
+    "solution": "How AED Radar collects, checks and publishes defibrillator data.",
+    "audience": "For emergency services, AED owners and all of us.",
+    "materials": "Prototype, code, data and submission materials.",
+    "team": "The people behind AED Radar.",
+    "contact": "Do you hold AED data or have a question? Write to us."
+  }
+}
