@@ -47,7 +47,8 @@ Prototyp: [`apps/README.md`](apps/README.md).
 - Wizytówka PL/EN w stylu Car Reminder:
   - menu podstron (Start, Rozwiązanie, Dla kogo, Materiały, Zespół, Kontakt) i przycisk „Zaloguj” do aplikacji;
   - wybór języka z wyszukiwarką, tryb jasny i ciemny;
-  - responsywna i zgodna z WCAG 2.2 AA (kontrast, skip-link, focus, semantyka).
+  - responsywna i zgodna z WCAG 2.2 AA (kontrast, skip-link, focus, semantyka);
+  - SEO: osobny tytuł i opis każdej podstrony, canonical i hreflang, Open Graph i Twitter Card z obrazem podglądu, dane strukturalne JSON-LD, sitemap z `lastmod`.
 - Lokalny HTTPS przez Traefik (`https://hacknation-2026.test`).
 - Automatyczne wdrożenie z Azure DevOps na VPS z certyfikatem Let's Encrypt.
 

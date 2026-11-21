@@ -912,6 +912,63 @@ p {
   overflow-wrap: anywhere;
 }
 
+/* FAQ: <details> per question, works without JS. */
+.faq {
+  display: grid;
+  gap: 0.75rem;
+  max-width: 48rem;
+  margin: 2rem 0 0;
+}
+
+.faq details {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.faq details[open] {
+  border-color: var(--primary);
+}
+
+.faq summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 3.5rem;
+  padding: 0.9rem 1.2rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  list-style: none;
+}
+
+.faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq summary::after {
+  content: "+";
+  flex: none;
+  color: var(--primary);
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.faq details[open] summary::after {
+  content: "\2212";
+}
+
+.faq summary h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.faq details p {
+  margin: 0;
+  padding: 0 1.2rem 1.1rem;
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;

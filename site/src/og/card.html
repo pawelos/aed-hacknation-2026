@@ -1,0 +1,47 @@
+<!doctype html>
+<!-- Share image template (og:image, 1200x630). Rendered to public/assets/og-<lang>.png by site/og.ps1
+     with headless Edge; ?lang=en switches the texts. Not published, only the PNG is. -->
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; }
+  body {
+    font-family: "Segoe UI", system-ui, sans-serif;
+    background: #ffffff;
+    color: #0b1f3a;
+    display: grid;
+    grid-template-columns: 620px 580px;
+  }
+  .main { padding: 64px 0 56px 72px; display: flex; flex-direction: column; }
+  .logo { display: flex; align-items: center; gap: 16px; font-size: 40px; font-weight: 700; }
+  .logo img { width: 72px; height: 72px; }
+  .logo span span { color: #00843a; }
+  .eyebrow { margin-top: 56px; font-size: 24px; font-weight: 600; color: #00843a; }
+  h1 { margin-top: 14px; font-size: 64px; line-height: 1.05; letter-spacing: -0.02em; }
+  html[lang="en"] h1 { font-size: 56px; }
+  p.lead { margin-top: 22px; font-size: 27px; line-height: 1.35; color: #3d4f6a; }
+  .url { margin-top: auto; font-size: 24px; font-weight: 600; color: #3d4f6a; }
+  .aside { background: #f5f8fb; display: flex; align-items: center; justify-content: center; }
+  .aside img { width: 560px; height: 420px; }
+  .bar { position: absolute; left: 0; right: 0; bottom: 0; height: 12px; background: #00843a; }
+</style>
+</head>
+<body>
+  <div class="main">
+    <div class="logo"><img src="../../public/assets/logo.svg" alt=""><span>AED <span>Radar</span></span></div>
+    <p class="eyebrow" data-pl="HackNation 2026 · Misja AED" data-en="HackNation 2026 · AED Mission"></p>
+    <h1 data-pl="Udostępnij dane.<br>Daj komuś szansę." data-en="Share the data.<br>Give someone a chance."></h1>
+    <p class="lead" data-pl="Otwarte dane o defibrylatorach AED w&nbsp;portalu dane.gov.pl" data-en="Open AED defibrillator data on&nbsp;dane.gov.pl"></p>
+    <p class="url">hacknation-2026.pl</p>
+  </div>
+  <div class="aside"><img src="../../public/assets/hero.svg" alt=""></div>
+  <div class="bar"></div>
+  <script>
+    var lang = /lang=en/.test(location.search) ? 'en' : 'pl';
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-pl]').forEach(function (el) { el.innerHTML = el.getAttribute('data-' + lang); });
+  </script>
+</body>
+</html>

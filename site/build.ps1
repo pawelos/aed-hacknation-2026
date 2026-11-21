@@ -4,10 +4,13 @@
 
 .DESCRIPTION
   Content lives in site/src:
-    <lang>.json         language name, locale, slugs, menu, UI texts, titles, description, og_title, leads
-    <lang>/<page>.html  page body; placeholders: {href:<page>} {asset:hero.svg} {icon:<name>} {app_url}
+    <lang>.json         language name, locale, slugs, menu, UI texts, titles, descriptions, topic, faq, og_title,
+                        og_image_alt, leads
+    <lang>/<page>.html  page body; placeholders: {href:<page>} {asset:hero.svg} {icon:<name>} {app_url} {faq}
   The generated files are committed: the server only serves site/public (no build step there).
   Every page shares the header (logo, menu, theme toggle, login, language picker with search) and footer.
+  SEO in <head>: title, description, robots, canonical, hreflang, Open Graph + Twitter card (image from og.ps1)
+  and JSON-LD (Organization, WebSite, WebPage, BreadcrumbList, FAQPage). sitemap.xml gets lastmod from git.
   Links and assets are relative, so the pages also work opened from disk (file://).
 
   This file is ASCII only on purpose: Windows PowerShell 5.1 reads a .ps1 without BOM as ANSI, so Polish
@@ -29,6 +32,14 @@ $SiteUrl = 'https://hacknation-2026.pl'
 $AppUrl = 'https://aed.hacknation-2026.pl'
 $LoginUrl = "$AppUrl/sign-in"
 $Brand = 'AED Radar'
+$ContactEmail = 'kontakt@hacknation-2026.pl'
+
+# Search engine ownership tags (HTML tag method): paste the content value from Google Search Console /
+# Bing Webmaster Tools and rebuild. Empty values are skipped. Not needed when the domain is verified by DNS.
+$SiteVerification = [ordered]@{
+    'google-site-verification' = ''
+    'msvalidate.01'            = ''
+}
 
 # Page keys in menu order; languages in picker order (the first one is x-default).
 $Pages = @('home', 'solution', 'audience', 'materials', 'team', 'contact')
@@ -102,6 +113,100 @@ function Get-Asset([string]$FromSlug, [string]$Name) {
 function Get-Canonical([string]$Slug) {
     if ($Slug -ne '') { return "$SiteUrl/$Slug/" }
     return "$SiteUrl/"
+}
+
+# Share image rendered by og.ps1 (absolute URL: crawlers do not resolve relative og:image).
+function Get-OgImage([string]$Lang) {
+    return "$SiteUrl/assets/og-$Lang.png"
+}
+
+# FAQ from <lang>.json as <details> (works without JS); the same texts go to the FAQPage JSON-LD.
+function Get-FaqHtml([string]$Lang) {
+    $items = foreach ($item in $Langs[$Lang].faq) {
+        "<details><summary><h3>$(ConvertTo-HtmlAttribute $item.q)</h3></summary><p>$(ConvertTo-HtmlAttribute $item.a)</p></details>"
+    }
+    return "<div class=`"faq`">`n      " + ($items -join "`n      ") + "`n    </div>"
+}
+
+# Structured data for search engines. A data block, not a script: the CSP script-src 'self' does not apply to it.
+function Get-JsonLd([string]$Lang, [string]$Page, [bool]$HasFaq) {
+    $L = $Langs[$Lang]
+    $url = Get-Canonical (Get-Slug $Lang $Page)
+    $siteId = "$SiteUrl/#website"
+    $orgId = "$SiteUrl/#organization"
+
+    $webPage = [ordered]@{
+        '@type'            = 'WebPage'
+        '@id'              = "$url#webpage"
+        url                = $url
+        name               = [string]$L.titles.$Page
+        description        = [string]$L.descriptions.$Page
+        inLanguage         = $Lang
+        isPartOf           = @{ '@id' = $siteId }
+        primaryImageOfPage = [ordered]@{ '@type' = 'ImageObject'; url = (Get-OgImage $Lang); width = 1200; height = 630 }
+    }
+    if ($HasFaq) {
+        $webPage['@type'] = @('WebPage', 'FAQPage')
+        $webPage.mainEntity = @(foreach ($item in $L.faq) {
+                [ordered]@{
+                    '@type'        = 'Question'
+                    name           = [string]$item.q
+                    acceptedAnswer = [ordered]@{ '@type' = 'Answer'; text = [string]$item.a }
+                }
+            })
+    }
+    if ($Page -ne 'home') {
+        $webPage.breadcrumb = [ordered]@{
+            '@type'         = 'BreadcrumbList'
+            itemListElement = @(
+                [ordered]@{ '@type' = 'ListItem'; position = 1; name = [string]$L.nav.home; item = (Get-Canonical (Get-Slug $Lang 'home')) },
+                [ordered]@{ '@type' = 'ListItem'; position = 2; name = [string]$L.nav.$Page; item = $url }
+            )
+        }
+    }
+
+    $data = [ordered]@{
+        '@context' = 'https://schema.org'
+        '@graph'   = @(
+            [ordered]@{
+                '@type' = 'Organization'
+                '@id'   = $orgId
+                name    = $Brand
+                url     = "$SiteUrl/"
+                logo    = [ordered]@{ '@type' = 'ImageObject'; url = "$SiteUrl/assets/apple-touch-icon.png"; width = 180; height = 180 }
+                email   = $ContactEmail
+            },
+            [ordered]@{
+                '@type'     = 'WebSite'
+                '@id'       = $siteId
+                url         = "$SiteUrl/"
+                name        = $Brand
+                description = [string]$L.descriptions.home
+                inLanguage  = @($LangCodes)
+                about       = [ordered]@{
+                    '@type' = 'Thing'
+                    name    = [string]$L.topic
+                    sameAs  = 'https://en.wikipedia.org/wiki/Automated_external_defibrillator'
+                }
+                publisher   = @{ '@id' = $orgId }
+            },
+            $webPage
+        )
+    }
+    # Escape < so the text can never close the <script> element (PowerShell 7 does not escape it by default).
+    return (ConvertTo-Json $data -Depth 10 -Compress).Replace('<', '<')
+}
+
+# Date of the last commit that changed the page texts; today when they have uncommitted changes or git is missing.
+function Get-LastMod([string]$Lang, [string]$Page) {
+    $today = (Get-Date).ToString('yyyy-MM-dd')
+    if (-not (Get-Command git -ErrorAction SilentlyContinue)) { return $today }
+    $files = @("src/$Lang/$Page.html", "src/$Lang.json")
+    $dirty = & git -C $Root status --porcelain -- $files
+    if ($LASTEXITCODE -ne 0 -or $dirty) { return $today }
+    $date = & git -C $Root log -1 --format=%cs -- $files
+    if ($LASTEXITCODE -ne 0 -or -not $date) { return $today }
+    return [string]$date
 }
 
 function Get-Header([string]$Lang, [string]$Page) {
@@ -197,6 +302,8 @@ function Get-Page([string]$Lang, [string]$Page) {
         $body = $body.Replace("{icon:$name}", $Icons[$name])
     }
     $body = $body.Replace('{app_url}', $AppUrl)
+    $hasFaq = $body.Contains('{faq}')
+    $body = $body.Replace('{faq}', (Get-FaqHtml $Lang))
     if ($body -match '\{(href|asset|icon):[^}]*\}|\{app_url\}') {
         throw "Unknown placeholder $($Matches[0]) in src/$Lang/$Page.html"
     }
@@ -205,8 +312,16 @@ function Get-Page([string]$Lang, [string]$Page) {
             "  <link rel=`"alternate`" hreflang=`"$_`" href=`"$(Get-Canonical (Get-Slug $_ $Page))`">"
         }) -join "`n"
     $banner = if ($Page -eq 'home') { '' } else { Get-PageBanner $Lang $Page }
-    $description = ConvertTo-HtmlAttribute $L.description
-    $ogTitle = ConvertTo-HtmlAttribute $L.og_title
+    $localeAlternates = ($LangCodes | Where-Object { $_ -ne $Lang } | ForEach-Object {
+            "  <meta property=`"og:locale:alternate`" content=`"$($Langs[$_].locale)`">"
+        }) -join "`n"
+    $title = ConvertTo-HtmlAttribute $L.titles.$Page
+    $description = ConvertTo-HtmlAttribute $L.descriptions.$Page
+    $ogTitle = if ($Page -eq 'home') { ConvertTo-HtmlAttribute $L.og_title } else { $title }
+    $ogImageAlt = ConvertTo-HtmlAttribute $L.og_image_alt
+    $verification = ($SiteVerification.Keys | Where-Object { $SiteVerification[$_] } | ForEach-Object {
+            "`n  <meta name=`"$_`" content=`"$(ConvertTo-HtmlAttribute $SiteVerification[$_])`">"
+        }) -join ''
 
     return @"
 <!doctype html>
@@ -215,19 +330,29 @@ function Get-Page([string]$Lang, [string]$Page) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>$($L.titles.$Page)</title>
+  <title>$title</title>
   <meta name="description" content="$description">
+  <meta name="robots" content="index, follow, max-image-preview:large">$verification
   <meta name="theme-color" content="#00843a">
   <link rel="canonical" href="$(Get-Canonical $slug)">
 $alternates
   <link rel="alternate" hreflang="x-default" href="$(Get-Canonical (Get-Slug $LangCodes[0] $Page))">
   <link rel="icon" href="$(Get-Asset $slug 'assets/favicon.svg')" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="$(Get-Asset $slug 'assets/apple-touch-icon.png')">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="$($L.locale)">
+$localeAlternates
   <meta property="og:site_name" content="$Brand">
   <meta property="og:title" content="$ogTitle">
   <meta property="og:description" content="$description">
   <meta property="og:url" content="$(Get-Canonical $slug)">
+  <meta property="og:image" content="$(Get-OgImage $Lang)">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="$ogImageAlt">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">$(Get-JsonLd $Lang $Page $hasFaq)</script>
   <link rel="stylesheet" href="$(Get-Asset $slug 'styles.css')">
   <script src="$(Get-Asset $slug 'assets/site.js')"></script>
 </head>
@@ -257,7 +382,7 @@ function Get-Sitemap {
             $links = ($LangCodes | ForEach-Object {
                     "    <xhtml:link rel=`"alternate`" hreflang=`"$_`" href=`"$(Get-Canonical (Get-Slug $_ $page))`"/>"
                 }) -join "`n"
-            $urls += "  <url>`n    <loc>$(Get-Canonical (Get-Slug $lang $page))</loc>`n$links`n  </url>"
+            $urls += "  <url>`n    <loc>$(Get-Canonical (Get-Slug $lang $page))</loc>`n    <lastmod>$(Get-LastMod $lang $page)</lastmod>`n$links`n  </url>"
         }
     }
     return "<?xml version=`"1.0`" encoding=`"UTF-8`"?>`n" +

@@ -4,20 +4,30 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AED Radar – otwarte dane o defibrylatorach | HackNation 2026</title>
+  <title>AED Radar – mapa i otwarte dane o defibrylatorach AED</title>
   <meta name="description" content="AED Radar łączy rozproszone dane o defibrylatorach AED w jeden otwarty zbiór w portalu dane.gov.pl. Projekt zespołu na HackNation 2026 (zadanie „Misja AED – Dane na ratunek”).">
+  <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="theme-color" content="#00843a">
   <link rel="canonical" href="https://hacknation-2026.pl/">
   <link rel="alternate" hreflang="pl" href="https://hacknation-2026.pl/">
   <link rel="alternate" hreflang="en" href="https://hacknation-2026.pl/en/">
   <link rel="alternate" hreflang="x-default" href="https://hacknation-2026.pl/">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="pl_PL">
+  <meta property="og:locale:alternate" content="en_GB">
   <meta property="og:site_name" content="AED Radar">
   <meta property="og:title" content="AED Radar – Udostępnij dane. Daj komuś szansę.">
   <meta property="og:description" content="AED Radar łączy rozproszone dane o defibrylatorach AED w jeden otwarty zbiór w portalu dane.gov.pl. Projekt zespołu na HackNation 2026 (zadanie „Misja AED – Dane na ratunek”).">
   <meta property="og:url" content="https://hacknation-2026.pl/">
+  <meta property="og:image" content="https://hacknation-2026.pl/assets/og-pl.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="AED Radar – Udostępnij dane. Daj komuś szansę. Otwarte dane o defibrylatorach AED w portalu dane.gov.pl.">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://hacknation-2026.pl/#organization","name":"AED Radar","url":"https://hacknation-2026.pl/","logo":{"@type":"ImageObject","url":"https://hacknation-2026.pl/assets/apple-touch-icon.png","width":180,"height":180},"email":"kontakt@hacknation-2026.pl"},{"@type":"WebSite","@id":"https://hacknation-2026.pl/#website","url":"https://hacknation-2026.pl/","name":"AED Radar","description":"AED Radar łączy rozproszone dane o defibrylatorach AED w jeden otwarty zbiór w portalu dane.gov.pl. Projekt zespołu na HackNation 2026 (zadanie „Misja AED – Dane na ratunek”).","inLanguage":["pl","en"],"about":{"@type":"Thing","name":"Automatyczny defibrylator zewnętrzny (AED)","sameAs":"https://en.wikipedia.org/wiki/Automated_external_defibrillator"},"publisher":{"@id":"https://hacknation-2026.pl/#organization"}},{"@type":["WebPage","FAQPage"],"@id":"https://hacknation-2026.pl/#webpage","url":"https://hacknation-2026.pl/","name":"AED Radar – mapa i otwarte dane o defibrylatorach AED","description":"AED Radar łączy rozproszone dane o defibrylatorach AED w jeden otwarty zbiór w portalu dane.gov.pl. Projekt zespołu na HackNation 2026 (zadanie „Misja AED – Dane na ratunek”).","inLanguage":"pl","isPartOf":{"@id":"https://hacknation-2026.pl/#website"},"primaryImageOfPage":{"@type":"ImageObject","url":"https://hacknation-2026.pl/assets/og-pl.png","width":1200,"height":630},"mainEntity":[{"@type":"Question","name":"Czym jest defibrylator AED?","acceptedAnswer":{"@type":"Answer","text":"AED (automatyczny defibrylator zewnętrzny) to przenośne urządzenie, które analizuje rytm serca osoby w nagłym zatrzymaniu krążenia i w razie potrzeby wykonuje wyładowanie elektryczne. Prowadzi ratownika poleceniami głosowymi krok po kroku."}},{"@type":"Question","name":"Kto może użyć defibrylatora AED?","acceptedAnswer":{"@type":"Answer","text":"Każdy, także bez szkolenia. AED sam ocenia rytm serca i wykonuje wyładowanie tylko wtedy, gdy jest ono potrzebne. Zanim go użyjesz, zadzwoń pod numer alarmowy 112 i zacznij uciskać klatkę piersiową."}},{"@type":"Question","name":"Jak znaleźć najbliższy defibrylator AED?","acceptedAnswer":{"@type":"Answer","text":"Zadzwoń pod 112 – dyspozytor może wskazać najbliższe dostępne urządzenie. AED Radar pokaże na mapie najbliższe defibrylatory z godzinami dostępności i informacją, czy urządzenie jest otwarte. Prototyp mapy udostępnimy wkrótce."}},{"@type":"Question","name":"Jak dodać defibrylator do bazy AED?","acceptedAnswer":{"@type":"Answer","text":"Jeśli jesteś dysponentem AED (samorząd, szkoła, firma, OSP), dodasz urządzenie w formularzu albo zaimportujesz plik CSV lub GeoJSON. Zajmuje to kilka minut. Napisz do nas: kontakt@hacknation-2026.pl."}},{"@type":"Question","name":"Gdzie znaleźć otwarte dane o defibrylatorach AED?","acceptedAnswer":{"@type":"Answer","text":"Przygotowujemy jeden zbiór danych o AED do publikacji w portalu dane.gov.pl w formatach CSV i GeoJSON. Każdy rekord będzie miał wskazane źródło i datę ostatniej weryfikacji, a dane będzie można wykorzystać we własnych aplikacjach i mapach."}}]}]}</script>
   <link rel="stylesheet" href="styles.css">
   <script src="assets/site.js"></script>
 </head>
@@ -78,7 +88,7 @@
     </div>
   </div>
   <div class="split-aside">
-    <img src="assets/hero.svg" alt="" width="560" height="420">
+    <img src="assets/hero.svg" alt="Ilustracja: telefon z mapą najbliższych defibrylatorów AED, szafka AED i sprawdzone rekordy danych" width="560" height="420">
     <div>
       <h2>Udostępnij dane. Daj komuś szansę.</h2>
       <p>Każdy dysponent defibrylatora może pomóc. Wystarczy pokazać, gdzie jest AED.</p>
@@ -96,6 +106,19 @@
       <li class="card card-accent"><h3>Niezweryfikowane</h3><p>Nie wiadomo, kto i kiedy ostatnio sprawdził dane urządzenia.</p></li>
     </ul>
     <p class="section-more"><a class="button button-primary" href="rozwiazanie/index.html">Zobacz rozwiązanie</a></p>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="faq-title">
+  <div class="container">
+    <h2 id="faq-title">Najczęstsze pytania o defibrylatory AED</h2>
+    <div class="faq">
+      <details><summary><h3>Czym jest defibrylator AED?</h3></summary><p>AED (automatyczny defibrylator zewnętrzny) to przenośne urządzenie, które analizuje rytm serca osoby w nagłym zatrzymaniu krążenia i w razie potrzeby wykonuje wyładowanie elektryczne. Prowadzi ratownika poleceniami głosowymi krok po kroku.</p></details>
+      <details><summary><h3>Kto może użyć defibrylatora AED?</h3></summary><p>Każdy, także bez szkolenia. AED sam ocenia rytm serca i wykonuje wyładowanie tylko wtedy, gdy jest ono potrzebne. Zanim go użyjesz, zadzwoń pod numer alarmowy 112 i zacznij uciskać klatkę piersiową.</p></details>
+      <details><summary><h3>Jak znaleźć najbliższy defibrylator AED?</h3></summary><p>Zadzwoń pod 112 – dyspozytor może wskazać najbliższe dostępne urządzenie. AED Radar pokaże na mapie najbliższe defibrylatory z godzinami dostępności i informacją, czy urządzenie jest otwarte. Prototyp mapy udostępnimy wkrótce.</p></details>
+      <details><summary><h3>Jak dodać defibrylator do bazy AED?</h3></summary><p>Jeśli jesteś dysponentem AED (samorząd, szkoła, firma, OSP), dodasz urządzenie w formularzu albo zaimportujesz plik CSV lub GeoJSON. Zajmuje to kilka minut. Napisz do nas: kontakt@hacknation-2026.pl.</p></details>
+      <details><summary><h3>Gdzie znaleźć otwarte dane o defibrylatorach AED?</h3></summary><p>Przygotowujemy jeden zbiór danych o AED do publikacji w portalu dane.gov.pl w formatach CSV i GeoJSON. Każdy rekord będzie miał wskazane źródło i datę ostatniej weryfikacji, a dane będzie można wykorzystać we własnych aplikacjach i mapach.</p></details>
+    </div>
   </div>
 </section>
   </main>

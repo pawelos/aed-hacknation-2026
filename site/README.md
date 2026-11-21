@@ -23,16 +23,19 @@ Wygląd:
 
 | Ścieżka | Co |
 |---|---|
-| `src/pl.json`, `src/en.json` | Teksty wspólne: menu, adresy podstron, napisy interfejsu, tytuły, opis, podtytuły podstron |
+| `src/pl.json`, `src/en.json` | Teksty wspólne: menu, adresy podstron, napisy interfejsu, tytuły i opisy (SEO) każdej podstrony, tytuł i opis obrazu do udostępnień, podtytuły podstron |
 | `src/pl/*.html`, `src/en/*.html` | Treść każdej strony (home, solution, audience, materials, team, contact) |
-| `build.ps1` | Generator (PowerShell): wspólny nagłówek, baner i stopka, ikony i flagi SVG. Składa strony z `src/` w `public/**/index.html` i tworzy `public/sitemap.xml` |
+| `src/og/card.html`, `src/og/icon.html` | Szablony obrazu do udostępnień (1200×630) i ikony `apple-touch-icon` (180×180), nie są publikowane |
+| `build.ps1` | Generator (PowerShell): wspólny nagłówek, baner i stopka, ikony i flagi SVG, meta tagi SEO i JSON-LD. Składa strony z `src/` w `public/**/index.html` i tworzy `public/sitemap.xml` |
+| `og.ps1` | Renderuje `public/assets/og-pl.png`, `og-en.png` i `apple-touch-icon.png` z `src/og/` przez Edge w trybie headless |
 | `public/**/index.html`, `public/sitemap.xml` | Wynik `build.ps1` (commitowany, nie edytować ręcznie) |
 | `public/404.html` | Strona błędu (ustawiona w `../deploy/stacks/httpd.conf`, ścieżki absolutne), ręczna |
 | `public/styles.css` | Style: tokeny kolorów, tryb jasny i ciemny, nagłówek, menu, mobile-first |
 | `public/assets/site.js` | Jedyny skrypt: przełącznik motywu, wyszukiwarka języków, zamykanie menu (Esc, kliknięcie obok) |
 | `public/assets/hero.svg` | Ilustracja strony głównej |
 | `public/assets/logo.svg`, `favicon.svg` | Placeholder, do podmiany na logo z księgi znaku |
-| `public/robots.txt` | SEO |
+| `public/assets/og-*.png`, `apple-touch-icon.png` | Wynik `og.ps1` (commitowany) |
+| `public/robots.txt` | SEO: zezwala na wszystko, wskazuje `sitemap.xml` |
 | `docker-compose.yml` | Szybki podgląd po HTTP (`http://localhost:8080`) |
 
 ## Zmiana treści
@@ -55,9 +58,36 @@ Nieznany placeholder zatrzymuje generator z błędem.
 
 Nowa podstrona to:
 1. klucz w `$Pages` w `build.ps1`;
-2. wpisy w `slugs`, `nav`, `titles` i `leads` w obu plikach JSON;
+2. wpisy w `slugs`, `nav`, `titles`, `descriptions` i `leads` w obu plikach JSON;
 3. pliki `src/pl/<klucz>.html` i `src/en/<klucz>.html`;
 4. ponowne uruchomienie generatora.
+
+## SEO
+
+`build.ps1` dodaje do `<head>` każdej strony:
+- `title` (do ok. 60 znaków) i `description` (ok. 110–200 znaków) z `titles` i `descriptions` w JSON, osobne dla każdej podstrony;
+- `robots` (`index, follow, max-image-preview:large`), `canonical`, `hreflang` PL/EN i `x-default` (PL);
+- Open Graph (`og:title`, `og:description`, `og:locale` + `og:locale:alternate`, `og:image` 1200×630 z tekstem alternatywnym) i `twitter:card` `summary_large_image` (resztę Twitter/X bierze z Open Graph);
+- JSON-LD (schema.org): `Organization`, `WebSite` (z tematem `about`: AED), `WebPage`, na podstronach `BreadcrumbList`, a na stronie z `{faq}` także `FAQPage`;
+- znaczniki weryfikacji Google Search Console i Bing Webmaster Tools, gdy wpiszesz je w `$SiteVerification` w `build.ps1` (puste są pomijane).
+
+FAQ na stronie głównej (`{faq}` w `src/<lang>/home.html`) pochodzi z listy `faq` w JSON. Ten sam tekst trafia na stronę i do `FAQPage`, więc nie da się ich rozjechać. Pytania odpowiadają frazom, które ludzie wpisują w Google („jak znaleźć najbliższy defibrylator”, „kto może użyć AED”).
+
+Frazy, pod które pisane są tytuły i opisy: *AED Radar*, *defibrylator AED*, *mapa defibrylatorów*, *najbliższy defibrylator*, *otwarte dane o defibrylatorach*, *dane.gov.pl AED*, *Misja AED*, *HackNation 2026*.
+
+`sitemap.xml` ma `lastmod` z daty ostatniego commita, który zmienił `src/<lang>/<strona>.html` lub `src/<lang>.json` (przy niezacommitowanych zmianach: dzisiejsza data). `404.html` ma `noindex`.
+
+Obraz do udostępnień zmieniasz w `src/og/card.html`, potem:
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File site/og.ps1
+```
+Podgląd udostępnienia po wdrożeniu: [opengraph.xyz](https://www.opengraph.xyz), dane strukturalne: [Rich Results Test](https://search.google.com/test/rich-results). 
+
+Po wdrożeniu (jednorazowo, ręcznie):
+1. **Google Search Console** → „Dodaj usługę” → *Domena* `hacknation-2026.pl` → rekord DNS TXT u rejestratora (obejmuje też `www` i `aed.`). Alternatywa: *Prefiks URL* i znacznik HTML w `$SiteVerification`.
+2. W Search Console: *Mapy witryn* → `sitemap.xml`; *Sprawdzanie adresu URL* → „Poproś o zindeksowanie” dla `/` i `/en/`.
+3. **Bing Webmaster Tools** → import z Search Console (Bing zasila też DuckDuckGo i Ecosia).
+4. **Linki do strony** (najważniejsze dla nowej domeny): zgłoszenie na HackNation, README repozytorium, profile LinkedIn zespołu, opis zbioru w dane.gov.pl, posty o projekcie.
 
 `build.ps1` jest celowo w czystym ASCII. Windows PowerShell 5.1 czyta plik `.ps1` bez BOM jako ANSI, więc polskie teksty trzymamy w `src/`.
 
@@ -72,5 +102,5 @@ Nowa podstrona to:
 - **WCAG 2.2 AA:** kontrast co najmniej 4.5:1 dla tekstu w obu trybach, skip-link, widoczny `:focus-visible`, jeden `h1` na stronie, `alt` przy obrazach, `lang` przy tekstach w innym języku, `aria-current` w menu.
 - **Działa bez JS.** Menu i lista języków to `<details>`, a motyw idzie za ustawieniem systemu. `site.js` tylko dodaje przełącznik, wyszukiwarkę i wygodne zamykanie.
 - **Ścieżki względne.** `build.ps1` liczy prefiks `../` według głębokości strony, a linki kończą się na `index.html`, więc strona działa z serwera i z dysku. Wyjątek: `404.html`.
-- **Bez CDN, inline skryptów i inline styli.** CSP `script-src 'self'; style-src 'self'` na VPS (`../deploy/stacks/site.yml`) i lokalnie (`../deploy/edge/local/routes.yml`).
+- **Bez CDN, inline skryptów i inline styli.** CSP `script-src 'self'; style-src 'self'` na VPS (`../deploy/stacks/site.yml`) i lokalnie (`../deploy/edge/local/routes.yml`). Wyjątek: `<script type="application/ld+json">` to blok danych, przeglądarka go nie wykonuje i CSP go nie blokuje.
 - **Wdrożenie:** commit + push do `main`, pipeline `deploy` wdraża w ok. 1 min.
