@@ -1,0 +1,96 @@
+/* Pins of the AED map (Leaflet divIcon, the list and the legend). The shape tells the availability
+   without colour: circle = 24/7, rounded square = opening hours, diamond = restricted. */
+.aed-pin {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    color: #fff;
+    background: #00843a;
+    border: 2px solid #fff;
+    box-shadow: 0 1px 4px rgb(0 0 0 / 0.45);
+}
+
+.aed-pin__glyph {
+    font-size: 14px;
+    line-height: 1;
+}
+
+.aed-pin--public24h {
+    border-radius: 9999px;
+}
+
+.aed-pin--businesshours {
+    border-radius: 6px;
+    background: #006f31;
+}
+
+.aed-pin--restricted {
+    border-radius: 4px;
+    background: #9a5b00;
+    transform: rotate(45deg) scale(0.85);
+}
+
+.aed-pin--restricted .aed-pin__glyph {
+    transform: rotate(-45deg);
+}
+
+/* Closed now or data to be checked: still visible, clearly not the first choice. */
+.aed-pin--dim {
+    background: #6b7280;
+}
+
+.aed-pin-wrap {
+    background: transparent;
+    border: 0;
+}
+
+.aed-pin-wrap:focus-visible {
+    outline: 3px solid #1a56db;
+    outline-offset: 2px;
+    border-radius: 6px;
+}
+
+.aed-pin-wrap--selected .aed-pin {
+    outline: 3px solid #1a56db;
+    outline-offset: 2px;
+}
+
+.aed-user-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 9999px;
+    background: #1a56db;
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 6px rgb(26 86 219 / 0.25);
+}
+
+/* Leaflet controls in the dark theme: chosen (html.dark) or from the system when nothing is chosen
+   (the same rule as the "dark" variant in tailwind/index.css). */
+.dark .leaflet-bar a,
+.dark .leaflet-control-attribution {
+    background: #1f2937;
+    color: #e5e7eb;
+}
+
+.dark .leaflet-control-attribution a {
+    color: #8ab4ff;
+}
+
+@media (prefers-color-scheme: dark) {
+    html:not(.light):not(.dark) .leaflet-bar a,
+    html:not(.light):not(.dark) .leaflet-control-attribution {
+        background: #1f2937;
+        color: #e5e7eb;
+    }
+
+    html:not(.light):not(.dark) .leaflet-control-attribution a {
+        color: #8ab4ff;
+    }
+}
+
+.leaflet-container {
+    font-family: inherit;
+}

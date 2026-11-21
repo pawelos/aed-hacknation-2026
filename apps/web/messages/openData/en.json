@@ -1,0 +1,61 @@
+{
+    "metaTitle": "Open AED data – AED Radar",
+    "title": "Open data on AED defibrillators",
+    "intro": "One nationwide AED data set built from the data of many holders. Each record names its source, licence and reference scope. The files are machine-readable (CSV, GeoJSON, JSON), generated live and available at stable addresses, ready to be linked on dane.gov.pl.",
+    "unavailable": "The metadata of the data set could not be loaded. Try again in a moment.",
+    "stats": {
+        "records": "Records",
+        "sources": "Sources",
+        "modified": "Last change",
+        "license": "Data set licence"
+    },
+    "licenseNote": "The licence of the data set is the most demanding licence of its sources. Each record also carries its own licence in the licencja_danych field.",
+    "download": {
+        "heading": "Download the data",
+        "button": "Download {format}",
+        "filters": "Filters in the address: ?wojewodztwo=02 (TERYT code or name) or ?zrodlo=ID (the source id from the “Sources” table).",
+        "docsHeading": "Description of the data set",
+        "template": "Reference data set (XLSX)",
+        "templateDesc": "Fields, dictionaries and an example. A template only; the data is published as CSV, GeoJSON and JSON.",
+        "metadata": "Data set metadata (JSON)",
+        "metadataDesc": "Title, description, keywords, category, licence, frequency, resources, sources and fields.",
+        "dcat": "DCAT-AP-PL catalog (RDF/XML)",
+        "dcatDesc": "Description of the data set in the DCAT-AP-PL 2.1 profile used by dane.gov.pl."
+    },
+    "howTo": {
+        "heading": "How a holder shares AED data",
+        "step1Title": "Prepare the file from the template",
+        "step1": "Download the reference data set (XLSX) and save your AEDs as CSV with these columns. Coordinates in WGS 84, hours in the opening_hours format, codes from the dictionaries.",
+        "step2Title": "Publish on dane.gov.pl",
+        "step2": "Create a data set in the “Health” category, choose CC0 1.0 or CC BY 4.0 and add the file as a resource. Instead of uploading by hand, you can give the stable address where your system publishes it.",
+        "step3Title": "Join the national data set",
+        "step3": "AED Radar merges the data of all holders into one data set, marks duplicates and records to verify, and keeps the source of every record. Importing holders' files – coming soon in the panel."
+    },
+    "sources": {
+        "heading": "Sources in the data set",
+        "name": "Source",
+        "owner": "Holder",
+        "scope": "Reference scope",
+        "license": "Licence",
+        "records": "Records",
+        "verified": "Verified",
+        "csv": "Source CSV",
+        "never": "none"
+    },
+    "fields": {
+        "heading": "Reference data set",
+        "intro": "{count} fields, schema version {version}. The same names in CSV (header), GeoJSON (properties) and JSON.",
+        "name": "Field",
+        "type": "Type",
+        "required": "Required",
+        "format": "Format",
+        "description": "Description",
+        "yes": "yes",
+        "no": "no"
+    },
+    "dictionaries": {
+        "heading": "Dictionaries",
+        "code": "Code",
+        "label": "Description"
+    }
+}

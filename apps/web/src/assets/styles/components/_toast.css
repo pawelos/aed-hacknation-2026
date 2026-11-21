@@ -1,0 +1,6 @@
+@layer components {
+  .toast {
+    /* Above drawers / dialogs (z-40) and popovers (z-50): validation toasts from open forms must stay visible. */
+    @apply fixed z-[60];
+  }
+}

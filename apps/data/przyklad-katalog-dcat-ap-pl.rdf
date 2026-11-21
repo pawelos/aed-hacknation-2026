@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcat="http://www.w3.org/ns/dcat#" xmlns:dct="http://purl.org/dc/terms/" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:vcard="http://www.w3.org/2006/vcard/ns#">
+  <dcat:Catalog rdf:about="https://aed.hacknation-2026.pl/api/open-data/catalog.rdf#catalog">
+    <dct:title xml:lang="pl">Katalog AED Radar</dct:title>
+    <dct:title xml:lang="en">AED Radar catalog</dct:title>
+    <dct:description xml:lang="pl">Katalog otwartych danych o defibrylatorach AED zebranych przez AED Radar.</dct:description>
+    <dct:description xml:lang="en">Catalog of open data on AED defibrillators collected by AED Radar.</dct:description>
+    <dct:publisher>
+      <foaf:Agent rdf:about="https://aed.hacknation-2026.pl/api/open-data/catalog.rdf#publisher">
+        <foaf:name>AED Radar – prototyp zespołu HackNation 2026</foaf:name>
+        <foaf:mbox rdf:resource="mailto:kontakt@hacknation-2026.pl" />
+        <foaf:homepage rdf:resource="https://aed.hacknation-2026.pl/pl/open-data" />
+      </foaf:Agent>
+    </dct:publisher>
+    <foaf:homepage rdf:resource="https://aed.hacknation-2026.pl/pl/open-data" />
+    <dct:language rdf:resource="http://publications.europa.eu/resource/authority/language/POL" />
+    <dct:spatial rdf:resource="http://publications.europa.eu/resource/authority/country/POL" />
+    <dcat:themeTaxonomy rdf:resource="http://publications.europa.eu/resource/authority/data-theme" />
+    <dct:issued rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-11-21</dct:issued>
+    <dct:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-11-21T17:11:50Z</dct:modified>
+    <dcat:dataset>
+      <dcat:Dataset rdf:about="https://aed.hacknation-2026.pl/pl/open-data#dataset">
+        <dct:title xml:lang="pl">Defibrylatory AED w Polsce – zbiór zintegrowany AED Radar</dct:title>
+        <dct:title xml:lang="en">AED defibrillators in Poland – AED Radar integrated data set</dct:title>
+        <dct:description xml:lang="pl">Ogólnopolski, otwarty zbiór lokalizacji automatycznych defibrylatorów zewnętrznych (AED) zebranych od wielu dysponentów: samorządów, szkół, firm, OSP i organizacji społecznych. Każdy rekord wskazuje źródło danych, jego licencję i zakres referencyjny oraz datę ostatniej weryfikacji. Zbiór zawiera współrzędne WGS 84, adres z kodem TERYT, dostępność i godziny w formacie czytelnym maszynowo oraz sposób dostępu do urządzenia. Pliki są generowane na bieżąco z bazy, więc adresy zasobów pozostają stałe. Dane w prototypie są przykładowe.</dct:description>
+        <dct:description xml:lang="en">Nationwide open data set of automated external defibrillator (AED) locations collected from many holders: local governments, schools, companies, fire brigades and NGOs. Each record names its data source, licence, reference scope and last verification date. It contains WGS 84 coordinates, an address with the TERYT code, availability and machine-readable opening hours, and how to access the device. The files are generated live from the database, so the resource addresses stay the same. The data in the prototype is fictional.</dct:description>
+        <dcat:keyword xml:lang="pl">AED</dcat:keyword>
+        <dcat:keyword xml:lang="pl">defibrylator</dcat:keyword>
+        <dcat:keyword xml:lang="pl">pierwsza pomoc</dcat:keyword>
+        <dcat:keyword xml:lang="pl">nagłe zatrzymanie krążenia</dcat:keyword>
+        <dcat:keyword xml:lang="pl">ratownictwo</dcat:keyword>
+        <dcat:keyword xml:lang="pl">zdrowie</dcat:keyword>
+        <dcat:keyword xml:lang="pl">lokalizacje</dcat:keyword>
+        <dcat:keyword xml:lang="en">AED</dcat:keyword>
+        <dcat:keyword xml:lang="en">defibrillator</dcat:keyword>
+        <dcat:keyword xml:lang="en">first aid</dcat:keyword>
+        <dcat:keyword xml:lang="en">cardiac arrest</dcat:keyword>
+        <dcat:keyword xml:lang="en">emergency</dcat:keyword>
+        <dcat:keyword xml:lang="en">health</dcat:keyword>
+        <dcat:keyword xml:lang="en">locations</dcat:keyword>
+        <dct:publisher rdf:resource="https://aed.hacknation-2026.pl/api/open-data/catalog.rdf#publisher" />
+        <dcat:contactPoint>
+          <vcard:Kind>
+            <vcard:fn>AED Radar – prototyp zespołu HackNation 2026</vcard:fn>
+            <vcard:hasEmail rdf:resource="mailto:kontakt@hacknation-2026.pl" />
+          </vcard:Kind>
+        </dcat:contactPoint>
+        <dcat:theme rdf:resource="http://publications.europa.eu/resource/authority/data-theme/HEAL" />
+        <dct:spatial rdf:resource="http://sws.geonames.org/798544/" />
+        <dct:accrualPeriodicity rdf:resource="http://publications.europa.eu/resource/authority/frequency/UPDATE_CONT" />
+        <dct:identifier>aed-radar-defibrylatory-aed</dct:identifier>
+        <dcat:landingPage rdf:resource="https://aed.hacknation-2026.pl/pl/open-data" />
+        <dct:language rdf:resource="http://publications.europa.eu/resource/authority/language/POL" />
+        <dct:issued rdf:datatype="http://www.w3.org/2001/XMLSchema#date">2026-11-21</dct:issued>
+        <dct:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-11-21T17:11:50Z</dct:modified>
+        <foaf:page rdf:resource="https://aed.hacknation-2026.pl/api/open-data/wzorcowy-zakres-danych-aed.xlsx" />
+        <dcat:distribution>
+          <dcat:Distribution rdf:about="https://aed.hacknation-2026.pl/api/open-data/aed.csv">
+            <dcat:accessURL rdf:resource="https://aed.hacknation-2026.pl/api/open-data/aed.csv" />
+            <dcat:downloadURL rdf:resource="https://aed.hacknation-2026.pl/api/open-data/aed.csv" />
+            <dct:title xml:lang="pl">Defibrylatory AED – CSV</dct:title>
+            <dct:title xml:lang="en">AED defibrillators – CSV</dct:title>
+            <dct:description xml:lang="pl">Wszystkie rekordy w CSV (RFC 4180: UTF-8 bez BOM, przecinek, nagłówek z nazwami pól). Filtry: ?wojewodztwo=02, ?zrodlo=&lt;id&gt;.</dct:description>
+            <dct:description xml:lang="en">All records as CSV (RFC 4180: UTF-8 without BOM, comma, header with field names). Filters: ?wojewodztwo=02, ?zrodlo=&lt;id&gt;.</dct:description>
+            <dct:format rdf:resource="http://publications.europa.eu/resource/authority/file-type/CSV" />
+            <dcat:mediaType rdf:resource="https://www.iana.org/assignments/media-types/text/csv" />
+            <dcat:license rdf:resource="https://creativecommons.org/licenses/by/4.0/" />
+            <dct:language rdf:resource="http://publications.europa.eu/resource/authority/language/POL" />
+            <dct:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-11-21T17:11:50Z</dct:modified>
+          </dcat:Distribution>
+        </dcat:distribution>
+        <dcat:distribution>
+          <dcat:Distribution rdf:about="https://aed.hacknation-2026.pl/api/open-data/aed.geojson">
+            <dcat:accessURL rdf:resource="https://aed.hacknation-2026.pl/api/open-data/aed.geojson" />
+            <dcat:downloadURL rdf:resource="https://aed.hacknation-2026.pl/api/open-data/aed.geojson" />
+            <dct:title xml:lang="pl">Defibrylatory AED – GeoJSON</dct:title>
+            <dct:title xml:lang="en">AED defibrillators – GeoJSON</dct:title>
+            <dct:description xml:lang="pl">Wszystkie rekordy jako GeoJSON (RFC 7946), punkty WGS 84, gotowe do map i systemów GIS.</dct:description>
+            <dct:description xml:lang="en">All records as GeoJSON (RFC 7946), WGS 84 points, ready for maps and GIS.</dct:description>
+            <dct:format rdf:resource="http://publications.europa.eu/resource/authority/file-type/GEOJSON" />
+            <dcat:mediaType rdf:resource="https://www.iana.org/assignments/media-types/application/geo+json" />
+            <dcat:license rdf:resource="https://creativecommons.org/licenses/by/4.0/" />
+            <dct:language rdf:resource="http://publications.europa.eu/resource/authority/language/POL" />
+            <dct:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-11-21T17:11:50Z</dct:modified>
+          </dcat:Distribution>
+        </dcat:distribution>
+        <dcat:distribution>
+          <dcat:Distribution rdf:about="https://aed.hacknation-2026.pl/api/open-data/aed.json">
+            <dcat:accessURL rdf:resource="https://aed.hacknation-2026.pl/api/open-data/aed.json" />
+            <dcat:downloadURL rdf:resource="https://aed.hacknation-2026.pl/api/open-data/aed.json" />
+            <dct:title xml:lang="pl">Defibrylatory AED – JSON</dct:title>
+            <dct:title xml:lang="en">AED defibrillators – JSON</dct:title>
+            <dct:description xml:lang="pl">Wszystkie rekordy w JSON z wersją schematu i datą wygenerowania.</dct:description>
+            <dct:description xml:lang="en">All records as JSON with the schema version and generation time.</dct:description>
+            <dct:format rdf:resource="http://publications.europa.eu/resource/authority/file-type/JSON" />
+            <dcat:mediaType rdf:resource="https://www.iana.org/assignments/media-types/application/json" />
+            <dcat:license rdf:resource="https://creativecommons.org/licenses/by/4.0/" />
+            <dct:language rdf:resource="http://publications.europa.eu/resource/authority/language/POL" />
+            <dct:modified rdf:datatype="http://www.w3.org/2001/XMLSchema#dateTime">2026-11-21T17:11:50Z</dct:modified>
+          </dcat:Distribution>
+        </dcat:distribution>
+      </dcat:Dataset>
+    </dcat:dataset>
+  </dcat:Catalog>
+</rdf:RDF>

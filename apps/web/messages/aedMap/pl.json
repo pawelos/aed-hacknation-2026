@@ -1,0 +1,75 @@
+{
+    "title": "Mapa defibrylatorów AED",
+    "search": {
+        "label": "Szukaj miejscowości, gminy lub adresu",
+        "placeholder": "np. Kraków, Sukiennice",
+        "submit": "Szukaj",
+        "tooShort": "Wpisz co najmniej 2 znaki.",
+        "noResults": "Nic nie znaleziono dla „{query}”."
+    },
+    "nearest": {
+        "button": "Najbliższe AED",
+        "locating": "Ustalanie położenia…",
+        "denied": "Brak dostępu do lokalizacji. Wpisz adres w wyszukiwarce.",
+        "unavailable": "Nie udało się ustalić położenia. Wpisz adres w wyszukiwarce.",
+        "none": "Brak AED w promieniu 20 km.",
+        "heading": "Najbliższe AED",
+        "you": "Twoje położenie",
+        "clear": "Pokaż wszystkie"
+    },
+    "filters": {
+        "heading": "Filtry",
+        "availability": "Dostępność",
+        "facilityType": "Rodzaj miejsca",
+        "anyFacility": "Każde",
+        "openNow": "Tylko dostępne teraz"
+    },
+    "view": {
+        "label": "Widok",
+        "map": "Mapa",
+        "list": "Lista"
+    },
+    "list": {
+        "heading": "AED w widocznym obszarze",
+        "count": "{count, plural, =0 {Brak AED w tym obszarze} one {# AED} few {# AED} many {# AED} other {# AED}}",
+        "truncated": "Pokazano część punktów. Przybliż mapę, aby zobaczyć wszystkie.",
+        "empty": "Brak AED w tym obszarze. Oddal mapę lub zmień filtry.",
+        "distance": "{distance} od Ciebie",
+        "error": "Nie udało się wczytać danych. Spróbuj ponownie."
+    },
+    "open": {
+        "yes": "Dostępny teraz",
+        "no": "Teraz niedostępny",
+        "unknown": "Brak danych o godzinach"
+    },
+    "map": {
+        "label": "Mapa AED. Pinezki są też dostępne jako lista wyników.",
+        "attribution": "© współtwórcy OpenStreetMap"
+    },
+    "card": {
+        "address": "Adres",
+        "placement": "Gdzie dokładnie",
+        "indoor": "W budynku",
+        "outdoor": "Na zewnątrz",
+        "hours": "Godziny dostępności",
+        "noHours": "Nie podano",
+        "access": "Jak uzyskać dostęp",
+        "phone": "Telefon do dysponenta",
+        "facility": "Rodzaj miejsca",
+        "status": "Stan urządzenia",
+        "owner": "Dysponent",
+        "source": "Źródło danych",
+        "license": "Licencja danych",
+        "scope": "Zakres referencyjny źródła",
+        "verified": "Ostatnia weryfikacja",
+        "neverVerified": "Nigdy",
+        "stale": "Dane sprawdzono ponad 12 miesięcy temu – mogą być nieaktualne.",
+        "needsVerification": "Rekord czeka na weryfikację przez dysponenta.",
+        "coordinates": "Współrzędne",
+        "navigate": "Nawiguj",
+        "report": "Zgłoś poprawkę",
+        "reportSoon": "Zgłaszanie poprawek – wkrótce",
+        "notFound": "Nie znaleziono tego AED.",
+        "openSource": "Otwórz źródło (nowa karta)"
+    }
+}

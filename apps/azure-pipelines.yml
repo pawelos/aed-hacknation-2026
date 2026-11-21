@@ -1,11 +1,9 @@
-# AED prototype: build of the VPS images (placeholder, no code yet).
+# AED prototype: build of the VPS images only (CI check). The deployment builds them itself:
+# deploy/azure-pipelines.yml runs the same script, then loads the images on the VPS.
+#   apps/tools/build-release.ps1 -> artifact "release" (images.tar.gz + version.txt)
+# Pattern: C:\car-reminder\apps\azure-pipelines.yml.
 #
-# Planned, as in C:\car-reminder\apps\azure-pipelines.yml:
-#   - build images aed/api and aed/web (tag: date + commit hash), docker save | gzip;
-#   - publish artifact "release" (images.tar.gz + version.txt);
-#   - deploy/azure-pipelines.yml then loads them on the VPS (stack deploy/stacks/app.yml, host aed.hacknation-2026.pl).
-#
-# One-time setup: pipeline from the YAML file /apps/azure-pipelines.yml, named "apps".
+# Optional one-time setup: pipeline from the YAML file /apps/azure-pipelines.yml, named "apps".
 
 trigger: none
 pr: none
@@ -13,9 +11,24 @@ pr: none
 pool:
   vmImage: ubuntu-latest
 
-steps:
-  - checkout: self
-    fetchDepth: 1
+jobs:
+  - job: Build
+    timeoutInMinutes: 40
+    steps:
+      - checkout: self
+        fetchDepth: 1
 
-  - bash: echo "apps: no build yet (skeleton)."
-    displayName: Placeholder
+      - pwsh: ./apps/tools/build-release.ps1
+        displayName: Build release images
+
+      - bash: |
+          set -euo pipefail
+          version="$(ls apps/release)"
+          echo "Release $version"
+          echo "##vso[build.updatebuildnumber]$version"
+          echo "##vso[task.setvariable variable=version]$version"
+        displayName: Read release version
+
+      - publish: apps/release/$(version)
+        artifact: release
+        displayName: Publish release artifact

@@ -1,0 +1,55 @@
+{
+    "availability": {
+        "Public24h": "Dostępny całą dobę",
+        "BusinessHours": "W godzinach otwarcia",
+        "Restricted": "Dostęp ograniczony"
+    },
+    "availabilityShort": {
+        "Public24h": "24/7",
+        "BusinessHours": "Godziny",
+        "Restricted": "Ograniczony"
+    },
+    "status": {
+        "Operational": "Sprawny",
+        "ToVerify": "Do weryfikacji",
+        "Outdated": "Dane nieaktualne",
+        "Withdrawn": "Wycofany"
+    },
+    "facilityType": {
+        "PublicOffice": "Urząd",
+        "School": "Szkoła lub uczelnia",
+        "Healthcare": "Ochrona zdrowia",
+        "FireStation": "Remiza straży pożarnej",
+        "Police": "Policja lub straż miejska",
+        "Shop": "Sklep lub centrum handlowe",
+        "Office": "Biuro lub zakład pracy",
+        "Transport": "Dworzec lub transport",
+        "Sport": "Obiekt sportowy",
+        "Religious": "Kościół",
+        "CultureAndTourism": "Kultura, hotel, turystyka",
+        "OutdoorCabinet": "Szafka na zewnątrz",
+        "Other": "Inne"
+    },
+    "license": {
+        "Cc0": "CC0 1.0 (domena publiczna)",
+        "CcBy4": "CC BY 4.0 (uznanie autorstwa)"
+    },
+    "voivodeship": {
+        "LowerSilesian": "dolnośląskie",
+        "KuyavianPomeranian": "kujawsko-pomorskie",
+        "Lublin": "lubelskie",
+        "Lubusz": "lubuskie",
+        "Lodz": "łódzkie",
+        "LesserPoland": "małopolskie",
+        "Masovian": "mazowieckie",
+        "Opole": "opolskie",
+        "Subcarpathian": "podkarpackie",
+        "Podlaskie": "podlaskie",
+        "Pomeranian": "pomorskie",
+        "Silesian": "śląskie",
+        "HolyCross": "świętokrzyskie",
+        "WarmianMasurian": "warmińsko-mazurskie",
+        "GreaterPoland": "wielkopolskie",
+        "WestPomeranian": "zachodniopomorskie"
+    }
+}

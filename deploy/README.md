@@ -10,7 +10,7 @@ Krok po kroku (PL): [`WDROZENIE.md`](WDROZENIE.md).
 | `stacks/httpd.conf` | Strona 404 i typy MIME dla busybox httpd |
 | `stacks/app.yml` | (później) Prototyp `aed.hacknation-2026.pl`: postgres + api + web |
 | `scripts/deploy.sh` | `deploy.sh up \| down \| health \| logs \| ps \| config` |
-| `azure-pipelines.yml` | Po pushu do `main` (zmiany w `site/` lub `deploy/`): `git archive site deploy` → SSH → `deploy.sh up` / `health` |
+| `azure-pipelines.yml` | Uruchamiany ręcznie (Pipelines → Run): `git archive site deploy` → SSH → `deploy.sh up` (zawsze nowy kontener) / `health` |
 | `edge/local/`, `scripts/local.sh` | Lokalny HTTPS: Traefik z własnym CA na `https://hacknation-2026.test` ([`edge/local/README.md`](edge/local/README.md)), wzór `C:\car-reminder\deploy\edge\local` |
 
 - Sekretów w repo nie ma. Wizytówka ich nie potrzebuje, a przyszłe `stacks/*.env` będą istnieć tylko na VPS.

@@ -1,0 +1,31 @@
+/* Auth pages only — Car Reminder brand (navy headings). Primary follows the selected color scheme. */
+
+.auth-brand h1,
+.auth-brand h2,
+.auth-brand h3 {
+    color: #0b1f3a;
+}
+
+.dark .auth-brand h1,
+.dark .auth-brand h2,
+.dark .auth-brand h3 {
+    color: #f3f6fb;
+}
+
+.auth-brand .heading-text {
+    color: #3d4f6a;
+}
+
+.dark .auth-brand .heading-text {
+    color: #a8b4c8;
+}
+
+.auth-brand a.underline,
+.auth-brand .font-medium.heading-text {
+    color: #0b1f3a;
+}
+
+.dark .auth-brand a.underline,
+.dark .auth-brand .font-medium.heading-text {
+    color: #e8eef7;
+}

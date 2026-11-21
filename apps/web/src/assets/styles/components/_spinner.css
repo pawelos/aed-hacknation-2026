@@ -1,0 +1,34 @@
+@layer components {
+    .spinner {
+        &.spinner-default-theme {
+            @apply text-primary
+        }
+
+        .spinner-bar {
+            transform-box: fill-box;
+            transform-origin: center;
+            animation: spinner-bar-stretch 1.2s infinite ease-in-out;
+        }
+
+        &.spinner-paused .spinner-bar {
+            animation: none;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .spinner .spinner-bar {
+            animation-duration: 2.4s;
+        }
+    }
+}
+
+@keyframes spinner-bar-stretch {
+    0%,
+    40%,
+    100% {
+        transform: scaleY(0.4);
+    }
+    20% {
+        transform: scaleY(1);
+    }
+}

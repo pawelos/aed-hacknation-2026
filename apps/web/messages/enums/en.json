@@ -1,0 +1,55 @@
+{
+    "availability": {
+        "Public24h": "Available 24/7",
+        "BusinessHours": "During opening hours",
+        "Restricted": "Restricted access"
+    },
+    "availabilityShort": {
+        "Public24h": "24/7",
+        "BusinessHours": "Hours",
+        "Restricted": "Restricted"
+    },
+    "status": {
+        "Operational": "Working",
+        "ToVerify": "To be verified",
+        "Outdated": "Outdated data",
+        "Withdrawn": "Withdrawn"
+    },
+    "facilityType": {
+        "PublicOffice": "Public office",
+        "School": "School or university",
+        "Healthcare": "Healthcare",
+        "FireStation": "Fire station",
+        "Police": "Police or city guard",
+        "Shop": "Shop or shopping centre",
+        "Office": "Office or workplace",
+        "Transport": "Station or transport",
+        "Sport": "Sports facility",
+        "Religious": "Church",
+        "CultureAndTourism": "Culture, hotel, tourism",
+        "OutdoorCabinet": "Outdoor cabinet",
+        "Other": "Other"
+    },
+    "license": {
+        "Cc0": "CC0 1.0 (public domain)",
+        "CcBy4": "CC BY 4.0 (attribution)"
+    },
+    "voivodeship": {
+        "LowerSilesian": "Lower Silesian",
+        "KuyavianPomeranian": "Kuyavian-Pomeranian",
+        "Lublin": "Lublin",
+        "Lubusz": "Lubusz",
+        "Lodz": "Łódź",
+        "LesserPoland": "Lesser Poland",
+        "Masovian": "Masovian",
+        "Opole": "Opole",
+        "Subcarpathian": "Subcarpathian",
+        "Podlaskie": "Podlaskie",
+        "Pomeranian": "Pomeranian",
+        "Silesian": "Silesian",
+        "HolyCross": "Holy Cross",
+        "WarmianMasurian": "Warmian-Masurian",
+        "GreaterPoland": "Greater Poland",
+        "WestPomeranian": "West Pomeranian"
+    }
+}

@@ -22,11 +22,14 @@ services:
     volumes:
       - ../../site/public:/www:ro
       - ./httpd.conf:/etc/httpd.conf:ro
+    # Traefik routes only to a healthy container ("starting" counts as not yet): a short interval keeps the gap
+    # after a deploy to a few seconds.
     healthcheck:
       test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:8080/"]
-      interval: 30s
-      timeout: 5s
+      interval: 10s
+      timeout: 3s
       retries: 3
+      start_period: 5s
     labels:
       - traefik.enable=true
       # Apex: the site.

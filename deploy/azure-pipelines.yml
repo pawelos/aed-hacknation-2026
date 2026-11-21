@@ -1,20 +1,15 @@
-# HackNation 2026: deploy of the wizytówka (site/ + deploy/) to the OVH VPS on every push to main that touches site/ or deploy/.
-#   git archive -> SSH copy -> unpack into ~/hacknation-2026 -> deploy/scripts/deploy.sh up / health
-# No source build and no registry; the VPS holds only git-tracked files. Pattern: C:\car-reminder\deploy\azure-pipelines.yml.
+# HackNation 2026: deploy of the wizytówka (site/) and the AED prototype (apps/) to the OVH VPS.
+# Manual runs only (Pipelines -> Run). Pattern: C:\car-reminder\deploy\azure-pipelines.yml.
+#   Build:  apps/tools/build-release.ps1 -> images aed/api + aed/web (images.tar.gz)
+#   Deploy: git archive site deploy + images -> SSH -> deploy.sh up / health, app load / up / health
+# The VPS never builds and holds no source code; secrets live only in ~/hacknation-2026/aed.env on the VPS.
 #
 # One-time setup in Azure DevOps (deploy/WDROZENIE.md):
 #   - pipeline from the YAML file /deploy/azure-pipelines.yml;
 #   - SSH service connection "vps-hacknation" (host 152.228.135.251, user ubuntu), allowed for this pipeline;
 #   - environment "hacknation" (no checks).
 
-trigger:
-  branches:
-    include:
-      - main
-  paths:
-    include:
-      - site/*
-      - deploy/*
+trigger: none
 pr: none
 
 pool:
@@ -25,18 +20,47 @@ variables:
   vpsInbox: /home/ubuntu/deploy-in
 
 stages:
-  - stage: Deploy
-    displayName: Deploy (hacknation-2026.pl)
+  - stage: Build
+    displayName: Build images (aed/api, aed/web)
     jobs:
-      - deployment: Site
+      - job: Images
+        timeoutInMinutes: 40
+        steps:
+          - checkout: self
+            fetchDepth: 1
+
+          - pwsh: ./apps/tools/build-release.ps1
+            displayName: Build release images
+
+          - bash: |
+              set -euo pipefail
+              version="$(ls apps/release)"
+              echo "Release $version"
+              echo "##vso[build.updatebuildnumber]$version"
+              echo "##vso[task.setvariable variable=version]$version"
+            displayName: Read release version
+
+          - publish: apps/release/$(version)
+            artifact: release
+            displayName: Publish release artifact
+
+  - stage: Deploy
+    displayName: Deploy (hacknation-2026.pl, aed.hacknation-2026.pl)
+    dependsOn: Build
+    jobs:
+      - deployment: Vps
         environment: hacknation
-        timeoutInMinutes: 15
+        timeoutInMinutes: 30
         strategy:
           runOnce:
             deploy:
               steps:
                 - checkout: self
                   fetchDepth: 1
+
+                - download: current
+                  artifact: release
+                  displayName: Download release images
 
                 - bash: git archive --format=tar.gz -o "$(Build.ArtifactStagingDirectory)/hacknation.tar.gz" HEAD site deploy
                   displayName: Pack site/ and deploy/ (git-tracked files, not apps/ or docs/)
@@ -50,8 +74,17 @@ stages:
                     targetFolder: $(vpsInbox)
                     overwrite: true
 
+                - task: CopyFilesOverSSH@0
+                  displayName: Copy images.tar.gz
+                  inputs:
+                    sshEndpoint: vps-hacknation
+                    sourceFolder: $(Pipeline.Workspace)/release
+                    contents: images.tar.gz
+                    targetFolder: $(vpsInbox)
+                    overwrite: true
+
                 - task: SSH@0
-                  displayName: Unpack and start the site
+                  displayName: Unpack, start the site and the prototype
                   inputs:
                     sshEndpoint: vps-hacknation
                     runOptions: inline
@@ -61,10 +94,15 @@ stages:
                       set -euo pipefail
                       exec 2>&1
                       mkdir -p $(vpsDir)
-                      # Files removed from the repo disappear from the server too (no secrets live in these folders).
+                      # Files removed from the repo disappear from the server too (aed.env lives outside these folders).
                       rm -rf $(vpsDir)/site $(vpsDir)/deploy
                       tar -xzf $(vpsInbox)/hacknation.tar.gz -C $(vpsDir)
                       cd $(vpsDir)
                       chmod +x deploy/scripts/*.sh
                       ./deploy/scripts/deploy.sh up
                       ./deploy/scripts/deploy.sh health
+                      ./deploy/scripts/deploy.sh app load $(vpsInbox)/images.tar.gz
+                      ./deploy/scripts/deploy.sh app up
+                      ./deploy/scripts/deploy.sh app health
+                      ./deploy/scripts/deploy.sh prune
+                      rm -f $(vpsInbox)/images.tar.gz

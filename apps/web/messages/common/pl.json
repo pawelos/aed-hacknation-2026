@@ -1,0 +1,28 @@
+{
+    "appName": "AED Radar",
+    "meta": {
+        "title": "AED Radar – mapa defibrylatorów AED",
+        "description": "Znajdź najbliższy dostępny defibrylator AED. Otwarte dane o AED z wielu źródeł, gotowe do publikacji w dane.gov.pl."
+    },
+    "skipToContent": "Przejdź do treści",
+    "emergency": {
+        "call112": "Zadzwoń 112",
+        "bar": "Nagłe zatrzymanie krążenia? Najpierw zadzwoń pod 112, potem szukaj AED."
+    },
+    "language": {
+        "label": "Język",
+        "pl": "Polski",
+        "en": "English"
+    },
+    "theme": {
+        "dark": "Włącz tryb ciemny",
+        "light": "Włącz tryb jasny"
+    },
+    "close": "Zamknij",
+    "loading": "Wczytywanie…",
+    "nav": {
+        "label": "Menu główne",
+        "map": "Mapa",
+        "openData": "Otwarte dane"
+    }
+}

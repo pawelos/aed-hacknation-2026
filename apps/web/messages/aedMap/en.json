@@ -1,0 +1,75 @@
+{
+    "title": "Map of AED defibrillators",
+    "search": {
+        "label": "Search a town, municipality or address",
+        "placeholder": "e.g. Kraków, Sukiennice",
+        "submit": "Search",
+        "tooShort": "Enter at least 2 characters.",
+        "noResults": "Nothing found for “{query}”."
+    },
+    "nearest": {
+        "button": "Nearest AED",
+        "locating": "Finding your location…",
+        "denied": "Location access denied. Type an address in the search box.",
+        "unavailable": "Your location could not be found. Type an address in the search box.",
+        "none": "No AED within 20 km.",
+        "heading": "Nearest AED",
+        "you": "Your location",
+        "clear": "Show all"
+    },
+    "filters": {
+        "heading": "Filters",
+        "availability": "Availability",
+        "facilityType": "Kind of place",
+        "anyFacility": "Any",
+        "openNow": "Available now only"
+    },
+    "view": {
+        "label": "View",
+        "map": "Map",
+        "list": "List"
+    },
+    "list": {
+        "heading": "AEDs in the visible area",
+        "count": "{count, plural, =0 {No AED in this area} one {# AED} other {# AEDs}}",
+        "truncated": "Showing some of the points. Zoom in to see all of them.",
+        "empty": "No AED in this area. Zoom out or change the filters.",
+        "distance": "{distance} away",
+        "error": "The data could not be loaded. Try again."
+    },
+    "open": {
+        "yes": "Available now",
+        "no": "Not available now",
+        "unknown": "No opening hours data"
+    },
+    "map": {
+        "label": "AED map. The pins are also available as the list of results.",
+        "attribution": "© OpenStreetMap contributors"
+    },
+    "card": {
+        "address": "Address",
+        "placement": "Exact placement",
+        "indoor": "Indoors",
+        "outdoor": "Outdoors",
+        "hours": "Availability hours",
+        "noHours": "Not given",
+        "access": "How to get access",
+        "phone": "Owner's phone",
+        "facility": "Kind of place",
+        "status": "Device state",
+        "owner": "Owner",
+        "source": "Data source",
+        "license": "Data licence",
+        "scope": "Reference scope of the source",
+        "verified": "Last verified",
+        "neverVerified": "Never",
+        "stale": "The data was checked more than 12 months ago and may be outdated.",
+        "needsVerification": "The record is waiting for verification by its owner.",
+        "coordinates": "Coordinates",
+        "navigate": "Directions",
+        "report": "Report a correction",
+        "reportSoon": "Reporting corrections – coming soon",
+        "notFound": "This AED was not found.",
+        "openSource": "Open the source (new tab)"
+    }
+}

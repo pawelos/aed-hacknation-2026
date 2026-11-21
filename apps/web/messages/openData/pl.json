@@ -1,0 +1,61 @@
+{
+    "metaTitle": "Otwarte dane o AED – AED Radar",
+    "title": "Otwarte dane o defibrylatorach AED",
+    "intro": "Jeden ogólnopolski zbiór AED złożony z danych wielu dysponentów. Każdy rekord wskazuje swoje źródło, licencję i zakres referencyjny. Pliki są w formatach czytelnych maszynowo (CSV, GeoJSON, JSON), generowane na bieżąco i dostępne pod stałymi adresami, gotowe do podpięcia w dane.gov.pl.",
+    "unavailable": "Nie udało się wczytać metadanych zbioru. Spróbuj ponownie za chwilę.",
+    "stats": {
+        "records": "Rekordów",
+        "sources": "Źródeł",
+        "modified": "Ostatnia zmiana",
+        "license": "Licencja zbioru"
+    },
+    "licenseNote": "Licencja zbioru to najbardziej wymagająca licencja jego źródeł. Każdy rekord ma też własną licencję w polu licencja_danych.",
+    "download": {
+        "heading": "Pobierz dane",
+        "button": "Pobierz {format}",
+        "filters": "Filtry w adresie: ?wojewodztwo=02 (kod TERYT lub nazwa) albo ?zrodlo=ID (id źródła z tabeli „Źródła w zbiorze”).",
+        "docsHeading": "Opis zbioru",
+        "template": "Wzorcowy zakres danych (XLSX)",
+        "templateDesc": "Pola, słowniki i przykład. Tylko wzorzec zakresu, dane publikujemy w CSV, GeoJSON i JSON.",
+        "metadata": "Metadane zbioru (JSON)",
+        "metadataDesc": "Tytuł, opis, słowa kluczowe, kategoria, licencja, częstotliwość, zasoby, źródła i pola.",
+        "dcat": "Katalog DCAT-AP-PL (RDF/XML)",
+        "dcatDesc": "Opis zbioru w profilu DCAT-AP-PL 2.1, z którego korzysta dane.gov.pl."
+    },
+    "howTo": {
+        "heading": "Jak dysponent udostępnia dane o AED",
+        "step1Title": "Przygotuj plik według wzorca",
+        "step1": "Pobierz wzorcowy zakres danych (XLSX) i zapisz swoje AED jako CSV z tymi kolumnami. Współrzędne w WGS 84, godziny w formacie opening_hours, kody ze słowników.",
+        "step2Title": "Opublikuj w dane.gov.pl",
+        "step2": "Załóż zbiór w kategorii „Zdrowie”, wybierz licencję CC0 1.0 albo CC BY 4.0 i dodaj plik jako zasób. Zamiast wgrywać plik ręcznie, możesz podać stały adres, pod którym Twój system go publikuje.",
+        "step3Title": "Dołącz do zbioru krajowego",
+        "step3": "AED Radar łączy dane wszystkich dysponentów w jeden zbiór, oznacza duplikaty i rekordy do weryfikacji, a źródło każdego rekordu zostaje zapisane. Import plików od dysponentów – wkrótce w panelu."
+    },
+    "sources": {
+        "heading": "Źródła w zbiorze",
+        "name": "Źródło",
+        "owner": "Dysponent",
+        "scope": "Zakres referencyjny",
+        "license": "Licencja",
+        "records": "Rekordy",
+        "verified": "Weryfikacja",
+        "csv": "CSV źródła",
+        "never": "brak"
+    },
+    "fields": {
+        "heading": "Wzorcowy zakres danych",
+        "intro": "{count} pól, wersja schematu {version}. Te same nazwy w CSV (nagłówek), GeoJSON (properties) i JSON.",
+        "name": "Pole",
+        "type": "Typ",
+        "required": "Wymagane",
+        "format": "Format",
+        "description": "Opis",
+        "yes": "tak",
+        "no": "nie"
+    },
+    "dictionaries": {
+        "heading": "Słowniki",
+        "code": "Kod",
+        "label": "Opis"
+    }
+}

@@ -61,7 +61,7 @@ Projekt publiczny w Azure DevOps pokazuje bez logowania repo, pipeline'y i logi 
 
 ## Krok 4: pierwsze wdrożenie
 
-Pipeline robi to sam przy każdym pushu do `main`, który zmienia `site/` albo `deploy/`. Ręcznie, bez pipeline'u:
+Zwykle: commit + push do `main`, potem Azure DevOps → **Pipelines** → pipeline wizytówki → **Run**. Pipeline nie startuje sam. Ręcznie, bez pipeline'u:
 
 ```powershell
 cd C:\hacknation-2026\AED
@@ -93,6 +93,6 @@ cd ~/hacknation-2026
 ./deploy/scripts/deploy.sh ps | logs | down | config
 ```
 
-- Zmiana treści: commit + push do `main`, pipeline wdraża w ok. 1 min. Kontener montuje `site/public/` tylko do odczytu, więc restart nie jest potrzebny.
+- Zmiana treści: commit + push do `main`, potem **Run** pipeline'u (ok. 1 min). `deploy.sh up` za każdym razem tworzy kontener od nowa. Pipeline podmienia katalog `site/`, a działający kontener widziałby wtedy usunięty, pusty katalog (404 wszędzie).
 - Gdy certyfikat się nie wystawia, najczęściej DNS jeszcze nie wskazuje na VPS albo jest stary rekord AAAA. Let's Encrypt pozwala na 5 nieudanych prób na godzinę dla hosta.
 - Po hackathonie: `./deploy/scripts/deploy.sh down` zwalnia zasoby.
