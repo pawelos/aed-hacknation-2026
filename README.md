@@ -24,7 +24,8 @@ Projekt zespołu na HackNation 2026, zadanie Ministerstwa Cyfryzacji „Misja AE
 | Wizytówka | https://hacknation-2026.pl |
 | Repozytorium | https://github.com/pawelos/aed-hacknation-2026 |
 | Prototyp | https://aed.hacknation-2026.pl (mapa AED, otwarte dane: `/pl/open-data`, API: `/scalar`) |
-| Demo (wideo, do 2 min) | wkrótce |
+| Prezentacja (PDF) | [`site/public/assets/aed-radar-prezentacja.pdf`](site/public/assets/aed-radar-prezentacja.pdf), na wizytówce: https://hacknation-2026.pl/assets/aed-radar-prezentacja.pdf |
+| Demo (wideo) | https://youtu.be/GTY-uA8Vzpg |
 | Zadanie | https://hacknation.pl/zadania |
 
 ## Struktura repo

@@ -55,4 +55,4 @@ Konta demo: na stronie logowania kliknij przełącznik „Dysponent – Wrocław
 | WCAG, komputer i telefon, UX | Krok 6; każdy ekran od 320 px, obsługa klawiaturą (Tab), etykiety i błędy pod polami (krok 8) |
 | Opis funkcji i kroków użytkownika, ograniczenia | [`README.md`](README.md): „Co działa”, „Kroki użytkownika”, „Ograniczenia” |
 | Zakres wykorzystania AI | [`README.md`](README.md#wykorzystanie-ai) |
-| Prezentacja (min. 5 slajdów) i wideo demo | **do uzupełnienia** |
+| Prezentacja (min. 5 slajdów) i wideo demo | Prezentacja: [`site/public/assets/aed-radar-prezentacja.pdf`](site/public/assets/aed-radar-prezentacja.pdf) (także na wizytówce, strona „Materiały”). Wideo demo: https://youtu.be/GTY-uA8Vzpg |

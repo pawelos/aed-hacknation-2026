@@ -16,4 +16,4 @@ Najważniejsze odpowiedzi mentorów zadania i to, jak je uwzględniliśmy.
 | Najważniejsze | Nie tylko aplikacja zbierająca dane, ale dostosowanie logiki i metod portalu, żeby wykazy dało się pobierać i scalać w jedną standardową listę | Zrobione: import wykazów przez portal i poprawka zgodności (format daty). Do zrobienia: zmiana w kodzie portalu scalająca wykazy |
 | Dane z rozproszonych źródeł | Dane mają być wystawione jako zasoby w dane.gov.pl; struktura jest rozproszona po wielu dostawcach, więc musi powstać zbiorcza tabela | Wzorcowy zakres danych i jeden format dla wszystkich dostawców |
 | Licencja przy łączeniu źródeł | Portal pozwala wybrać licencję otwartą; dostawcom powinno zależeć, by dane dawać i proaktywnie wyrażać zgodę | Licencja przy każdym rekordzie i źródle; w XML warunek `source` (CC BY 4.0) lub CC0 według źródła |
-| Struktura prezentacji | Przypomnienie o strukturze prezentacji z regulaminu | Prezentacja: do zrobienia |
+| Struktura prezentacji | Przypomnienie o strukturze prezentacji z regulaminu | Prezentacja: [`site/public/assets/aed-radar-prezentacja.pdf`](../site/public/assets/aed-radar-prezentacja.pdf) |

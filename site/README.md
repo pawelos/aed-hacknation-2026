@@ -34,6 +34,7 @@ Wygląd:
 | `public/assets/site.js` | Jedyny skrypt: przełącznik motywu, wyszukiwarka języków, zamykanie menu (Esc, kliknięcie obok) |
 | `public/assets/hero.svg` | Ilustracja strony głównej |
 | `public/assets/logo.svg`, `favicon.svg` | Sygnet z księgi znaku, kopiowany przez `../brand/build.ps1` (nie edytować ręcznie) |
+| `public/assets/aed-radar-prezentacja.pdf` | Prezentacja projektu (PDF), link na stronie „Materiały”; wstawiana ręcznie |
 | `public/assets/brand/` | Księga znaku (PDF) i ZIP z logo, do pobrania ze strony „Materiały”; tworzy je `../brand/build.ps1` |
 | `public/assets/og-*.png`, `apple-touch-icon.png` | Wynik `og.ps1` (commitowany) |
 | `public/robots.txt` | SEO: zezwala na wszystko, wskazuje `sitemap.xml` |
