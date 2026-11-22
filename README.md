@@ -22,6 +22,7 @@ Projekt zespołu na HackNation 2026, zadanie Ministerstwa Cyfryzacji „Misja AE
 |---|---|
 | **Instrukcja dla jury** | [`INSTRUKCJA-DLA-JURY.md`](INSTRUKCJA-DLA-JURY.md): kroki od 1 do 15 i gdzie jest każde wymaganie |
 | Wizytówka | https://hacknation-2026.pl |
+| Repozytorium | https://github.com/pawelos/aed-hacknation-2026 |
 | Prototyp | https://aed.hacknation-2026.pl (mapa AED, otwarte dane: `/pl/open-data`, API: `/scalar`) |
 | Demo (wideo, do 2 min) | wkrótce |
 | Zadanie | https://hacknation.pl/zadania |
@@ -44,8 +45,8 @@ Jedno repo, pięć części, jak w Car Reminder (tam to osobne repo `apps`, `dep
 Wizytówka (wymaga Dockera):
 
 ```bash
-git clone <adres-repo>
-cd AED
+git clone https://github.com/pawelos/aed-hacknation-2026.git
+cd aed-hacknation-2026
 docker compose -f site/docker-compose.yml up
 ```
 
@@ -144,7 +145,11 @@ Zgodnie z regulaminem zadania (§2 ust. 8) opisujemy zakres użycia AI. Zespół
 - **Prototyp:**
   - kod API (moduły rekordów, importu, otwartych danych, operacje zbiorcze) i testy jednostkowe;
   - kod web: mapa, karta AED, panel dysponenta, formularze z walidacją, poprawki dostępności (WCAG) i responsywności.
-- **Analiza** otwartego kodu portalu dane.gov.pl (metadane, katalog DCAT-AP-PL).
-- **Dokumentacja:** README, opis schematu danych i importu.
+- **Analiza** otwartego kodu portalu dane.gov.pl (metadane, katalog DCAT-AP-PL, import XML).
+- **Zgodność z dane.gov.pl:**
+  - eksport plików importu XML (`aed.xml`, `aed-<id źródła>.xml`) z testami na schemacie XSD portalu;
+  - uruchomienie portalu lokalnie w `portal/hacknation/` (konfiguracja, zastępczy geokoder, skrypt importu, zrzuty ekranu).
+- **Znak akcji:** szkic logotypu (sygnet z serca i łuków radaru), generator plików SVG/PNG/JPG/PDF i księga znaku w `brand/`.
+- **Dokumentacja:** README, opis schematu danych i importu, instrukcja dla jury, szkic prezentacji.
 
-Koncepcję rozwiązania, wzorcowy zakres danych, nazwę i hasło akcji, decyzje projektowe oraz weryfikację wszystkich wyników wykonał zespół, który ma do rozwiązania pełne prawa (tak samo opisuje to strona „Zespół” na wizytówce).
+Koncepcję rozwiązania, wzorcowy zakres danych, nazwę i hasło akcji, wybór kierunku znaku, decyzje projektowe oraz weryfikację wszystkich wyników wykonał zespół, który ma do rozwiązania pełne prawa (tak samo opisuje to strona „Zespół” na wizytówce).

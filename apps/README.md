@@ -15,7 +15,8 @@ Wejście: pozycja **Panel** w menu aplikacji albo przycisk „Zaloguj” na wizy
 
 **Szybkie wypełnienie**, jak w Car Reminder: nad formularzem logowania przełącznik „Dysponent – Wrocław”, „Dysponent – OSP”, „Administrator” wpisuje dane konta demo, wystarczy kliknąć „Zaloguj”.
 - **Kiedy widoczny:** w Development zawsze. Na serwerze przy `DEMO_LOGIN=true` (domyślnie, `deploy/stacks/aed.env.example`).
-- **Skąd hasła:** ze zmiennych środowiskowych (`DEMO_ADMIN_PASSWORD`, `DEMO_PASSWORD`, na VPS te same co `SEED_*`), a nie z kodu.
+- **Skąd hasła:** ze zmiennych środowiskowych (`DEMO_ADMIN_PASSWORD`, `DEMO_PASSWORD`, na VPS te same co `SEED_*`). Gdy `aed.env` ich nie podaje, `deploy/stacks/app.yml` przyjmuje publiczne hasła demo z Development, więc produkcja ma konta i szybkie wypełnienie od razu po wdrożeniu. Seeder ustawia istniejącemu kontu hasło z konfiguracji.
+- **Po hackathonie:** `DEMO_LOGIN=false` i własne hasła w `aed.env`. Dopóki przełącznik działa, każdy może jako Administrator zmienić dane demo.
 - **Ograniczenie:** przy włączonym przełączniku hasła kont demo są widoczne dla każdego na stronie logowania. To celowe w prototypie z fikcyjnymi danymi.
 
 Konta demo są w tabeli niżej.

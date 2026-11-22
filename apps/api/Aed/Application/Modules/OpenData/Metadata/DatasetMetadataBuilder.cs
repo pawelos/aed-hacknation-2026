@@ -47,9 +47,9 @@ internal sealed class DatasetMetadataBuilder(IApplicationDbContext dbContext, IO
 
         var active = dbContext.AedDevices.AsNoTracking().Where(d => !d.IsDeleted);
         int records = await active.CountAsync(cancellationToken);
-        DateTime? modified = records == 0
-            ? null
-            : await active.MaxAsync(d => (DateTime?)(d.UpdatedAt ?? d.CreatedAt), cancellationToken);
+        // Deleted records count too: a deletion sets UpdatedAt and changes the data set.
+        DateTime? modified = await dbContext.AedDevices.AsNoTracking()
+            .MaxAsync(d => (DateTime?)(d.UpdatedAt ?? d.CreatedAt), cancellationToken);
 
         var sourceRows = await (
                 from s in dbContext.DataSources.AsNoTracking()
@@ -81,7 +81,7 @@ internal sealed class DatasetMetadataBuilder(IApplicationDbContext dbContext, IO
                 s.Records,
                 s.LastVerifiedAt,
                 $"{downloads}{OpenDataConstant.FileName(OpenDataFormat.Csv)}?zrodlo={s.Id}",
-                $"{downloads}{Harvester.GetHarvesterFileQueryHandler.FileBase(s.Id)}.xml"))
+                $"{downloads}{OpenDataConstant.HarvesterFileBase(s.Id)}.xml"))
             .ToList();
 
         // The aggregate needs attribution as soon as one source does.
@@ -102,7 +102,7 @@ internal sealed class DatasetMetadataBuilder(IApplicationDbContext dbContext, IO
             EuFrequency = "http://publications.europa.eu/resource/authority/frequency/UPDATE_CONT",
             Publisher = settings.PublisherName,
             ContactEmail = settings.ContactEmail,
-            LandingPage = baseUrl + "/pl/open-data",
+            LandingPage = baseUrl + OpenDataConstant.LandingPath,
             SpatialCoverage = "Polska",
             Issued = settings.Issued,
             Modified = modified,
@@ -124,7 +124,7 @@ internal sealed class DatasetMetadataBuilder(IApplicationDbContext dbContext, IO
             Dictionaries = AedDataSchema.Dictionaries,
             TemplateUrl = downloads + OpenDataConstant.TemplateFileName,
             DcatUrl = downloads + "catalog.rdf",
-            HarvesterUrl = downloads + Harvester.GetHarvesterFileQueryHandler.FileBase(null) + ".xml"
+            HarvesterUrl = downloads + OpenDataConstant.HarvesterFileBase(null) + ".xml"
         };
     }
 

@@ -3,6 +3,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Schema;
+using Application.Modules.OpenData;
 using Application.Modules.OpenData.Harvester;
 using Application.Modules.OpenData.Metadata;
 
@@ -119,8 +120,8 @@ public sealed class HarvesterXmlWriterTests
 
         Assert.Multiple(() =>
         {
-            Assert.That(GetHarvesterFileQueryHandler.FileBase(null), Is.EqualTo("aed"));
-            Assert.That(GetHarvesterFileQueryHandler.FileBase(id), Is.EqualTo("aed-0123456789abcdef0123456789abcdef"));
+            Assert.That(OpenDataConstant.HarvesterFileBase(null), Is.EqualTo("aed"));
+            Assert.That(OpenDataConstant.HarvesterFileBase(id), Is.EqualTo("aed-0123456789abcdef0123456789abcdef"));
             Assert.That(("aed-" + id.ToString("N")).Length, Is.LessThanOrEqualTo(36), "extIdent limit");
         });
     }

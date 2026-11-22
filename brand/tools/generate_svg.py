@@ -72,7 +72,8 @@ DOT = (32, 38.5, 3.4)
 STROKE = 3.6
 
 
-def mark(tile: str | None, fg: str, dot: str, outer_opacity: float = 0.6, outer: bool = True) -> str:
+def mark(tile: str | None, fg: str, dot: str, outer_opacity: float = 0.6, outer: bool = True,
+         heart: str | None = None) -> str:
     """The sygnet as SVG elements in the 64 x 64 box."""
     arcs = f'<path d="{ARC_INNER}" fill="none" stroke="{fg}" stroke-width="{STROKE}" stroke-linecap="round"/>'
     if outer:
@@ -80,7 +81,7 @@ def mark(tile: str | None, fg: str, dot: str, outer_opacity: float = 0.6, outer:
                 f'opacity="{outer_opacity}"/>' + arcs)
     bg = f'<rect width="64" height="64" rx="14" fill="{tile}"/>' if tile else ""
     cx, cy, r = DOT
-    return f'{bg}{arcs}<path d="{HEART}" fill="{fg}"/><circle cx="{cx}" cy="{cy}" r="{r}" fill="{dot}"/>'
+    return f'{bg}{arcs}<path d="{HEART}" fill="{heart or fg}"/><circle cx="{cx}" cy="{cy}" r="{r}" fill="{dot}"/>'
 
 
 def mark_mono(colour: str, mask_id: str) -> str:
@@ -121,8 +122,7 @@ def main(font_dir: Path) -> None:
 
     # Sygnet (app icon, favicon) and the sygnet without the tile.
     files["sygnet.svg"] = svg(64, 64, "AED Radar – sygnet", mark(GREEN, "#FFFFFF", RED))
-    files["sygnet-bez-tla.svg"] = svg(64, 64, "AED Radar – sygnet bez tła", mark(None, GREEN, "#FFFFFF", 0.6).replace(
-        f'<path d="{HEART}" fill="{GREEN}"/>', f'<path d="{HEART}" fill="{RED}"/>'))
+    files["sygnet-bez-tla.svg"] = svg(64, 64, "AED Radar – sygnet bez tła", mark(None, GREEN, "#FFFFFF", 0.6, heart=RED))
     files["favicon.svg"] = svg(64, 64, "AED Radar", mark(GREEN, "#FFFFFF", RED, outer=False))
 
     # Horizontal: sygnet + wordmark.

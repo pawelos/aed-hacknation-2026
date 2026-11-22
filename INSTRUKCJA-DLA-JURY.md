@@ -7,7 +7,7 @@ Wszystko sprawdzisz w przeglądarce, bez instalowania czegokolwiek. Czas: około
 | Prototyp | https://aed.hacknation-2026.pl |
 | Wizytówka akcji | https://hacknation-2026.pl |
 | Otwarte dane | https://aed.hacknation-2026.pl/pl/open-data |
-| Kod źródłowy | to repozytorium (opis w [`README.md`](README.md)) |
+| Kod źródłowy | https://github.com/pawelos/aed-hacknation-2026 (opis w [`README.md`](README.md)) |
 
 Konta demo: na stronie logowania kliknij przełącznik „Dysponent – Wrocław” albo „Administrator”, a potem „Zaloguj”. Hasła wpisują się same.
 

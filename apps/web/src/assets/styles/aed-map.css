@@ -14,8 +14,9 @@
 }
 
 .aed-pin__glyph {
-    font-size: 14px;
-    line-height: 1;
+    display: block;
+    width: 18px;
+    height: 18px;
 }
 
 .aed-pin--public24h {

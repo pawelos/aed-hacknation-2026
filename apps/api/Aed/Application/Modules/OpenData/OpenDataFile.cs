@@ -56,6 +56,19 @@ public static class OpenDataConstant
     public const string PublicPath = "/api/open-data/";
 
     /// <summary>
+    /// Path of the open data page in the web app (the landing page of the data sets).
+    /// </summary>
+    public const string LandingPath = "/pl/open-data";
+
+    /// <summary>
+    /// Name without extension of the dane.gov.pl XML importer file: <c>aed</c> for the whole data set,
+    /// <c>aed-{source id}</c> for one provider. The portal finds the MD5 file by replacing the extension,
+    /// so the address has no query string.
+    /// </summary>
+    public static string HarvesterFileBase(Guid? dataSourceId) =>
+        dataSourceId is null ? DataFileName : $"{DataFileName}-{dataSourceId.Value:N}";
+
+    /// <summary>
     /// Media type of CSV.
     /// </summary>
     public const string CsvMediaType = "text/csv";

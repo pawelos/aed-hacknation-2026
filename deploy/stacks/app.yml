@@ -59,10 +59,11 @@ services:
       OpenData__PublicBaseUrl: https://${APP_HOST:-aed.hacknation-2026.pl}
       # API reference (Scalar) public for the jury.
       OpenApi__Enabled: "true"
-      # Fictional demo records (marked as examples); accounts only when their passwords are set in aed.env.
+      # Fictional demo records (marked as examples) and the panel accounts for the jury. Without passwords in aed.env
+      # the accounts get the public demo passwords of Development (shown on the sign-in page anyway).
       Seed__DemoData: "true"
-      Seed__AdminPassword: ${SEED_ADMIN_PASSWORD:-}
-      Seed__DemoPassword: ${SEED_DEMO_PASSWORD:-}
+      Seed__AdminPassword: ${SEED_ADMIN_PASSWORD:-AedAdmin2026}
+      Seed__DemoPassword: ${SEED_DEMO_PASSWORD:-AedDemo2026x}
     healthcheck:
       test: ["CMD-SHELL", "bash -c 'exec 3<>/dev/tcp/127.0.0.1/8080 && printf \"GET /alive HTTP/1.0\\r\\nHost: api\\r\\n\\r\\n\" >&3 && head -n1 <&3 | grep -q \" 200 \"'"]
       interval: 15s
@@ -100,8 +101,8 @@ services:
       # Quick fill of the demo accounts on the sign-in page (prototype for the jury): the same passwords the API
       # seeder creates the accounts with. DEMO_LOGIN=false in aed.env turns it off.
       DEMO_LOGIN: ${DEMO_LOGIN:-true}
-      DEMO_ADMIN_PASSWORD: ${SEED_ADMIN_PASSWORD:-}
-      DEMO_PASSWORD: ${SEED_DEMO_PASSWORD:-}
+      DEMO_ADMIN_PASSWORD: ${SEED_ADMIN_PASSWORD:-AedAdmin2026}
+      DEMO_PASSWORD: ${SEED_DEMO_PASSWORD:-AedDemo2026x}
     healthcheck:
       test: ["CMD", "node", "-e", "require('http').get('http://127.0.0.1:3000/pl', r => process.exit(r.statusCode < 500 ? 0 : 1)).on('error', () => process.exit(1))"]
       interval: 15s

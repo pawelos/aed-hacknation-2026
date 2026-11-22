@@ -66,8 +66,28 @@ public static class UserSeeder
             return;
         }
 
-        if (await userManager.FindByEmailAsync(email) is not null)
+        ApplicationUser? existing = await userManager.FindByEmailAsync(email);
+        if (existing is not null)
         {
+            // The sign-in quick fill shows the configured password, so an account made earlier with another one
+            // would not open: align it.
+            if (!await userManager.CheckPasswordAsync(existing, password))
+            {
+                await userManager.RemovePasswordAsync(existing);
+                IdentityResult reset = await userManager.AddPasswordAsync(existing, password);
+                if (reset.Succeeded)
+                {
+                    logger.LogInformation("Seed account {Email}: password set from the configuration.", email);
+                }
+                else
+                {
+                    logger.LogWarning(
+                        "Seed account {Email}: password not set: {Errors}",
+                        email,
+                        string.Join(" ", reset.Errors.Select(e => e.Description)));
+                }
+            }
+
             return;
         }
 

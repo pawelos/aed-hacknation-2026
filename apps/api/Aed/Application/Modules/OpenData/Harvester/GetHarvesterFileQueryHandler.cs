@@ -21,18 +21,6 @@ internal sealed class GetHarvesterFileQueryHandler(
     IOptions<OpenDataOptions> options)
     : IQueryHandler<GetHarvesterFileQuery, OpenDataFile>
 {
-    /// <summary>
-    /// File name of the whole data set (without extension); a provider's file is <c>aed-{source id}</c>.
-    /// </summary>
-    public const string FileBaseName = "aed";
-
-    /// <summary>
-    /// File name (without extension) for a data source; the portal finds the MD5 file by replacing the
-    /// extension, so the address has no query string.
-    /// </summary>
-    public static string FileBase(Guid? dataSourceId) =>
-        dataSourceId is null ? FileBaseName : $"{FileBaseName}-{dataSourceId.Value:N}";
-
     public async ValueTask<Result<OpenDataFile>> Handle(GetHarvesterFileQuery query, CancellationToken cancellationToken)
     {
         Result<HarvesterDataset> dataset = query.DataSourceId is null
@@ -44,7 +32,7 @@ internal sealed class GetHarvesterFileQueryHandler(
         }
 
         byte[] xml = HarvesterXmlWriter.Write([dataset.Value]);
-        string name = FileBase(query.DataSourceId);
+        string name = OpenDataConstant.HarvesterFileBase(query.DataSourceId);
         return query.Checksum
             ? new OpenDataFile(HarvesterXmlWriter.Md5(xml), "text/plain; charset=utf-8", name + ".md5", dataset.Value.LastUpdateUtc)
             : new OpenDataFile(xml, "application/xml; charset=utf-8", name + ".xml", dataset.Value.LastUpdateUtc);
@@ -84,9 +72,11 @@ internal sealed class GetHarvesterFileQueryHandler(
                 "OpenData.DataSourceNotFound", $"Data source '{dataSourceId}' was not found."));
         }
 
-        var devices = dbContext.AedDevices.AsNoTracking().Where(d => !d.IsDeleted && d.DataSourceId == dataSourceId);
-        DateTime? modified = await devices.MaxAsync(d => (DateTime?)(d.UpdatedAt ?? d.CreatedAt), cancellationToken);
-        List<Voivodeship> voivodeships = await devices.Select(d => d.Voivodeship).Distinct().ToListAsync(cancellationToken);
+        var allDevices = dbContext.AedDevices.AsNoTracking().Where(d => d.DataSourceId == dataSourceId);
+        // Deleted records count too: a deletion sets UpdatedAt and changes the data, so the data date moves on.
+        DateTime? modified = await allDevices.MaxAsync(d => (DateTime?)(d.UpdatedAt ?? d.CreatedAt), cancellationToken);
+        List<Voivodeship> voivodeships = await allDevices.Where(d => !d.IsDeleted)
+            .Select(d => d.Voivodeship).Distinct().ToListAsync(cancellationToken);
 
         string id = dataSourceId.ToString("N");
         return new HarvesterDataset
@@ -103,7 +93,7 @@ internal sealed class GetHarvesterFileQueryHandler(
                 $"AED defibrillators of {source.Owner} (source: {source.Name}) following the AED reference data scope "
                 + $"version {AedDataSchema.Version}. The provider is responsible for the completeness, timeliness and "
                 + "correctness of the data."),
-            Url = options.Value.PublicBaseUrl.TrimEnd('/') + "/pl/open-data",
+            Url = options.Value.PublicBaseUrl.TrimEnd('/') + OpenDataConstant.LandingPath,
             RequiresAttribution = source.License == DataLicense.CcBy4,
             Resources = Resources(id, Downloads(), $"?zrodlo={dataSourceId}", source.Owner, source.Owner),
             TagsPl = ["AED", "defibrylator", "pierwsza pomoc", "ratownictwo", "zdrowie"],
@@ -114,7 +104,7 @@ internal sealed class GetHarvesterFileQueryHandler(
     }
 
     /// <summary>
-    /// The CSV (downloaded by the portal and shown as a table and map), GeoJSON and JSON resources.
+    /// The CSV (downloaded by the portal and indexed as a table), GeoJSON and JSON resources.
     /// </summary>
     private static List<HarvesterResource> Resources(string idPrefix, string downloads, string filter, string namePl, string nameEn) =>
     [
