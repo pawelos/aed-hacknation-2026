@@ -51,7 +51,7 @@ http:
     local-aed:
       loadBalancer:
         servers:
-          - url: http://host.docker.internal:3000
+          - url: http://host.docker.internal:3060
 
 tls:
   stores:

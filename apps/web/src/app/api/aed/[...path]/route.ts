@@ -48,3 +48,44 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ path
         )
     }
 }
+
+/**
+ * Forwards a correction report from the AED card (`<id>/report`) to the API, with the client address (the API
+ * allows 10 reports a minute per address) and the page language (validation messages).
+ */
+export async function POST(req: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
+    const { path } = await params
+    if (path.length !== 2 || !GUID.test(path[0]) || path[1] !== 'report') {
+        return NextResponse.json({ isSuccess: false, value: null, error: { code: 'NotFound', description: 'Not found.' } }, { status: 404 })
+    }
+
+    const body = await req.text()
+    if (body.length > 10_000) {
+        return NextResponse.json({ isSuccess: false, value: null, error: { code: 'TooLarge', description: 'Too large.' } }, { status: 413 })
+    }
+
+    const forwardedFor = req.headers.get('x-forwarded-for')
+    try {
+        const response = await fetch(`${apiBaseUrl()}/api/v1/PublicAed/${path[0]}/report`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'Accept-Language': req.headers.get('accept-language') ?? 'pl',
+                ...(forwardedFor ? { 'X-Forwarded-For': forwardedFor } : {}),
+            },
+            body,
+            cache: 'no-store',
+            signal: AbortSignal.timeout(10_000),
+        })
+        return new NextResponse(await response.text(), {
+            status: response.status,
+            headers: { 'Content-Type': response.headers.get('Content-Type') ?? 'application/json' },
+        })
+    } catch {
+        return NextResponse.json(
+            { isSuccess: false, value: null, error: { code: 'ApiUnavailable', description: 'The API is unavailable.' } },
+            { status: 503 },
+        )
+    }
+}

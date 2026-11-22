@@ -22,7 +22,16 @@
         "availability": "Availability",
         "facilityType": "Kind of place",
         "anyFacility": "Any",
-        "openNow": "Available now only"
+        "openNow": "Available now only",
+        "lookupOpen": "Choose from the list: {label}",
+        "lookupSearchLabel": "Search the list: {label}",
+        "lookupSearch": "Search…",
+        "colName": "Name",
+        "lookupEmpty": "No results.",
+        "lookupClear": "Clear",
+        "close": "Close",
+        "lookupSelected": "selected",
+        "lookupCount": "{shown} of {total} shown"
     },
     "view": {
         "label": "View",
@@ -68,8 +77,22 @@
         "coordinates": "Coordinates",
         "navigate": "Directions",
         "report": "Report a correction",
-        "reportSoon": "Reporting corrections – coming soon",
         "notFound": "This AED was not found.",
-        "openSource": "Open the source (new tab)"
+        "openSource": "Open the source (new tab)",
+        "hoursAlways": "24/7",
+        "hoursHolidays": "public holidays",
+        "hoursClosed": "closed"
+    },
+    "reportDialog": {
+        "title": "Report a correction",
+        "intro": "Something is wrong (device locked, moved, empty cabinet)? Describe it – the holder sees the report in the panel.",
+        "message": "What is wrong?",
+        "contact": "Your e-mail or phone (optional)",
+        "contactHint": "Only for the holder's questions.",
+        "send": "Send the report",
+        "sent": "Thank you! The report was sent to the holder.",
+        "tooShort": "Describe the problem in at least 10 characters.",
+        "error": "The report could not be sent. Try again.",
+        "close": "Close"
     }
 }

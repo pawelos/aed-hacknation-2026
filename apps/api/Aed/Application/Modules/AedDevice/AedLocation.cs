@@ -1,3 +1,4 @@
+using Application.Common.Localization;
 using Domain.Modules.AedDevice.Constants;
 using FluentValidation;
 using NetTopologySuite.Geometries;
@@ -80,20 +81,20 @@ public static class AedLocation
         validator.RuleFor(x => x.Latitude)
             .Must((command, latitude) => !IsInPoland(command.Longitude!.Value, latitude!.Value))
             .WithErrorCode("AedDevice.CoordinatesSwapped")
-            .WithMessage("The latitude and longitude look swapped.")
+            .WithMessage(_ => Lang.T("The latitude and longitude look swapped.", "Szerokość i długość geograficzna wyglądają na zamienione."))
             .When(x => x.Latitude.HasValue && x.Longitude.HasValue);
 
         validator.RuleFor(x => x.Latitude)
             .InclusiveBetween(MinLatitude, MaxLatitude)
             .WithErrorCode(OutsidePolandCode)
-            .WithMessage($"The latitude must be between {MinLatitude} and {MaxLatitude} (Poland).")
+            .WithMessage(_ => Lang.T($"The latitude must be between {MinLatitude} and {MaxLatitude} (Poland).", $"Szerokość geograficzna musi być między {MinLatitude} a {MaxLatitude} (Polska)."))
             .When(x => x.Latitude.HasValue && x.Longitude.HasValue
                        && !IsInPoland(x.Longitude.Value, x.Latitude.Value));
 
         validator.RuleFor(x => x.Longitude)
             .InclusiveBetween(MinLongitude, MaxLongitude)
             .WithErrorCode(OutsidePolandCode)
-            .WithMessage($"The longitude must be between {MinLongitude} and {MaxLongitude} (Poland).")
+            .WithMessage(_ => Lang.T($"The longitude must be between {MinLongitude} and {MaxLongitude} (Poland).", $"Długość geograficzna musi być między {MinLongitude} a {MaxLongitude} (Polska)."))
             .When(x => x.Latitude.HasValue && x.Longitude.HasValue
                        && !IsInPoland(x.Longitude.Value, x.Latitude.Value));
     }

@@ -45,7 +45,8 @@ public sealed class DcatCatalogWriterTests
         Fields = [],
         Dictionaries = [],
         TemplateUrl = "https://aed.example/api/open-data/wzorcowy-zakres-danych-aed.xlsx",
-        DcatUrl = "https://aed.example/api/open-data/catalog.rdf"
+        DcatUrl = "https://aed.example/api/open-data/catalog.rdf",
+        HarvesterUrl = "https://aed.example/api/open-data/aed.xml"
     };
 
     [Test]

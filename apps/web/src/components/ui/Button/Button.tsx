@@ -19,8 +19,7 @@ type ButtonOwnProps<E extends ElementType = 'button'> = {
     active?: boolean
     block?: boolean
     className?:
-        | string
-        | ((state: { active: boolean; unclickable: boolean }) => string)
+        string | ((state: { active: boolean; unclickable: boolean }) => string)
     clickFeedback?: boolean
     disabled?: boolean
     icon?: string | ReactNode
@@ -29,13 +28,7 @@ type ButtonOwnProps<E extends ElementType = 'button'> = {
     shape?: TypeAttributes.Shape
     size?: TypeAttributes.ControlSize
     variant?:
-        | 'solid'
-        | 'subtle'
-        | 'default'
-        | 'ghost'
-        | 'link'
-        | 'edit'
-        | 'danger'
+        'solid' | 'subtle' | 'default' | 'ghost' | 'link' | 'edit' | 'danger'
     iconAlignment?: 'start' | 'end'
     ref?: React.Ref<HTMLButtonElement>
 }
@@ -182,9 +175,10 @@ const Button = <E extends ElementType = 'button'>(props: ButtonProps<E>) => {
 
     const editColor = () => {
         const btn = {
-            bgColor: active ? `bg-sky-600` : `bg-sky-500`,
+            // sky-700 / 800: white text 5.9:1 and more (sky-500 had 2.8:1, below WCAG 1.4.3).
+            bgColor: active ? `bg-sky-800` : `bg-sky-700`,
             textColor: 'text-white',
-            hoverColor: active ? '' : `hover:bg-sky-600`,
+            hoverColor: active ? '' : `hover:bg-sky-800`,
             activeColor: ``,
         }
         return getBtnColor(btn)

@@ -77,3 +77,12 @@
   }
   
 }
+/* WCAG 2.3.3: no sliding or zooming windows for people who turned animations off. */
+@media (prefers-reduced-motion: reduce) {
+  .drawer-content,
+  .drawer-overlay,
+  .dialog-content,
+  .dialog-overlay {
+    transition-duration: 0.01ms !important;
+  }
+}

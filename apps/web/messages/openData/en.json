@@ -29,7 +29,7 @@
         "step2Title": "Publish on dane.gov.pl",
         "step2": "Create a data set in the “Health” category, choose CC0 1.0 or CC BY 4.0 and add the file as a resource. Instead of uploading by hand, you can give the stable address where your system publishes it.",
         "step3Title": "Join the national data set",
-        "step3": "AED Radar merges the data of all holders into one data set, marks duplicates and records to verify, and keeps the source of every record. Importing holders' files – coming soon in the panel."
+        "step3": "AED Radar merges the data of all holders into one data set. The CSV or GeoJSON import (a file or a stable URL) checks every row, updates records by the holder's id, marks possible duplicates from other sources and records to verify, and keeps the source of every record. CSV template: /api/v1/AedImport/template.csv."
     },
     "sources": {
         "heading": "Sources in the data set",

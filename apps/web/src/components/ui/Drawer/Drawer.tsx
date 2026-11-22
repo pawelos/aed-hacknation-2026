@@ -31,6 +31,10 @@ export interface DrawerProps extends CommonProps {
     width?: number | string
     title?: string | ReactNode
     ref?: Ref<HTMLDivElement>
+    /** Id of the element that names the window (its heading), for screen readers. */
+    labelledBy?: string
+    /** Accessible name of the close button (e.g. "Zamknij"). */
+    closeLabel?: string
 }
 
 const DEFAULT_SIZE = 370
@@ -47,6 +51,8 @@ const DrawerContent = (props: DrawerProps) => {
         footer,
         lockScroll = true,
         ref: propRef,
+        labelledBy,
+        closeLabel,
         onClose,
         overlayClassName,
         placement = 'right',
@@ -84,18 +90,16 @@ const DrawerContent = (props: DrawerProps) => {
 
         if (isHorizontal) {
             return {
-                [placement]: `${value}${width}${
-                    typeof width === 'number' && 'px'
-                }`,
+                // A number is in pixels, a string keeps its unit ("100vw").
+                [placement]: `${value}${typeof width === 'number' ? `${width}px` : width}`,
                 width: width,
             }
         }
 
         if (isVertical) {
             return {
-                [placement]: `${value}${height}${
-                    typeof height === 'number' && 'px'
-                }`,
+                // A number is in pixels, a string keeps its unit ("100vw").
+                [placement]: `${value}${typeof height === 'number' ? `${height}px` : height}`,
                 height: height,
             }
         }
@@ -140,6 +144,7 @@ const DrawerContent = (props: DrawerProps) => {
         <CloseButton
             absolute
             className="ltr:right-4 rtl:left-4 top-3 hover:bg-gray-100 hover:dark:bg-gray-700 rounded-lg"
+            aria-label={closeLabel}
             onClick={() => onClose?.(context.open as boolean)}
         />
     )
@@ -172,7 +177,7 @@ const DrawerContent = (props: DrawerProps) => {
                                     ...(isHorizontal ? { width } : { height }),
                                 }}
                                 ref={ref}
-                                aria-labelledby={context.labelId}
+                                aria-labelledby={labelledBy ?? context.labelId}
                                 aria-describedby={context.descriptionId}
                                 {...context.getFloatingProps(rest)}
                             >
@@ -186,7 +191,10 @@ const DrawerContent = (props: DrawerProps) => {
                                         {typeof title === 'string' ? (
                                             <h5>{title}</h5>
                                         ) : (
-                                            <span>{title}</span>
+                                            // A div, so a custom title may hold a heading.
+                                            <div className="min-w-0">
+                                                {title}
+                                            </div>
                                         )}
                                         {closable && renderCloseButton}
                                     </div>

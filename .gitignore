@@ -377,3 +377,6 @@ Thumbs.db
 
 # Local dev edge: own CA and certificate (deploy/scripts/local.sh certs)
 deploy/edge/local/certs/
+
+# Release images of the prototype (apps/tools/build-release.ps1)
+apps/release/

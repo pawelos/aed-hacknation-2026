@@ -3,7 +3,7 @@
 Strona `https://hacknation-2026.pl` (+ `www` → 301). Statyczny HTML i CSS, bez WordPressa. Na serwer trafia tylko `public/`, a busybox httpd w Dockerze serwuje te pliki bez zmian.
 
 Wygląd:
-- **Nagłówek** jak na stronie marketingowej Car Reminder: logo, menu podstron, zielony przycisk „Zaloguj” (→ `https://aed.hacknation-2026.pl/sign-in`), język z flagą.
+- **Nagłówek** jak na stronie marketingowej Car Reminder: logo, menu podstron, zielony przycisk „Zaloguj” (→ aplikacja w języku strony: `https://aed.hacknation-2026.pl/pl` lub `/en`; lokalnie `site.js` podmienia adres na `http://localhost:3060/<język>`, a na `*.test` na `https://aed.hacknation-2026.test/<język>`), język z flagą.
 - **Ikony** w rozmiarach z aplikacji Car Reminder: przyciski 40 px, ikony 20 px, flaga 24 px. Lista języków ma pole „Szukaj…” i ✓ przy wybranym.
 - **Strona główna** w układzie strony logowania: tekst i przycisk po lewej, ilustracja po prawej.
 - **Podstrony** mają baner ze ścieżką „Start › Kontakt”.
@@ -33,7 +33,8 @@ Wygląd:
 | `public/styles.css` | Style: tokeny kolorów, tryb jasny i ciemny, nagłówek, menu, mobile-first |
 | `public/assets/site.js` | Jedyny skrypt: przełącznik motywu, wyszukiwarka języków, zamykanie menu (Esc, kliknięcie obok) |
 | `public/assets/hero.svg` | Ilustracja strony głównej |
-| `public/assets/logo.svg`, `favicon.svg` | Placeholder, do podmiany na logo z księgi znaku |
+| `public/assets/logo.svg`, `favicon.svg` | Sygnet z księgi znaku, kopiowany przez `../brand/build.ps1` (nie edytować ręcznie) |
+| `public/assets/brand/` | Księga znaku (PDF) i ZIP z logo, do pobrania ze strony „Materiały”; tworzy je `../brand/build.ps1` |
 | `public/assets/og-*.png`, `apple-touch-icon.png` | Wynik `og.ps1` (commitowany) |
 | `public/robots.txt` | SEO: zezwala na wszystko, wskazuje `sitemap.xml` |
 | `docker-compose.yml` | Szybki podgląd po HTTP (`http://localhost:8080`) |
@@ -94,7 +95,8 @@ Po wdrożeniu (jednorazowo, ręcznie):
 ## Podgląd lokalny
 
 - **HTTPS jak na serwerze** (Traefik, `https://hacknation-2026.test`): [`../deploy/edge/local/README.md`](../deploy/edge/local/README.md), potem `./deploy/scripts/local.sh up`.
-- **Szybko po HTTP:** `docker compose -f site/docker-compose.yml up` → `http://localhost:8080`.
+- **W Aspire:** AppHost (`apps/api/Aed/AppHost`) uruchamia zasób `site` (ten sam kontener busybox) → `http://localhost:8080`, link jest w dashboardzie obok `web` i `api`.
+- **Szybko po HTTP:** `docker compose -f site/docker-compose.yml up` → `http://localhost:8080`. Port jest ten sam co w Aspire, więc naraz może działać tylko jedno z nich.
 - **Bez Dockera:** otwórz `site/public/index.html` z dysku (ścieżki są względne).
 
 ## Zasady

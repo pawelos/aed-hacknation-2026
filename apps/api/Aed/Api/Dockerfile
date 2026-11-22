@@ -19,6 +19,6 @@ RUN dotnet publish "Aed.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAp
 
 FROM base AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=build /app/publish .
 ENV ASPNETCORE_URLS=http://+:8080
 ENTRYPOINT ["dotnet", "Aed.dll"]

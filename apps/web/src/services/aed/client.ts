@@ -67,6 +67,24 @@ export function searchAeds(q: string, signal?: AbortSignal) {
     return get<AedSearchResponse>('search', new URLSearchParams({ q }), signal)
 }
 
+/** Sends a correction report; website is the hidden honeypot field (empty for people). */
+export async function sendReport(
+    id: string,
+    report: { message: string; reporterContact: string; website: string },
+    locale: string,
+): Promise<ApiResult<null>> {
+    const response = await fetch(`/api/aed/${encodeURIComponent(id)}/report`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'Accept-Language': locale },
+        body: JSON.stringify(report),
+    })
+    try {
+        return (await response.json()) as ApiResult<null>
+    } catch {
+        return { value: null, isSuccess: false, error: { code: 'Network', description: response.statusText } }
+    }
+}
+
 export function fetchCard(id: string, signal?: AbortSignal) {
     return get<AedCard>(encodeURIComponent(id), new URLSearchParams(), signal)
 }

@@ -1,0 +1,9 @@
+id_zrodlowe;Nazwa;Adres;Kod pocztowy;Miasto;Województwo;Szerokość geograficzna;Długość geograficzna;Gdzie;rodzaj_obiektu;dostepnosc;Godziny otwarcia;Telefon;status_urzadzenia;data_ostatniej_weryfikacji;Kolor obudowy
+WRO-001;Urząd Miejski – Nowy Ratusz;Sukiennice 9;50-107;Wrocław;dolnośląskie;51,109650;17,031900;Parter, przy punkcie informacyjnym;urzad;w_godzinach_otwarcia;Mo-Fr 07:30-15:30;71 777 00 00;sprawny;2026-11-20;zielony
+WRO-003;Biuro Obsługi Mieszkańców;ul. Zapolskiej 4;50032;Wrocław;dolnośląskie;51,104300;17,025700;Hol główny, obok biletomatu;urzad;w_godzinach_otwarcia;Mo-Fr 08:00-17:00;+48 71 777 00 00;sprawny;2026-11-20;zielony
+WRO-013;Centrum Kultury (przykład);ul. Teatralna 3;50-051;Wrocław;dolnośląskie;51,106900;17,031200;Foyer, przy szatni;kultura_turystyka;w_godzinach_otwarcia;Tu-Su 10:00-20:00;71 777 00 13;sprawny;2026-11-20;czerwony
+WRO-014;Przystanek – kapsuła AED (przykład);pl. Dominikański;50-159;Wrocław;dolnośląskie;17,040500;51,108600;Szafka przy wiacie;szafka_zewnetrzna;calodobowa;;;sprawny;2026-11-20;zielony
+WRO-015;Filia biblioteki (przykład);ul. Książkowa 8;53-002;Wrocław;dolnośląskie;51,099000;17,005000;Wypożyczalnia;biblioteka;w_godzinach_otwarcia;pon-pt 10-18;brak telefonu;sprawny;2023-05-10;zielony
+WRO-016;;ul. Bez Nazwy 1;50-001;Wrocław;dolnośląskie;51,110000;17,030000;;urzad;w_godzinach_otwarcia;;;sprawny;;zielony
+WRO-017;Punkt w Berlinie (błąd);Alexanderplatz 1;10178;Berlin;dolnośląskie;52,521900;13,413200;;inne;calodobowa;24/7;;sprawny;;zielony
+WRO-013;Centrum Kultury – drugi wiersz (błąd);ul. Teatralna 3;50-051;Wrocław;dolnośląskie;51,106900;17,031200;;kultura_turystyka;w_godzinach_otwarcia;;;sprawny;;zielony

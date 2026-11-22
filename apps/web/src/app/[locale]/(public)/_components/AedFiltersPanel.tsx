@@ -3,6 +3,7 @@
 import { useId } from 'react'
 import { useTranslations } from 'next-intl'
 import Checkbox from '@/components/ui/Checkbox'
+import LookupSelect from '@/components/shared/LookupSelect'
 import {
     AED_AVAILABILITIES,
     FACILITY_TYPES,
@@ -32,13 +33,20 @@ const AedFiltersPanel = ({ filters, onChange }: AedFiltersPanelProps) => {
                     {AED_AVAILABILITIES.map((availability) => (
                         <Checkbox
                             key={availability}
-                            checked={filters.availability.includes(availability)}
+                            checked={filters.availability.includes(
+                                availability,
+                            )}
                             onChange={(checked) =>
                                 onChange({
                                     ...filters,
                                     availability: checked
-                                        ? [...filters.availability, availability]
-                                        : filters.availability.filter((a) => a !== availability),
+                                        ? [
+                                              ...filters.availability,
+                                              availability,
+                                          ]
+                                        : filters.availability.filter(
+                                              (a) => a !== availability,
+                                          ),
                                 })
                             }
                         >
@@ -58,23 +66,53 @@ const AedFiltersPanel = ({ filters, onChange }: AedFiltersPanelProps) => {
                 >
                     {t('filters.facilityType')}
                 </label>
-                <select
-                    id={facilityId}
-                    value={filters.facilityType}
-                    onChange={(e) => onChange({ ...filters, facilityType: e.target.value as FacilityType | '' })}
-                    className="h-10 rounded-lg border border-gray-300 bg-white px-3 text-gray-900 focus-visible:outline-2 focus-visible:outline-primary dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100"
-                >
-                    <option value="">{t('filters.anyFacility')}</option>
-                    {FACILITY_TYPES.map((type) => (
-                        <option key={type} value={type}>
-                            {tEnums(`facilityType.${type}`)}
-                        </option>
-                    ))}
-                </select>
+                <div className="sm:w-72">
+                    <LookupSelect
+                        label={t('filters.facilityType')}
+                        fieldProps={{ id: facilityId, 'aria-invalid': false }}
+                        value={filters.facilityType}
+                        options={FACILITY_TYPES.map((type) => ({
+                            value: type,
+                            label: tEnums(`facilityType.${type}`),
+                        }))}
+                        placeholder={t('filters.anyFacility')}
+                        clearable
+                        onChange={(next) =>
+                            onChange({
+                                ...filters,
+                                facilityType: next as FacilityType | '',
+                            })
+                        }
+                        texts={{
+                            open: t('filters.lookupOpen', {
+                                label: t('filters.facilityType'),
+                            }),
+                            searchLabel: t('filters.lookupSearchLabel', {
+                                label: t('filters.facilityType'),
+                            }),
+                            search: t('filters.lookupSearch'),
+                            placeholder: t('filters.anyFacility'),
+                            nameHeader: t('filters.colName'),
+                            empty: t('filters.lookupEmpty'),
+                            clear: t('filters.lookupClear'),
+                            close: t('filters.close'),
+                            selected: t('filters.lookupSelected'),
+                            count: (shown, total) =>
+                                t('filters.lookupCount', { shown, total }),
+                        }}
+                    />
+                </div>
             </div>
 
-            <Checkbox checked={filters.openNow} onChange={(checked) => onChange({ ...filters, openNow: checked })}>
-                <span className="font-semibold text-gray-800 dark:text-gray-200">{t('filters.openNow')}</span>
+            <Checkbox
+                checked={filters.openNow}
+                onChange={(checked) =>
+                    onChange({ ...filters, openNow: checked })
+                }
+            >
+                <span className="font-semibold text-gray-800 dark:text-gray-200">
+                    {t('filters.openNow')}
+                </span>
             </Checkbox>
         </div>
     )

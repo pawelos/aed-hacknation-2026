@@ -43,7 +43,7 @@
   },
   "descriptions": {
     "home": "AED Radar łączy rozproszone dane o defibrylatorach AED w jeden otwarty zbiór w portalu dane.gov.pl. Projekt zespołu na HackNation 2026 (zadanie „Misja AED – Dane na ratunek”).",
-    "solution": "Mapa najbliższych AED, panel dysponenta, walidacja danych i eksport do dane.gov.pl (CSV, GeoJSON). Zobacz, jak AED Radar zbiera, sprawdza i publikuje dane o defibrylatorach.",
+    "solution": "Mapa najbliższych AED, panel dysponenta, walidacja danych i wykaz dostawcy w dane.gov.pl (import XML, CSV, GeoJSON). Zobacz, jak AED Radar zbiera, sprawdza i publikuje dane o defibrylatorach.",
     "audience": "AED Radar pomaga służbom ratowniczym wskazać najbliższy defibrylator, a samorządom, szkołom, firmom i OSP udostępnić dane o swoich AED. Dodanie urządzenia zajmuje kilka minut.",
     "materials": "Prototyp aplikacji, repozytorium kodu, wideo demo, wzorcowy zakres danych o AED (XLSX) i prezentacja projektu AED Radar z HackNation 2026.",
     "team": "Poznaj zespół AED Radar, który na HackNation 2026 buduje otwarty zbiór danych o defibrylatorach AED. Opisujemy też, w czym pomagała nam sztuczna inteligencja.",

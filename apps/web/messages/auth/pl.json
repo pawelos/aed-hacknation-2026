@@ -1,0 +1,21 @@
+{
+    "metaTitle": "Logowanie do panelu dysponenta – AED Radar",
+    "title": "Panel dysponenta",
+    "intro": "Zaloguj się, aby dodawać i aktualizować defibrylatory swojej organizacji, importować pliki CSV i GeoJSON oraz rozpatrywać zgłoszenia poprawek.",
+    "email": "E-mail",
+    "password": "Hasło",
+    "submit": "Zaloguj",
+    "required": "To pole jest wymagane.",
+    "invalidEmail": "Podaj poprawny adres e-mail.",
+    "demo": "Konta demonstracyjne prototypu podaje zespół (README).",
+    "back": "Wróć do mapy AED",
+    "invalidCredentials": "Nieprawidłowy e-mail lub hasło.",
+    "lockedOut": "Zbyt wiele nieudanych prób. Spróbuj ponownie za 15 minut.",
+    "quickFill": {
+        "title": "Szybkie wypełnienie (konta demonstracyjne)",
+        "wroclaw": "Dysponent – Wrocław",
+        "osp": "Dysponent – OSP",
+        "admin": "Administrator",
+        "hint": "Prototyp: wybierz konto demonstracyjne powyżej i kliknij „Zaloguj”."
+    }
+}

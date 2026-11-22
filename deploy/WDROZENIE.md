@@ -86,13 +86,60 @@ cd ~/hacknation-2026 && chmod +x deploy/scripts/*.sh
 - certyfikaty: `cd ~/car-reminder-deploy && ./scripts/edge.sh logs traefik`, bez błędów `Unable to obtain ACME certificate` dla nowych hostów (Ctrl+C);
 - car-reminder działa bez zmian: `https://car-reminder.com`, `https://api.car-reminder.com/health`.
 
+## Prototyp aed.hacknation-2026.pl
+
+Prototyp ma trzy kontenery: `aed-postgres` (PostGIS), `aed-api` (.NET) i `aed-web` (Next.js), opisane w `deploy/stacks/app.yml`. Stoją za tym samym Traefikiem, z własnym certyfikatem dla `aed.hacknation-2026.pl`. Ścieżki `/api/v1`, `/scalar` i `/openapi` trafiają do API, reszta do web, który obsługuje też pobieranie otwartych danych (`/api/open-data/...`). Obrazy buduje pipeline, więc serwer nie ma kodu źródłowego.
+
+### Pierwsze wdrożenie
+
+1. **DNS:** rekord A `aed` → `152.228.135.251` (krok 2, punkt 3). Sprawdź: `nslookup aed.hacknation-2026.pl`.
+2. **Commit + push** do `main`.
+3. **Azure DevOps → Pipelines → pipeline `deploy` → Run.** Stage `Build` buduje obrazy `aed/api` i `aed/web` (pierwszy raz ok. 10 min), a stage `Deploy` kopiuje je na VPS i uruchamia wizytówkę oraz prototyp. W Azure DevOps nic nie trzeba konfigurować na nowo: to ten sam service connection `vps-hacknation` i environment `hacknation`.
+4. Przy pierwszym `app up` skrypt tworzy `~/hacknation-2026/aed.env` z losowym hasłem bazy i kluczem JWT (`chmod 600`). Zapisz kopię w menedżerze haseł:
+
+   ```bash
+   cat ~/hacknation-2026/aed.env
+   ```
+
+   Konta panelu (`admin@aed.local` i konta demo) powstaną dopiero po wpisaniu `SEED_ADMIN_PASSWORD` / `SEED_DEMO_PASSWORD` w tym pliku i ponownym `app up`. Hasło musi mieć min. 10 znaków, w tym wielką i małą literę oraz cyfrę. Opis zmiennych jest w `deploy/stacks/aed.env.example`.
+
+   Strona logowania (`/pl/sign-in`) ma wtedy „Szybkie wypełnienie”: Dysponent – Wrocław, Dysponent – OSP, Administrator. To te same hasła, więc jury loguje się jednym kliknięciem. Przy włączonym przełączniku hasła kont demo są widoczne dla każdego. Wyłącza go `DEMO_LOGIN=false` w `aed.env` i ponowne `app up`.
+
+### Wdrożenie ręczne (bez pipeline'u)
+
+```powershell
+cd C:\hacknation-2026\AED\apps
+.\tools\build-release.ps1
+```
+
+WinSCP: `apps\release\<wersja>\images.tar.gz` → `/home/ubuntu/deploy-in/`, a paczka `site` + `deploy` jak w kroku 4. Na VPS:
+
+```bash
+cd ~/hacknation-2026
+./deploy/scripts/deploy.sh app load ~/deploy-in/images.tar.gz
+./deploy/scripts/deploy.sh app up
+./deploy/scripts/deploy.sh app health
+```
+
+### Weryfikacja
+
+- `https://aed.hacknation-2026.pl/pl`: mapa z kłódką i pinezkami, „Najbliższe AED” (przeglądarka pyta o lokalizację);
+- `https://aed.hacknation-2026.pl/pl/open-data`: pobieranie CSV, GeoJSON, JSON i XLSX;
+- `https://aed.hacknation-2026.pl/api/open-data/catalog.rdf`: katalog DCAT-AP-PL z adresami `https://aed.hacknation-2026.pl/...`;
+- `https://aed.hacknation-2026.pl/scalar`: dokumentacja API;
+- wizytówka i car-reminder działają bez zmian.
+
 ## Obsługa
 
 ```bash
 cd ~/hacknation-2026
-./deploy/scripts/deploy.sh ps | logs | down | config
+./deploy/scripts/deploy.sh ps | logs | down | config                  # wizytówka
+./deploy/scripts/deploy.sh app ps | app logs | app down | app config  # prototyp
+./deploy/scripts/deploy.sh prune                                      # stare obrazy aed/*
 ```
 
-- Zmiana treści: commit + push do `main`, potem **Run** pipeline'u (ok. 1 min). `deploy.sh up` za każdym razem tworzy kontener od nowa. Pipeline podmienia katalog `site/`, a działający kontener widziałby wtedy usunięty, pusty katalog (404 wszędzie).
+- **Dane prototypu:** są w wolumenie `aed-postgres-data`. `app down` i kolejne wdrożenia go nie usuwają. Dane demo wgrywają się tylko do pustej bazy.
+- **Zmiana kodu prototypu:** commit + push, potem **Run** pipeline'u. Pipeline buduje nowe obrazy i zostawia na serwerze tylko bieżącą wersję.
+- **Zmiana treści wizytówki:** commit + push do `main`, potem **Run** pipeline'u. `deploy.sh up` za każdym razem tworzy kontener od nowa. Pipeline podmienia katalog `site/`, a działający kontener widziałby wtedy usunięty, pusty katalog (404 wszędzie).
 - Gdy certyfikat się nie wystawia, najczęściej DNS jeszcze nie wskazuje na VPS albo jest stary rekord AAAA. Let's Encrypt pozwala na 5 nieudanych prób na godzinę dla hosta.
-- Po hackathonie: `./deploy/scripts/deploy.sh down` zwalnia zasoby.
+- Po hackathonie: `./deploy/scripts/deploy.sh down` i `./deploy/scripts/deploy.sh app down` zwalniają zasoby.

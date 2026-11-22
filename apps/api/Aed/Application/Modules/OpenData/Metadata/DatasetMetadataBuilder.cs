@@ -80,7 +80,8 @@ internal sealed class DatasetMetadataBuilder(IApplicationDbContext dbContext, IO
                 s.ReferenceScope,
                 s.Records,
                 s.LastVerifiedAt,
-                $"{downloads}{OpenDataConstant.FileName(OpenDataFormat.Csv)}?zrodlo={s.Id}"))
+                $"{downloads}{OpenDataConstant.FileName(OpenDataFormat.Csv)}?zrodlo={s.Id}",
+                $"{downloads}{Harvester.GetHarvesterFileQueryHandler.FileBase(s.Id)}.xml"))
             .ToList();
 
         // The aggregate needs attribution as soon as one source does.
@@ -122,7 +123,8 @@ internal sealed class DatasetMetadataBuilder(IApplicationDbContext dbContext, IO
                 .ToList(),
             Dictionaries = AedDataSchema.Dictionaries,
             TemplateUrl = downloads + OpenDataConstant.TemplateFileName,
-            DcatUrl = downloads + "catalog.rdf"
+            DcatUrl = downloads + "catalog.rdf",
+            HarvesterUrl = downloads + Harvester.GetHarvesterFileQueryHandler.FileBase(null) + ".xml"
         };
     }
 

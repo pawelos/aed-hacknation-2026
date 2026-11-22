@@ -3,6 +3,7 @@ using Api.Extensions;
 using Application.Modules.OpenData;
 using Application.Modules.OpenData.Dcat;
 using Application.Modules.OpenData.Export;
+using Application.Modules.OpenData.Harvester;
 using Application.Modules.OpenData.Metadata;
 using Application.Modules.OpenData.Template;
 using Microsoft.AspNetCore.Authorization;
@@ -96,6 +97,52 @@ public class OpenDataController : BaseApiController
         ToFile(await Sender.Send(new GetDcatCatalogQuery(), cancellationToken), inline: true);
 
     /// <summary>
+    /// File of the dane.gov.pl XML importer (schema 1.13) for the whole integrated data set. The portal downloads
+    /// it on a schedule, checks it against <c>aed.md5</c> and creates or updates the data set.
+    /// </summary>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    [HttpGet("aed.xml")]
+    [HttpHead("aed.xml")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public Task<IActionResult> HarvesterXml(CancellationToken cancellationToken) =>
+        Harvester(null, checksum: false, cancellationToken);
+
+    /// <summary>
+    /// MD5 of <c>aed.xml</c> (lower-case hex), read by the portal before the import.
+    /// </summary>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    [HttpGet("aed.md5")]
+    [HttpHead("aed.md5")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public Task<IActionResult> HarvesterMd5(CancellationToken cancellationToken) =>
+        Harvester(null, checksum: true, cancellationToken);
+
+    /// <summary>
+    /// XML importer file of one provider's wykaz (one data source, id without dashes). The provider registers
+    /// this address in dane.gov.pl under its own institution and is responsible for the data.
+    /// </summary>
+    /// <param name="zrodlo">Id of the data source (32 hex digits).</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    [HttpGet("aed-{zrodlo:guid}.xml")]
+    [HttpHead("aed-{zrodlo:guid}.xml")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public Task<IActionResult> ProviderHarvesterXml(Guid zrodlo, CancellationToken cancellationToken) =>
+        Harvester(zrodlo, checksum: false, cancellationToken);
+
+    /// <summary>
+    /// MD5 of one provider's XML importer file.
+    /// </summary>
+    /// <param name="zrodlo">Id of the data source (32 hex digits).</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    [HttpGet("aed-{zrodlo:guid}.md5")]
+    [HttpHead("aed-{zrodlo:guid}.md5")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public Task<IActionResult> ProviderHarvesterMd5(Guid zrodlo, CancellationToken cancellationToken) =>
+        Harvester(zrodlo, checksum: true, cancellationToken);
+
+    /// <summary>
     /// XLSX template of the reference data set (fields, dictionaries, example). Documentation only: the data
     /// is published in CSV, GeoJSON and JSON.
     /// </summary>
@@ -112,6 +159,9 @@ public class OpenDataController : BaseApiController
         CancellationToken cancellationToken) =>
         // Opened in the browser (a portal preview reads it), saved under the file name.
         ToFile(await Sender.Send(new ExportAedQuery(format, voivodeship, dataSourceId), cancellationToken), inline: true);
+
+    private async Task<IActionResult> Harvester(Guid? dataSourceId, bool checksum, CancellationToken cancellationToken) =>
+        ToFile(await Sender.Send(new GetHarvesterFileQuery(dataSourceId, checksum), cancellationToken), inline: true);
 
     private IActionResult ToFile(Result<OpenDataFile> response, bool inline)
     {

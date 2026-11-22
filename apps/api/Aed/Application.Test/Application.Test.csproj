@@ -29,6 +29,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- Schema of the dane.gov.pl XML importer, from the portal source (data/harvester/xml_import_otwarte_dane_1_13.xsd). -->
+    <None Update="Modules\OpenData\Harvester\xml_import_otwarte_dane_1_13.xsd" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="NUnit.Framework" />
   </ItemGroup>
 

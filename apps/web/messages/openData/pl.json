@@ -29,7 +29,7 @@
         "step2Title": "Opublikuj w dane.gov.pl",
         "step2": "Załóż zbiór w kategorii „Zdrowie”, wybierz licencję CC0 1.0 albo CC BY 4.0 i dodaj plik jako zasób. Zamiast wgrywać plik ręcznie, możesz podać stały adres, pod którym Twój system go publikuje.",
         "step3Title": "Dołącz do zbioru krajowego",
-        "step3": "AED Radar łączy dane wszystkich dysponentów w jeden zbiór, oznacza duplikaty i rekordy do weryfikacji, a źródło każdego rekordu zostaje zapisane. Import plików od dysponentów – wkrótce w panelu."
+        "step3": "AED Radar łączy dane wszystkich dysponentów w jeden zbiór. Import CSV lub GeoJSON (plik albo stały adres URL) sprawdza każdy wiersz, aktualizuje rekordy po identyfikatorze dysponenta, oznacza możliwe duplikaty z innych źródeł i rekordy do weryfikacji, a źródło każdego rekordu zostaje zapisane. Szablon CSV: /api/v1/AedImport/template.csv."
     },
     "sources": {
         "heading": "Źródła w zbiorze",

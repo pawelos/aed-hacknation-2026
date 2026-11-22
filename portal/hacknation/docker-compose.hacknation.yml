@@ -1,0 +1,63 @@
+# Local run of the portal for HackNation 2026 (AED Radar), on top of docker-compose.local.yml:
+#   cd portal && docker compose -f docker-compose.local.yml -f hacknation/docker-compose.hacknation.yml up -d mcod-local-admin mcod-local-api mcod-local-celery
+# Changes:
+# - fixed project name, so volumes and networks do not depend on the folder name (portal/ in the AED repo);
+# - subnet 172.28.18.0/24 instead of 172.18.18.0/24 (that one collides with another local Docker network);
+# - admin on http://localhost:8001 and API on http://localhost:8000, no *.mcod.local names or hosts file needed;
+# - Elasticsearch with 512 MB heap (Docker has 4 GB in total).
+
+name: dane-gov-pl-portal
+
+networks:
+  backend:
+    ipam:
+      config:
+        - subnet: 172.28.18.0/24
+
+services:
+  mcod-db:
+    networks: { backend: { ipv4_address: 172.28.18.18 } }
+  mcod-rabbitmq:
+    networks: { backend: { ipv4_address: 172.28.18.19 } }
+  mcod-redis:
+    networks: { backend: { ipv4_address: 172.28.18.20 } }
+  mcod-elasticsearch:
+    environment:
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    networks: { backend: { ipv4_address: 172.28.18.21 } }
+  mcod-smtp:
+    networks: { backend: { ipv4_address: 172.28.18.22 } }
+  mcod-rdfdb:
+    networks: { backend: { ipv4_address: 172.28.18.23 } }
+  mcod-nginx:
+    networks: { backend: { ipv4_address: 172.28.18.100 } }
+  mcod-discourse:
+    networks: { backend: { ipv4_address: 172.28.18.140 } }
+  mcod-discourse-sidekiq:
+    networks: { backend: { ipv4_address: 172.28.18.141 } }
+  mcod-local-admin:
+    ports: ["127.0.0.1:8001:8001"]
+    networks: { backend: { ipv4_address: 172.28.18.101 } }
+  mcod-local-api:
+    ports: ["127.0.0.1:8000:8000"]
+    networks: { backend: { ipv4_address: 172.28.18.102 } }
+  mcod-local-cms:
+    ports: ["127.0.0.1:8002:8002"]
+    networks: { backend: { ipv4_address: 172.28.18.103 } }
+  mcod-local-ws:
+    networks: { backend: { ipv4_address: 172.28.18.104 } }
+  mcod-local-celery:
+    networks: { backend: { ipv4_address: 172.28.18.110 } }
+
+  # Stand-in for the internal Pelias geocoder (not in the public source): TERYT voivodeships for <regions>.
+  mcod-geocoder-stub:
+    container_name: mcod-geocoder-stub
+    image: mcod-app:local
+    entrypoint: []
+    command: ["python", "/stub/geocoder_stub.py"]
+    volumes:
+      - ./hacknation:/stub:ro
+    networks:
+      backend:
+        ipv4_address: 172.28.18.30
+        aliases: [geocoder.mcod.local, placeholder.mcod.local]

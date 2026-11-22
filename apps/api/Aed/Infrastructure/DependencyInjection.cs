@@ -44,6 +44,7 @@ public static class DependencyInjection
         services.AddHttpContextAccessor();
         services.Configure<SeedOptions>(configuration.GetSection(SeedOptions.SectionName));
         services.Configure<OpenDataOptions>(configuration.GetSection(OpenDataOptions.SectionName));
+        services.AddSingleton<Application.Abstractions.Import.IImportDownloader, Import.ImportDownloader>();
 
         AddDatabase(services, configuration);
         AddAuthentication(services, configuration);

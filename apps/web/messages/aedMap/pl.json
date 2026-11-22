@@ -22,7 +22,16 @@
         "availability": "Dostępność",
         "facilityType": "Rodzaj miejsca",
         "anyFacility": "Każde",
-        "openNow": "Tylko dostępne teraz"
+        "openNow": "Tylko dostępne teraz",
+        "lookupOpen": "Wybierz z listy: {label}",
+        "lookupSearchLabel": "Szukaj w liście: {label}",
+        "lookupSearch": "Szukaj…",
+        "colName": "Nazwa",
+        "lookupEmpty": "Brak wyników.",
+        "lookupClear": "Wyczyść",
+        "close": "Zamknij",
+        "lookupSelected": "wybrane",
+        "lookupCount": "Pokazano {shown} z {total}"
     },
     "view": {
         "label": "Widok",
@@ -68,8 +77,22 @@
         "coordinates": "Współrzędne",
         "navigate": "Nawiguj",
         "report": "Zgłoś poprawkę",
-        "reportSoon": "Zgłaszanie poprawek – wkrótce",
         "notFound": "Nie znaleziono tego AED.",
-        "openSource": "Otwórz źródło (nowa karta)"
+        "openSource": "Otwórz źródło (nowa karta)",
+        "hoursAlways": "całą dobę",
+        "hoursHolidays": "święta",
+        "hoursClosed": "nieczynne"
+    },
+    "reportDialog": {
+        "title": "Zgłoś poprawkę",
+        "intro": "Coś się nie zgadza (urządzenie zamknięte, przeniesione, brak szafki)? Opisz to – dysponent zobaczy zgłoszenie w panelu.",
+        "message": "Co jest nie tak?",
+        "contact": "Twój e-mail lub telefon (opcjonalnie)",
+        "contactHint": "Tylko do ewentualnych pytań dysponenta.",
+        "send": "Wyślij zgłoszenie",
+        "sent": "Dziękujemy! Zgłoszenie trafiło do dysponenta.",
+        "tooShort": "Opisz problem w co najmniej 10 znakach.",
+        "error": "Nie udało się wysłać zgłoszenia. Spróbuj ponownie.",
+        "close": "Zamknij"
     }
 }

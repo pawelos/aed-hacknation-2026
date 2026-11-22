@@ -12,7 +12,10 @@
     "language": {
         "label": "Język",
         "pl": "Polski",
-        "en": "English"
+        "en": "English",
+        "search": "Szukaj…",
+        "searchLabel": "Szukaj języka",
+        "empty": "Brak wyników"
     },
     "theme": {
         "dark": "Włącz tryb ciemny",
@@ -23,6 +26,14 @@
     "nav": {
         "label": "Menu główne",
         "map": "Mapa",
-        "openData": "Otwarte dane"
+        "openData": "Otwarte dane",
+        "panel": "Panel",
+        "openDataShort": "Dane"
+    },
+    "notFound": {
+        "metaTitle": "Nie znaleziono strony – AED Radar",
+        "title": "Nie ma takiej strony",
+        "body": "Adres jest nieprawidłowy albo strona została przeniesiona.",
+        "map": "Wróć do mapy AED"
     }
 }

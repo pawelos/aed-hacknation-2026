@@ -138,7 +138,34 @@
     });
   }
 
+  // Links to the app point at production (https://aed.hacknation-2026.pl/<lang>). On this computer they go to the
+  // local app instead: localhost -> the Aspire dev server (port 3060), *.test -> the local Traefik (deploy/edge/local).
+  var APP_URL = 'https://aed.hacknation-2026.pl';
+
+  function localAppUrl() {
+    var host = location.hostname;
+    if (host === 'localhost' || host === '127.0.0.1') {
+      return 'http://localhost:3060';
+    }
+    if (/\.test$/.test(host)) {
+      return location.protocol + '//aed.hacknation-2026.test' + (location.port ? ':' + location.port : '');
+    }
+    return null;
+  }
+
+  function setupAppLinks() {
+    var local = localAppUrl();
+    if (!local) {
+      return;
+    }
+    var links = document.querySelectorAll('a[href^="' + APP_URL + '"]');
+    Array.prototype.forEach.call(links, function (a) {
+      a.setAttribute('href', local + a.getAttribute('href').slice(APP_URL.length));
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
+    setupAppLinks();
     setupTheme();
     setupLanguageSearch();
     setupDropdowns();

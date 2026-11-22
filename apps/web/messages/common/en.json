@@ -12,7 +12,10 @@
     "language": {
         "label": "Language",
         "pl": "Polski",
-        "en": "English"
+        "en": "English",
+        "search": "Search…",
+        "searchLabel": "Search language",
+        "empty": "No results"
     },
     "theme": {
         "dark": "Switch to dark mode",
@@ -23,6 +26,14 @@
     "nav": {
         "label": "Main menu",
         "map": "Map",
-        "openData": "Open data"
+        "openData": "Open data",
+        "panel": "Panel",
+        "openDataShort": "Data"
+    },
+    "notFound": {
+        "metaTitle": "Page not found – AED Radar",
+        "title": "Page not found",
+        "body": "The address is wrong or the page has moved.",
+        "map": "Back to the AED map"
     }
 }

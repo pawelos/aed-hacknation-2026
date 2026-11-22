@@ -19,7 +19,7 @@ Zasady:
 - **Kodowanie i CSV**: UTF-8. CSV według RFC 4180: bez BOM, separator przecinek, CRLF, nagłówek z nazwami pól.
 - **GeoJSON**: zgodny z RFC 7946. Geometria `Point` [długość, szerokość], wszystkie pola w `properties`.
 - **Współrzędne**: WGS 84 (EPSG:4326), 6 miejsc po kropce.
-- **Daty**: `YYYY-MM-DD`. Data i czas: ISO 8601 w UTC.
+- **Daty**: `YYYY-MM-DD`. Data i czas: `YYYY-MM-DD hh:mm:ss` w UTC. To jeden z formatów, które dane.gov.pl przyjmuje w danych tabelarycznych (`DATE_FORMATS`). Zapis ISO 8601 z `T…Z` portal odrzuca i nie buduje wtedy tabeli (sprawdzone na lokalnym portalu).
 - **Godziny dostępności**: format OpenStreetMap `opening_hours`. Na jego podstawie API liczy „dostępne teraz”.
 - **Świeżość plików**: pliki generowane są z bazy przy każdym pobraniu (stały adres, nagłówki `Last-Modified` i `Cache-Control: max-age=300`) i dostępne dla innych serwisów (CORS `*`).
 - **Licencja zbioru**: najbardziej wymagająca z licencji źródeł (obecnie CC-BY-4.0). Każdy rekord ma też własną licencję w polu `licencja_danych`.
@@ -68,7 +68,7 @@ Zasady:
 | 26 | `zakres_referencyjny` | tekst | tak | 500 | tekst | Zakres, którego dotyczy źródło (obszar i rodzaj obiektów), np. „Gmina Wrocław – budynki miejskie”. |
 | 27 | `data_ostatniej_weryfikacji` | data | nie |  | YYYY-MM-DD | Kiedy dysponent ostatnio potwierdził dane (czas polski). |
 | 28 | `wymaga_weryfikacji` | logiczny | tak |  | true / false | true, gdy rekord czeka na sprawdzenie (ostrzeżenie importu, zgłoszenie, weryfikacja starsza niż 12 miesięcy). |
-| 29 | `data_aktualizacji` | data i czas | tak |  | ISO 8601 UTC, YYYY-MM-DDThh:mm:ssZ | Kiedy rekord ostatnio zmieniono w zbiorze krajowym. |
+| 29 | `data_aktualizacji` | data i czas | tak |  | YYYY-MM-DD hh:mm:ss (UTC); format z listy dozwolonych w dane.gov.pl | Kiedy rekord ostatnio zmieniono w zbiorze krajowym. |
 
 Pola z zadania („Proponowany schemat danych”) są zachowane pod tymi samymi nazwami. Jedyna zmiana pisowni: `wlasciciel_dysponent` (w zadaniu `wlasiciel_dysponent`). Dodaliśmy pola potrzebne w nagłej sytuacji i przy integracji:
 - `lokalizacja_szczegolowa`, `wewnatrz_budynku` i `uwagi_dostepu`: gdzie dokładnie wisi urządzenie i jak się do niego dostać. Odpowiadają na problem AED zamkniętych na klucz;

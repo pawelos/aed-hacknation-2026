@@ -13,7 +13,12 @@ const FILES = new Set([
     'metadata.json',
     'catalog.rdf',
     'wzorcowy-zakres-danych-aed.xlsx',
+    'aed.xml',
+    'aed.md5',
 ])
+
+/** XML importer file of one provider's wykaz and its MD5 (`aed-<data source id>.xml` / `.md5`). */
+const PROVIDER_FILE = /^aed-[0-9a-f]{32}\.(xml|md5)$/
 
 /** Response headers passed on from the API. */
 const PASSED_HEADERS = [
@@ -28,7 +33,7 @@ const PASSED_HEADERS = [
 /** Forwards a download to the API (`api/v1/OpenData/<file>`) with its query (filters) and headers. */
 export async function GET(req: NextRequest, { params }: { params: Promise<{ file: string }> }) {
     const { file } = await params
-    if (!FILES.has(file)) {
+    if (!FILES.has(file) && !PROVIDER_FILE.test(file)) {
         return NextResponse.json({ error: 'Not found.' }, { status: 404 })
     }
 
@@ -52,3 +57,6 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ file
         return NextResponse.json({ error: 'The API is unavailable.' }, { status: 503 })
     }
 }
+
+/** The dane.gov.pl importer checks the XML address with HEAD first; the body is dropped for HEAD. */
+export const HEAD = GET

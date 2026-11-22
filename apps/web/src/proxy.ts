@@ -10,6 +10,9 @@ import {
     type SupportedUiLocale,
 } from '@/i18n/supportedLocales'
 
+/** Same name as SESSION_COOKIE in src/server/session.ts (the proxy cannot import server-only modules). */
+const SESSION_COOKIE = 'aed-session'
+
 /** First supported language of the Accept-Language header, by quality. */
 function fromAcceptLanguage(header: string | null): SupportedUiLocale | null {
     if (!header) {
@@ -49,6 +52,14 @@ export function proxy(req: NextRequest) {
         const url = req.nextUrl.clone()
         url.pathname = `/${locale}${pathname === '/' ? '' : pathname}`
         url.search = search
+        return NextResponse.redirect(url)
+    }
+
+    // Holder panel: without a session cookie straight to the sign-in page (the panel layout checks the token itself).
+    if (pathname.split('/')[2] === 'panel' && !req.cookies.get(SESSION_COOKIE)?.value) {
+        const url = req.nextUrl.clone()
+        url.pathname = `/${first}/sign-in`
+        url.search = `?next=${encodeURIComponent(pathname + search)}`
         return NextResponse.redirect(url)
     }
 

@@ -5,6 +5,11 @@ const nextConfig: NextConfig = {
     output: 'standalone',
     // Traefik compresses responses on the VPS (as for Car Reminder).
     compress: false,
+    // The import sends the holder's file (API limit 5 MB) in one server action; the default is 1 MB.
+    experimental: {
+        serverActions: { bodySizeLimit: '6mb' },
+        proxyClientMaxBodySize: '6mb',
+    },
     // Security headers on every response (CSP with its per-request nonce is set in src/proxy.ts).
     async headers() {
         return [

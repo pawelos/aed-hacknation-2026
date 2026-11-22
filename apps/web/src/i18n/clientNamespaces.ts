@@ -9,7 +9,8 @@ import type { MessageNamespace } from './messageNamespaces'
  */
 export const CLIENT_NAMESPACES = {
     '': ['common'],
-    '(public)': ['aedMap', 'common', 'enums'],
+    '(public)': ['aedMap', 'auth', 'common', 'enums'],
+    panel: ['enums', 'panel'],
 } as const satisfies Record<string, readonly MessageNamespace[]>
 
 export type ClientSegment = Exclude<keyof typeof CLIENT_NAMESPACES, ''>

@@ -184,9 +184,11 @@ public static class AedDataSchema
             "true, gdy rekord czeka na sprawdzenie (ostrzeżenie importu, zgłoszenie, weryfikacja starsza niż 12 miesięcy).",
             "true when the record is waiting for a check (import warning, report, verification older than 12 months).",
             "false", null, r => r.NeedsVerification),
-        new("data_aktualizacji", AedFieldType.DateTime, true, null, "ISO 8601 UTC, YYYY-MM-DDThh:mm:ssZ",
-            "Kiedy rekord ostatnio zmieniono w zbiorze krajowym.", "When the record last changed in the national data set.",
-            "2026-11-21T17:11:50Z", null, r => r.UpdatedAt.ToString("yyyy-MM-dd'T'HH:mm:ss'Z'", Invariant)),
+        // dane.gov.pl indexes a tabular datetime only in its DATE_FORMATS (e.g. "yyyy-MM-dd HH:mm:ss"); ISO 8601 with
+        // "T...Z" is rejected by the portal's Elasticsearch mapping, so the table and map would not be built.
+        new("data_aktualizacji", AedFieldType.DateTime, true, null, "YYYY-MM-DD hh:mm:ss (UTC)",
+            "Kiedy rekord ostatnio zmieniono w zbiorze krajowym (czas UTC).", "When the record last changed in the national data set (UTC).",
+            "2026-11-21 17:11:50", null, r => r.UpdatedAt.ToString("yyyy-MM-dd HH:mm:ss", Invariant)),
     ];
 
     /// <summary>

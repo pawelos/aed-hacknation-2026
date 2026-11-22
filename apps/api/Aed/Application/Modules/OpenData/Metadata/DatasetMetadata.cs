@@ -29,7 +29,8 @@ public sealed record DatasetSource(
     string ReferenceScope,
     int Records,
     DateTime? LastVerifiedAt,
-    string CsvUrl);
+    string CsvUrl,
+    string HarvesterUrl);
 
 /// <summary>
 /// Field of the reference data set, as published in the metadata.
@@ -112,4 +113,10 @@ public sealed record DatasetMetadata
     /// Address of the DCAT-AP-PL catalog (RDF/XML) for the dane.gov.pl harvester.
     /// </summary>
     public required string DcatUrl { get; init; }
+
+    /// <summary>
+    /// Address of the dane.gov.pl XML importer file (schema 1.13) of the whole data set; each source has its own
+    /// in <see cref="DatasetSource.HarvesterUrl"/>.
+    /// </summary>
+    public required string HarvesterUrl { get; init; }
 }

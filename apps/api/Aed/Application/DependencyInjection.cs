@@ -29,6 +29,7 @@ public static class DependencyInjection
 
         services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly, includeInternalTypes: true);
         services.AddScoped<Modules.OpenData.Metadata.DatasetMetadataBuilder>();
+        services.AddScoped<Modules.AedImport.AedImporter>();
 
         return services;
     }

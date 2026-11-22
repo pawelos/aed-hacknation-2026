@@ -42,4 +42,15 @@ builder.AddNextJsApp("web", "../../../web")
     });
 #pragma warning restore ASPIREJAVASCRIPT001
 
+// Wizytówka (site/public): the same busybox httpd container and config as site/docker-compose.yml and the VPS.
+// Bind mounts: edits in site/public show up on page refresh. Port 8080 collides with site/docker-compose.yml if both run.
+string repoRoot = Path.GetFullPath(Path.Combine(appsDirectory, ".."));
+builder.AddContainer("site", "busybox", "1.38.0")
+    .WithBindMount(Path.Combine(repoRoot, "site", "public"), "/www", isReadOnly: true)
+    .WithBindMount(Path.Combine(repoRoot, "deploy", "stacks", "httpd.conf"), "/etc/httpd.conf", isReadOnly: true)
+    .WithContainerRuntimeArgs("--user", "65534:65534")
+    .WithArgs("httpd", "-f", "-p", "8080", "-h", "/www", "-c", "/etc/httpd.conf")
+    .WithHttpEndpoint(port: 8080, targetPort: 8080, name: "http", isProxied: false)
+    .WithExternalHttpEndpoints();
+
 builder.Build().Run();

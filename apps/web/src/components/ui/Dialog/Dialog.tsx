@@ -25,6 +25,10 @@ export interface DialogProps extends CommonProps {
     shouldCloseOnEsc?: boolean
     width?: number
     ref?: Ref<HTMLDivElement>
+    /** Id of the element that names the window (its heading), for screen readers. */
+    labelledBy?: string
+    /** Accessible name of the close button (e.g. "Zamknij"). */
+    closeLabel?: string
 }
 
 const DialogContent = (props: DialogProps) => {
@@ -35,6 +39,8 @@ const DialogContent = (props: DialogProps) => {
         width = 520,
         lockScroll = false,
         ref: propRef,
+        labelledBy,
+        closeLabel,
         onClose,
         onOpen: _onOpen,
         overlayClassName,
@@ -81,6 +87,7 @@ const DialogContent = (props: DialogProps) => {
         <CloseButton
             absolute
             className="ltr:right-4 rtl:left-4 top-4 hover:bg-gray-100 hover:dark:bg-gray-700 rounded-lg"
+            aria-label={closeLabel}
             onClick={() => onClose?.(context.open as boolean)}
         />
     )
@@ -110,7 +117,7 @@ const DialogContent = (props: DialogProps) => {
                                     ...floatingTransition.styles,
                                 }}
                                 ref={ref}
-                                aria-labelledby={context.labelId}
+                                aria-labelledby={labelledBy ?? context.labelId}
                                 aria-describedby={context.descriptionId}
                                 {...context.getFloatingProps(rest)}
                             >

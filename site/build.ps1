@@ -30,7 +30,6 @@ $Public = Join-Path $Root 'public'
 
 $SiteUrl = 'https://hacknation-2026.pl'
 $AppUrl = 'https://aed.hacknation-2026.pl'
-$LoginUrl = "$AppUrl/sign-in"
 $Brand = 'AED Radar'
 $ContactEmail = 'kontakt@hacknation-2026.pl'
 
@@ -245,7 +244,7 @@ function Get-Header([string]$Lang, [string]$Page) {
       <button class="icon-button theme-toggle" type="button" aria-label="$($ui.theme)" title="$($ui.theme)" aria-pressed="false" hidden>
         <span class="icon-sun">$($Icons.sun)</span><span class="icon-moon">$($Icons.moon)</span>
       </button>
-      <a class="button button-primary button-login" href="$LoginUrl" target="_blank" rel="noopener" aria-label="$($ui.login_label)">$($Icons.login)<span>$($ui.login)</span></a>
+      <a class="button button-primary button-login" href="$AppUrl/$Lang" target="_blank" rel="noopener" aria-label="$($ui.login_label)">$($Icons.login)<span>$($ui.login)</span></a>
       <details class="dropdown lang">
         <summary aria-label="$($ui.lang_label): $($L.name)" title="$($ui.lang_label)">
           <span class="flag" aria-hidden="true">$($Flags[$Lang])</span>

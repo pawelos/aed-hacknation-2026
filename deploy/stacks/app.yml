@@ -1,0 +1,135 @@
+# AED Radar prototype on the OVH VPS (aed.hacknation-2026.pl), behind the car-reminder edge Traefik
+# (C:\car-reminder\deploy\edge: ports 80/443, Let's Encrypt, shared middlewares *@file).
+#   ./deploy/scripts/deploy.sh app load <images.tar.gz>
+#   ./deploy/scripts/deploy.sh app up
+#
+# Images come from apps/tools/build-release.ps1 (the server never builds). Secrets live in ~/hacknation-2026/aed.env
+# (created by deploy.sh on the first "app up", never in the repo). Pattern: C:\car-reminder\deploy\stacks\app.yml,
+# without Redis, RabbitMQ and the worker.
+#
+# One host, one certificate: /api/v1, /scalar and /openapi go to the API, everything else to the web app
+# (which also serves the open data downloads under /api/open-data and /api/aed).
+
+name: aed
+
+services:
+  postgres:
+    # PostgreSQL 16 with PostGIS; the EF migration creates the extension (the postgres user owns the database).
+    image: postgis/postgis:16-3.4
+    container_name: aed-postgres
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: ${POSTGRES_MEMORY:-256m}
+          cpus: "0.5"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-aed}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-aed}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - aed
+
+  api:
+    image: aed/api:${APP_VERSION:?set APP_VERSION (deploy.sh app load)}
+    container_name: aed-api
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: ${API_MEMORY:-384m}
+          cpus: "0.75"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__Database: >-
+        Host=postgres;Port=5432;Database=${POSTGRES_DB:-aed};Username=${POSTGRES_USER:-aed};Password=${POSTGRES_PASSWORD};Maximum Pool Size=20;Timeout=15;Command Timeout=60
+      Jwt__Secret: ${JWT_SECRET:?set JWT_SECRET}
+      Cors__AllowedOrigins__0: https://${APP_HOST:-aed.hacknation-2026.pl}
+      OpenData__PublicBaseUrl: https://${APP_HOST:-aed.hacknation-2026.pl}
+      # API reference (Scalar) public for the jury.
+      OpenApi__Enabled: "true"
+      # Fictional demo records (marked as examples); accounts only when their passwords are set in aed.env.
+      Seed__DemoData: "true"
+      Seed__AdminPassword: ${SEED_ADMIN_PASSWORD:-}
+      Seed__DemoPassword: ${SEED_DEMO_PASSWORD:-}
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'exec 3<>/dev/tcp/127.0.0.1/8080 && printf \"GET /alive HTTP/1.0\\r\\nHost: api\\r\\n\\r\\n\" >&3 && head -n1 <&3 | grep -q \" 200 \"'"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 90s
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=car-reminder-edge
+      - "traefik.http.routers.aed-api.rule=Host(`${APP_HOST:-aed.hacknation-2026.pl}`) && (PathPrefix(`/api/v1`) || PathPrefix(`/scalar`) || PathPrefix(`/openapi`))"
+      - traefik.http.routers.aed-api.priority=100
+      - traefik.http.routers.aed-api.entrypoints=websecure
+      - traefik.http.routers.aed-api.middlewares=security-headers@file,compress@file,api-in-flight@file,api-rate-limit@file
+      - traefik.http.routers.aed-api.service=aed-api
+      - traefik.http.services.aed-api.loadbalancer.server.port=8080
+    networks:
+      - aed
+      - car-reminder-edge
+
+  web:
+    image: aed/web:${APP_VERSION:?set APP_VERSION (deploy.sh app load)}
+    container_name: aed-web
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: ${WEB_MEMORY:-256m}
+          cpus: "0.75"
+    depends_on:
+      - api
+    environment:
+      NODE_ENV: production
+      # Server-side calls (route handlers, the open data page) stay on the Docker network.
+      API_URL: http://aed-api:8080
+      # Quick fill of the demo accounts on the sign-in page (prototype for the jury): the same passwords the API
+      # seeder creates the accounts with. DEMO_LOGIN=false in aed.env turns it off.
+      DEMO_LOGIN: ${DEMO_LOGIN:-true}
+      DEMO_ADMIN_PASSWORD: ${SEED_ADMIN_PASSWORD:-}
+      DEMO_PASSWORD: ${SEED_DEMO_PASSWORD:-}
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://127.0.0.1:3000/pl', r => process.exit(r.statusCode < 500 ? 0 : 1)).on('error', () => process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=car-reminder-edge
+      - traefik.http.routers.aed-web.rule=Host(`${APP_HOST:-aed.hacknation-2026.pl}`)
+      - traefik.http.routers.aed-web.priority=10
+      - traefik.http.routers.aed-web.entrypoints=websecure
+      # The web app sets its own CSP with a per-request nonce (src/proxy.ts).
+      - traefik.http.routers.aed-web.middlewares=security-headers@file,compress@file,web-in-flight@file,web-rate-limit@file
+      - traefik.http.routers.aed-web.service=aed-web
+      - traefik.http.services.aed-web.loadbalancer.server.port=3000
+    networks:
+      - aed
+      - car-reminder-edge
+
+volumes:
+  postgres-data:
+    name: aed-postgres-data
+
+networks:
+  aed:
+    name: aed
+  # Created by the car-reminder edge (scripts/edge.sh); deploy.sh creates it too when missing.
+  car-reminder-edge:
+    name: car-reminder-edge
+    external: true

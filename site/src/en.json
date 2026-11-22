@@ -43,7 +43,7 @@
   },
   "descriptions": {
     "home": "AED Radar brings scattered data on AED defibrillators together into one open dataset on dane.gov.pl, the Polish open data portal. A HackNation 2026 project (\"AED Mission – Data to the Rescue\").",
-    "solution": "A map of the nearest AEDs, an owner panel, data validation and export to dane.gov.pl (CSV, GeoJSON). See how AED Radar collects, checks and publishes defibrillator data.",
+    "solution": "A map of the nearest AEDs, an owner panel, data validation and a provider list on dane.gov.pl (XML import, CSV, GeoJSON). See how AED Radar collects, checks and publishes defibrillator data.",
     "audience": "AED Radar helps emergency services point to the nearest defibrillator and lets municipalities, schools, companies and fire brigades share data on their AEDs in minutes.",
     "materials": "The app prototype, code repository, demo video, reference AED data schema (XLSX) and presentation of the AED Radar project from HackNation 2026.",
     "team": "Meet the AED Radar team building an open dataset of AED defibrillators in Poland at HackNation 2026, and read how we used artificial intelligence.",

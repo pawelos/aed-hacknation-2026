@@ -1,0 +1,62 @@
+{
+  "type": "FeatureCollection",
+  "generator": "przykład w formacie eksportu OpenStreetMap (overpass-turbo, emergency=defibrillator); dane fikcyjne",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "node/9000000001",
+      "geometry": { "type": "Point", "coordinates": [18.6466, 54.3520] },
+      "properties": {
+        "emergency": "defibrillator",
+        "name": "Hotel (przykład)",
+        "addr:street": "Gościnna",
+        "addr:city": "Gdańsk",
+        "teryt": "2261011",
+        "opening_hours": "24/7",
+        "access": "yes",
+        "indoor": "yes",
+        "defibrillator:location": "Recepcja"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/9000000002",
+      "geometry": { "type": "Point", "coordinates": [18.5730, 54.4416] },
+      "properties": {
+        "emergency": "defibrillator",
+        "name": "Molo w Sopocie (przykład)",
+        "addr:city": "Sopot",
+        "addr:postcode": "81-720",
+        "wojewodztwo": "pomorskie",
+        "opening_hours": "Jun-Aug 08:00-22:00",
+        "access": "yes",
+        "indoor": "no",
+        "phone": "+48 58 000 00 00"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/9000000003",
+      "geometry": { "type": "Point", "coordinates": [16.9286, 52.4064] },
+      "properties": {
+        "emergency": "defibrillator",
+        "name": "Stary Rynek – ratusz (przykład)",
+        "addr:city": "Poznań",
+        "teryt": "3064011",
+        "opening_hours": "Mo-Fr 09:00-17:00; Sa,Su 10:00-16:00",
+        "access": "customers",
+        "defibrillator:location": "Kasa muzeum"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "node/9000000004",
+      "geometry": { "type": "Point", "coordinates": [20.0, 50.0] },
+      "properties": {
+        "emergency": "defibrillator",
+        "name": "Punkt bez województwa (przykład)",
+        "addr:city": "Gdzieś"
+      }
+    }
+  ]
+}

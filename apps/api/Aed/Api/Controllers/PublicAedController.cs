@@ -84,4 +84,28 @@ public class PublicAedController : BaseApiController
         Result<AedCardResponse> response = await Sender.Send(new GetAedCardQuery(id), cancellationToken);
         return response.ToActionResult(() => Ok(response));
     }
+
+    /// <summary>
+    /// Reports a correction of the record (e.g. "the cabinet is empty", "moved to the 1st floor"). The owner sees
+    /// it in the panel. At most 10 reports a minute from one address.
+    /// </summary>
+    /// <param name="id">Identifier of the record.</param>
+    /// <param name="command">Message and optional contact.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    [HttpPost(BaseConstant.ById + "/report")]
+    [Consumes("application/json")]
+    [EnableRateLimiting(Program.LoginRateLimitPolicy)]
+    [ProducesResponseType(typeof(Result), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status429TooManyRequests)]
+    public async Task<IActionResult> Report(
+        Guid id,
+        [FromBody] Application.Modules.CorrectionReport.SubmitCorrectionReportCommand command,
+        CancellationToken cancellationToken)
+    {
+        command.AedDeviceId = id;
+        Result response = await Sender.Send(command, cancellationToken);
+        return response.ToActionResult(() => Ok(response));
+    }
 }

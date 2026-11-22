@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<title>AED Radar – księga znaku</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  @page { size: 297mm 210mm; margin: 0; }
+  :root { --green: #00843A; --red: #C8102E; --navy: #0B1F3A; --grey: #3D4F6A; --soft: #F5F8FB; --line: #E2E8F0; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: #fff; }
+  body { font-family: Inter, "Segoe UI", Arial, sans-serif; color: var(--grey); font-size: 11pt; line-height: 1.5;
+         -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .page { width: 297mm; height: 210mm; padding: 16mm 18mm 14mm; position: relative; page-break-after: always; overflow: hidden; }
+  .page:last-child { page-break-after: auto; }
+  h1, h2, h3 { color: var(--navy); margin: 0 0 4mm; line-height: 1.15; }
+  h1 { font-size: 30pt; font-weight: 800; }
+  h2 { font-size: 22pt; font-weight: 800; }
+  h3 { font-size: 12pt; font-weight: 600; margin-bottom: 2mm; }
+  p { margin: 0 0 3mm; max-width: 165mm; }
+  .num { position: absolute; right: 18mm; bottom: 9mm; font-size: 9pt; }
+  .foot { position: absolute; left: 18mm; bottom: 9mm; font-size: 9pt; }
+  .eyebrow { text-transform: uppercase; letter-spacing: .12em; font-size: 9pt; font-weight: 600; color: var(--green); margin-bottom: 3mm; }
+  .grid { display: grid; gap: 8mm; }
+  .g2 { grid-template-columns: 1fr 1fr; } .g3 { grid-template-columns: repeat(3, 1fr); } .g4 { grid-template-columns: repeat(4, 1fr); }
+  .tile { border: 1px solid var(--line); border-radius: 4mm; padding: 7mm; display: flex; flex-direction: column; gap: 4mm; justify-content: space-between; }
+  .tile .art { flex: 1; display: flex; align-items: center; justify-content: center; min-height: 34mm; }
+  .tile small { font-size: 9pt; }
+  .dark { background: var(--navy); color: #cbd5e1; border-color: var(--navy); }
+  .soft { background: var(--soft); }
+
+  /* 1. Cover */
+  .cover { background: var(--green); color: #fff; display: flex; flex-direction: column; justify-content: center; }
+  .cover .card { background: #fff; border-radius: 6mm; padding: 14mm 16mm; width: 190mm; }
+  .cover .slogan { color: #fff; font-size: 26pt; font-weight: 800; margin-top: 12mm; line-height: 1.2; }
+  .cover .meta { color: #e6f4ec; margin-top: 6mm; }
+
+  /* 4. Colours */
+  .swatch { border-radius: 4mm; overflow: hidden; border: 1px solid var(--line); }
+  .swatch .c { height: 42mm; display: flex; align-items: flex-end; padding: 4mm; font-weight: 800; font-size: 14pt; }
+  .swatch dl { margin: 0; padding: 4mm; display: grid; grid-template-columns: auto 1fr; gap: 1mm 4mm; font-size: 9.5pt; }
+  .swatch dt { font-weight: 600; color: var(--navy); }
+  .swatch dd { margin: 0; }
+  table { border-collapse: collapse; font-size: 9.5pt; width: 100%; }
+  th, td { text-align: left; padding: 1.6mm 3mm; border-bottom: 1px solid var(--line); }
+  th { color: var(--navy); }
+  .ok { color: var(--green); font-weight: 600; } .no { color: var(--red); font-weight: 600; }
+
+  /* 5. Type */
+  .type-big { font-size: 64pt; font-weight: 800; color: var(--navy); line-height: 1; letter-spacing: -.02em; }
+  .type-semi { font-size: 22pt; font-weight: 600; color: var(--navy); }
+  .alphabet { font-size: 14pt; color: var(--navy); word-break: break-all; }
+
+  /* 6. Clear space */
+  .clear { position: relative; display: inline-block; padding: 6.5mm; outline: 1px dashed var(--red); background:
+           repeating-linear-gradient(45deg, #fdecef 0 2mm, #fff 2mm 4mm); }
+  .clear img { display: block; background: #fff; }
+  .x { position: absolute; font-size: 9pt; font-weight: 600; color: var(--red); }
+
+  /* 7. Misuse */
+  .misuse .art { position: relative; }
+  .misuse .art::after { content: ""; position: absolute; inset: 0; background:
+      linear-gradient(to top right, transparent calc(50% - 1px), var(--red) calc(50% - 1px), var(--red) calc(50% + 1px), transparent calc(50% + 1px)); opacity: .8; }
+
+  /* 8. Applications */
+  .sticker { width: 64mm; height: 90mm; border-radius: 5mm; background: var(--green); color: #fff; padding: 6mm; display: flex; flex-direction: column; gap: 3mm; }
+  .sticker .big { font-size: 22pt; font-weight: 800; line-height: 1.05; }
+  .sticker .small { font-size: 8pt; line-height: 1.35; }
+  .sticker .white { background: #fff; border-radius: 3mm; padding: 2.5mm; }
+  .banner { width: 100%; height: 22mm; border-radius: 3mm; background: var(--soft); border: 1px solid var(--line); display: flex; align-items: center; gap: 6mm; padding: 0 6mm; }
+  .banner b { color: var(--navy); font-size: 12pt; }
+  .banner .btn { margin-left: auto; background: var(--green); color: #fff; font-weight: 600; border-radius: 2mm; padding: 2.5mm 5mm; font-size: 10pt; white-space: nowrap; }
+  .post { width: 70mm; height: 70mm; border-radius: 4mm; background: var(--navy); color: #fff; padding: 7mm; display: flex; flex-direction: column; justify-content: space-between; }
+  .post .big { font-size: 20pt; font-weight: 800; line-height: 1.1; }
+  .post .big span { color: #2BC96A; }
+  .mail { border: 1px solid var(--line); border-radius: 3mm; padding: 5mm; font-size: 9pt; display: flex; gap: 5mm; align-items: center; }
+</style>
+</head>
+<body>
+
+<!-- 1 -->
+<section class="page cover">
+  <div class="card"><img src="src/logo-z-haslem.svg" alt="Logo AED Radar z hasłem" style="width:100%"></div>
+  <div class="slogan">Udostępnij dane.<br>Daj komuś szansę.</div>
+  <div class="meta">Księga znaku akcji AED Radar · wersja 1.0 (draft) · listopad 2026</div>
+</section>
+
+<!-- 2 -->
+<section class="page">
+  <div class="eyebrow">01 · Koncepcja</div>
+  <h2>Serce, które daje sygnał</h2>
+  <div class="grid g2" style="margin-top:6mm; align-items:center">
+    <div>
+      <p><strong>AED Radar</strong> to akcja promocyjna skierowana do dysponentów defibrylatorów: samorządów, szkół, firm, OSP i centrów handlowych. Zachęca ich, żeby opublikowali swój wykaz AED w portalu dane.gov.pl i wzięli odpowiedzialność za jego aktualność.</p>
+      <p><strong>Serce</strong> oznacza ratowanie życia i defibrylator. <strong>Łuki radaru</strong> wychodzą z serca: dane o urządzeniu wysyłają sygnał, a AED staje się widoczne dla każdego. <strong>Czerwony punkt</strong> to miejsce urządzenia na mapie.</p>
+      <p><strong>Zielony kafel</strong> ma barwę znaku AED (ISO 7010 E010), którą ludzie znają z budynków. Dzięki temu znak kojarzy się z defibrylatorem bez dodatkowego opisu.</p>
+      <p><strong>Hasło</strong> „Udostępnij dane. Daj komuś szansę.” mówi wprost, czego oczekujemy od dysponenta i co z tego wynika.</p>
+    </div>
+    <div class="tile soft" style="height:120mm">
+      <div class="art"><img src="src/sygnet.svg" alt="Sygnet AED Radar" style="width:80mm"></div>
+    </div>
+  </div>
+  <div class="foot">AED Radar · księga znaku</div><div class="num">2</div>
+</section>
+
+<!-- 3 -->
+<section class="page">
+  <div class="eyebrow">02 · Warianty znaku</div>
+  <h2>Warianty</h2>
+  <div class="grid g3" style="margin-top:6mm">
+    <div class="tile"><div class="art"><img src="src/logo-poziome.svg" alt="" style="width:70mm"></div><div><h3>Poziomy (podstawowy)</h3><small>Strony WWW, nagłówki, dokumenty.</small></div></div>
+    <div class="tile"><div class="art"><img src="src/logo-pionowe.svg" alt="" style="height:34mm"></div><div><h3>Pionowy</h3><small>Plakaty, naklejki, kwadratowe formaty.</small></div></div>
+    <div class="tile"><div class="art"><img src="src/logo-z-haslem.svg" alt="" style="width:76mm"></div><div><h3>Z hasłem</h3><small>Materiały akcji dla dysponentów.</small></div></div>
+    <div class="tile"><div class="art"><img src="src/sygnet.svg" alt="" style="height:28mm"> &nbsp; <img src="src/sygnet-bez-tla.svg" alt="" style="height:28mm"></div><div><h3>Sygnet i sygnet bez tła</h3><small>Ikona aplikacji, favicon, awatar. Bez tła tylko na jasnym tle.</small></div></div>
+    <div class="tile"><div class="art"><img src="src/logo-mono-czarne.svg" alt="" style="width:66mm"></div><div><h3>Monochromatyczny czarny</h3><small>Druk jednobarwny, faks, pieczątka.</small></div></div>
+    <div class="tile dark"><div class="art"><img src="src/logo-mono-biale.svg" alt="" style="width:66mm"></div><div><h3 style="color:#fff">Monochromatyczny biały</h3><small>Ciemne tła i zdjęcia.</small></div></div>
+  </div>
+  <div class="foot">AED Radar · księga znaku</div><div class="num">3</div>
+</section>
+
+<!-- 4 -->
+<section class="page">
+  <div class="eyebrow">03 · Kolory</div>
+  <h2>Kolorystyka</h2>
+  <div class="grid g4" style="margin-top:5mm">
+    <div class="swatch"><div class="c" style="background:#00843A;color:#fff">Zieleń AED</div>
+      <dl><dt>HEX</dt><dd>#00843A</dd><dt>RGB</dt><dd>0 132 58</dd><dt>CMYK</dt><dd>100 0 56 48</dd><dt>Rola</dt><dd>kafel, przyciski, „Radar”</dd></dl></div>
+    <div class="swatch"><div class="c" style="background:#C8102E;color:#fff">Czerwień serca</div>
+      <dl><dt>HEX</dt><dd>#C8102E</dd><dt>RGB</dt><dd>200 16 46</dd><dt>CMYK</dt><dd>0 92 77 22</dd><dt>Rola</dt><dd>punkt w sercu, akcenty</dd></dl></div>
+    <div class="swatch"><div class="c" style="background:#0B1F3A;color:#fff">Granat</div>
+      <dl><dt>HEX</dt><dd>#0B1F3A</dd><dt>RGB</dt><dd>11 31 58</dd><dt>CMYK</dt><dd>81 47 0 77</dd><dt>Rola</dt><dd>„AED”, nagłówki, ciemne tła</dd></dl></div>
+    <div class="swatch"><div class="c" style="background:#fff;color:#0B1F3A">Biel</div>
+      <dl><dt>HEX</dt><dd>#FFFFFF</dd><dt>RGB</dt><dd>255 255 255</dd><dt>CMYK</dt><dd>0 0 0 0</dd><dt>Rola</dt><dd>serce, łuki, tło</dd></dl></div>
+  </div>
+  <h3 style="margin-top:6mm">Kontrast (WCAG 2.2)</h3>
+  <table>
+    <tr><th>Tekst lub element</th><th>Tło</th><th>Kontrast</th><th>Ocena</th></tr>
+    <tr><td>Biel</td><td>Zieleń AED</td><td>4,81 : 1</td><td class="ok">AA dla tekstu</td></tr>
+    <tr><td>Granat</td><td>Biel</td><td>16,52 : 1</td><td class="ok">AAA</td></tr>
+    <tr><td>Szary tekst hasła #3D4F6A</td><td>Biel</td><td>8,32 : 1</td><td class="ok">AAA</td></tr>
+    <tr><td>Czerwień</td><td>Biel</td><td>5,88 : 1</td><td class="ok">AA dla tekstu</td></tr>
+    <tr><td>Zieleń AED (sygnet bez tła)</td><td>Granat</td><td>3,43 : 1</td><td class="no">tylko grafika; na ciemnym tle użyj wersji białej</td></tr>
+  </table>
+  <p style="margin-top:3mm;font-size:9pt">Wartości CMYK są przeliczone z RGB. Przed drukiem trzeba je potwierdzić z drukarnią (proof).</p>
+  <div class="foot">AED Radar · księga znaku</div><div class="num">4</div>
+</section>
+
+<!-- 5 -->
+<section class="page">
+  <div class="eyebrow">04 · Typografia</div>
+  <h2>Inter</h2>
+  <div class="grid g2" style="margin-top:6mm">
+    <div>
+      <div class="type-big">AED Radar</div>
+      <p style="margin-top:3mm">Napis w logo: Inter ExtraBold (800), światło między literami −0,6 jednostki. W plikach logo napis jest zamieniony na krzywe, więc nie trzeba instalować fontu.</p>
+      <div class="type-semi" style="margin-top:8mm">Udostępnij dane. Daj komuś szansę.</div>
+      <p style="margin-top:3mm">Hasło i śródtytuły: Inter SemiBold (600). Tekst ciągły: Inter Regular (400).</p>
+    </div>
+    <div class="tile soft">
+      <div class="alphabet">AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŹŻ<br>aąbcćdeęfghijklłmnńoóprsśtuwyzźż<br>0123456789 .,:;!?–()</div>
+      <p><strong>Licencja:</strong> SIL Open Font License 1.1, bezpłatnie także do celów komercyjnych (rsms.me/inter, Google Fonts).</p>
+      <p><strong>Zamiennik systemowy:</strong> Segoe UI, Arial.</p>
+    </div>
+  </div>
+  <div class="foot">AED Radar · księga znaku</div><div class="num">5</div>
+</section>
+
+<!-- 6 -->
+<section class="page">
+  <div class="eyebrow">05 · Pole ochronne i minimalna wielkość</div>
+  <h2>Przestrzeń wokół znaku</h2>
+  <div class="grid g2" style="margin-top:6mm; align-items:center">
+    <div style="text-align:center">
+      <div class="clear"><img src="src/logo-poziome.svg" alt="" style="height:26mm">
+        <span class="x" style="top:1.5mm;left:50%">x</span><span class="x" style="left:2mm;top:42%">x</span>
+      </div>
+    </div>
+    <div>
+      <p><strong>Pole ochronne x</strong> to ¼ wysokości sygnetu. Wokół znaku nie umieszczamy tekstu, innych logo ani krawędzi formatu bliżej niż x.</p>
+      <h3 style="margin-top:6mm">Minimalna wielkość</h3>
+      <table>
+        <tr><th>Wariant</th><th>Ekran</th><th>Druk</th></tr>
+        <tr><td>Poziomy, z hasłem</td><td>wysokość 32 px</td><td>wysokość 12 mm</td></tr>
+        <tr><td>Poziomy, pionowy</td><td>wysokość 24 px</td><td>wysokość 8 mm</td></tr>
+        <tr><td>Sygnet</td><td>16 px (favicon bez zewnętrznego łuku)</td><td>6 mm</td></tr>
+      </table>
+      <p style="margin-top:5mm;display:flex;gap:5mm;align-items:flex-end"><img src="src/favicon.svg" alt="" width="16"><img src="src/sygnet.svg" alt="" width="24"><img src="src/sygnet.svg" alt="" width="48"><img src="src/logo-poziome.svg" alt="" height="24"></p>
+    </div>
+  </div>
+  <div class="foot">AED Radar · księga znaku</div><div class="num">6</div>
+</section>
+
+<!-- 7 -->
+<section class="page">
+  <div class="eyebrow">06 · Niedozwolone użycia</div>
+  <h2>Czego nie robić</h2>
+  <div class="grid g3 misuse" style="margin-top:6mm">
+    <div class="tile"><div class="art"><img src="src/logo-poziome.svg" alt="" style="width:48mm;transform:scale(1.45,.7)"></div><small>Nie rozciągaj i nie zmieniaj proporcji.</small></div>
+    <div class="tile"><div class="art"><img src="src/logo-poziome.svg" alt="" style="width:56mm;transform:rotate(-12deg)"></div><small>Nie obracaj znaku.</small></div>
+    <div class="tile"><div class="art"><img src="src/logo-poziome.svg" alt="" style="width:56mm;filter:hue-rotate(150deg)"></div><small>Nie zmieniaj kolorów.</small></div>
+    <div class="tile"><div class="art"><img src="src/logo-poziome.svg" alt="" style="width:56mm;filter:drop-shadow(2mm 2mm 1.5mm rgba(0,0,0,.45))"></div><small>Nie dodawaj cieni, obrysów ani efektów.</small></div>
+    <div class="tile" style="background:#00843A"><div class="art"><img src="src/logo-poziome.svg" alt="" style="width:56mm"></div><small style="color:#fff">Nie stawiaj wersji kolorowej na tle bez kontrastu. Użyj wersji białej.</small></div>
+    <div class="tile"><div class="art"><img src="src/sygnet.svg" alt="" style="height:20mm"><span style="font:italic 400 20pt Georgia,serif;color:#0B1F3A;margin-left:3mm">AED Radar</span></div><small>Nie składaj logo z innym fontem.</small></div>
+  </div>
+  <div class="foot">AED Radar · księga znaku</div><div class="num">7</div>
+</section>
+
+<!-- 8 -->
+<section class="page">
+  <div class="eyebrow">07 · Zastosowania</div>
+  <h2>Materiały akcji dla dysponentów</h2>
+  <div style="display:grid;grid-template-columns:64mm 70mm 1fr;gap:8mm;margin-top:5mm;align-items:start">
+    <div>
+      <div class="sticker">
+        <div class="white"><img src="src/logo-poziome.svg" alt="" style="width:100%"></div>
+        <div class="big">Ten AED jest na mapie</div>
+        <div class="small">Dane tego defibrylatora są publikowane w otwartym wykazie w dane.gov.pl. Widzisz błąd? Zgłoś poprawkę na aed.hacknation-2026.pl.</div>
+        <div class="small" style="margin-top:auto;font-weight:600">Udostępnij dane. Daj komuś szansę.</div>
+      </div>
+      <small>Naklejka przy szafce AED (A6)</small>
+    </div>
+    <div>
+      <div class="post">
+        <img src="src/logo-mono-biale.svg" alt="" style="width:42mm">
+        <div class="big">Masz defibrylator?<br><span>Pokaż go światu.</span></div>
+        <div style="font-size:8.5pt">Opublikuj wykaz AED w dane.gov.pl. Udostępnij dane. Daj komuś szansę.</div>
+      </div>
+      <small>Post w mediach społecznościowych (1:1)</small>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:7mm">
+      <div>
+        <div class="mail"><img src="src/sygnet.svg" alt="" style="height:12mm"><div><strong style="color:#0B1F3A">Anna Kowalska</strong> · Urząd Gminy Przykładowej<br>Nasze defibrylatory są w otwartym wykazie dane.gov.pl.<br><span style="color:#00843A;font-weight:600">AED Radar · Udostępnij dane. Daj komuś szansę.</span></div></div>
+        <small>Stopka e-mail dysponenta</small>
+      </div>
+      <div class="tile soft" style="padding:5mm"><small>Wszystkie pliki znaku: <strong>brand/src</strong> (SVG), <strong>brand/logo</strong> (PNG, JPG, PDF). Osoby i instytucje w przykładach są fikcyjne.</small></div>
+    </div>
+    <div style="grid-column:1 / -1">
+      <div class="banner"><img src="src/sygnet.svg" alt="" style="height:13mm"><div><b>Twoja gmina ma AED? Opublikuj wykaz w dane.gov.pl</b><br><small>Wzór danych i narzędzie są gotowe. Wystarczy kilka minut.</small></div><span class="btn">Dołącz do akcji</span></div>
+      <small>Baner na stronę urzędu (728 × 90)</small>
+    </div>
+  </div>
+  <div class="foot">AED Radar · księga znaku</div><div class="num">8</div>
+</section>
+
+</body>
+</html>

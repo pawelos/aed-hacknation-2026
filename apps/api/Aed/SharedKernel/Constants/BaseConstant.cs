@@ -80,6 +80,10 @@ public static class BaseConstant
     /// </summary>
     public const string BatchRestore = "batch-restore";
     /// <summary>
+    /// Route segment for confirming multiple records as up to date.
+    /// </summary>
+    public const string BatchVerify = "batch-verify";
+    /// <summary>
     /// Route segment for permanently deleting records from the trash.
     /// </summary>
     public const string Purge = "purge";

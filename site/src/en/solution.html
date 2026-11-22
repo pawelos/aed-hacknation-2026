@@ -1,11 +1,11 @@
 <section class="section">
   <div class="container">
-    <p class="section-intro">A mechanism that collects data from every AED owner, checks it and publishes one open dataset. Every record names its source and reference scope.</p>
+    <p class="section-intro">We do for AEDs what the Ministry of Digital Affairs has already done for lost and found items: a reference data scope and automatic XML import. Every AED owner is a data provider on dane.gov.pl, publishes its own AED list and is responsible for its quality. The lists of all providers form one nationwide list. Every record names its source and reference scope.</p>
     <ul class="grid grid-2">
       <li class="card"><h2 class="h3">Map and search</h2><p>The nearest AED by address or location, filtered by availability, status and type of place.</p></li>
       <li class="card"><h2 class="h3">Owner panel</h2><p>Local governments, schools, companies and fire brigades add and update their devices in one form.</p></li>
       <li class="card"><h2 class="h3">Validation and merging</h2><p>CSV, GeoJSON and API import, duplicate detection, checks of coordinates, addresses and dates.</p></li>
-      <li class="card"><h2 class="h3">Export to dane.gov.pl</h2><p>Open CSV and GeoJSON with metadata that follows the rules of the dane.gov.pl portal.</p></li>
+      <li class="card"><h2 class="h3">Provider list on dane.gov.pl</h2><p>For each owner an XML import file (portal schema 1.13) with an MD5 checksum. The portal downloads the list in CSV, GeoJSON and JSON by itself, with no manual upload.</p></li>
     </ul>
   </div>
 </section>
@@ -13,9 +13,9 @@
   <div class="container">
     <h2 id="steps-title">How it works</h2>
     <ol class="steps">
-      <li><strong>Collect</strong><span>Data from AED owners and existing databases, with the source of every record.</span></li>
+      <li><strong>Collect</strong><span>The owner fills in the reference data scope in the panel or imports a file. Every record keeps its source.</span></li>
       <li><strong>Check</strong><span>Coordinates, addresses, hours and verification dates; duplicates are merged into one record.</span></li>
-      <li><strong>Publish</strong><span>One dataset on dane.gov.pl, kept up to date by the owners themselves.</span></li>
+      <li><strong>Publish</strong><span>The owner registers its list on dane.gov.pl as a provider and is responsible for the data. The lists of all providers form one list.</span></li>
     </ol>
   </div>
 </section>

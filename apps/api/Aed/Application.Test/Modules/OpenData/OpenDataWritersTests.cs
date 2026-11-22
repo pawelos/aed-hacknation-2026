@@ -73,7 +73,7 @@ public sealed class OpenDataWritersTests
             Assert.That(record, Does.Contain(",CC0-1.0,"));
             // Verified late in the evening UTC: already the next day in Poland.
             Assert.That(record, Does.Contain(",2026-11-02,"));
-            Assert.That(record, Does.EndWith(",false,2026-11-21T17:11:50Z"));
+            Assert.That(record, Does.EndWith(",false,2026-11-21 17:11:50"));
         });
     }
 

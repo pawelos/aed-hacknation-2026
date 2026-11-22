@@ -1,11 +1,11 @@
 <section class="section">
   <div class="container">
-    <p class="section-intro">Mechanizm, który zbiera dane od wszystkich dysponentów, sprawdza je i publikuje jako jeden otwarty zbiór. Każdy rekord ma wskazane źródło i zakres referencyjny.</p>
+    <p class="section-intro">Robimy dla AED to, co Ministerstwo Cyfryzacji zrobiło już dla rzeczy znalezionych: wzorcowy zakres danych i automatyczny import XML. Każdy dysponent jest dostawcą danych w dane.gov.pl, publikuje własny wykaz AED i odpowiada za jego jakość. Wykazy wszystkich dostawców tworzą jedną ogólnopolską listę. Każdy rekord ma wskazane źródło i zakres referencyjny.</p>
     <ul class="grid grid-2">
       <li class="card"><h2 class="h3">Mapa i wyszukiwarka</h2><p>Najbliższe AED według adresu lub lokalizacji, z filtrami dostępności, statusu i rodzaju obiektu.</p></li>
       <li class="card"><h2 class="h3">Panel dysponenta</h2><p>Samorządy, szkoły, firmy i OSP dodają i aktualizują swoje urządzenia w jednolitym formularzu.</p></li>
       <li class="card"><h2 class="h3">Walidacja i integracja</h2><p>Import CSV, GeoJSON i API, wykrywanie duplikatów, kontrola współrzędnych, adresów i dat weryfikacji.</p></li>
-      <li class="card"><h2 class="h3">Eksport do dane.gov.pl</h2><p>Otwarte formaty CSV i GeoJSON z metadanymi zgodnymi z zasadami portalu dane.gov.pl.</p></li>
+      <li class="card"><h2 class="h3">Wykaz dostawcy w dane.gov.pl</h2><p>Dla każdego dysponenta plik importu XML (schemat portalu 1.13) z sumą MD5. Portal sam pobiera z niego wykaz w CSV, GeoJSON i JSON, bez ręcznego wgrywania.</p></li>
     </ul>
   </div>
 </section>
@@ -13,9 +13,9 @@
   <div class="container">
     <h2 id="steps-title">Jak to działa</h2>
     <ol class="steps">
-      <li><strong>Zbieramy</strong><span>Dane od dysponentów i z istniejących baz, z zapisanym źródłem każdego rekordu.</span></li>
+      <li><strong>Zbieramy</strong><span>Dysponent wypełnia wzorcowy zakres danych w panelu albo importuje plik. Każdy rekord ma zapisane źródło.</span></li>
       <li><strong>Sprawdzamy</strong><span>Współrzędne, adresy, godziny i daty weryfikacji; duplikaty łączymy w jeden rekord.</span></li>
-      <li><strong>Publikujemy</strong><span>Jeden zbiór w dane.gov.pl, aktualizowany przez samych dysponentów.</span></li>
+      <li><strong>Publikujemy</strong><span>Dysponent rejestruje swój wykaz w dane.gov.pl jako dostawca i odpowiada za dane. Wykazy wszystkich dostawców tworzą jedną listę.</span></li>
     </ol>
   </div>
 </section>

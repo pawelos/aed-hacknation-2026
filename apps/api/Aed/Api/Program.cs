@@ -100,6 +100,12 @@ if (!app.Environment.IsDevelopment())
 
 app.UseMiddleware<SecurityHeadersMiddleware>();
 app.UseCors();
+// Validation messages in the language of the web panel (Accept-Language pl / en); FluentValidation reads the UI culture.
+app.UseRequestLocalization(options =>
+{
+    string[] cultures = ["en", "pl"];
+    options.SetDefaultCulture("en").AddSupportedCultures(cultures).AddSupportedUICultures(cultures);
+});
 
 app.MapDefaultEndpoints();
 

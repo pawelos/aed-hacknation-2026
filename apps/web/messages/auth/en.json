@@ -1,0 +1,21 @@
+{
+    "metaTitle": "Sign in to the holder panel – AED Radar",
+    "title": "Holder panel",
+    "intro": "Sign in to add and update your organisation's defibrillators, import CSV and GeoJSON files and handle reported corrections.",
+    "email": "E-mail",
+    "password": "Password",
+    "submit": "Sign in",
+    "required": "This field is required.",
+    "invalidEmail": "Enter a valid e-mail address.",
+    "demo": "The demo accounts of the prototype are given by the team (README).",
+    "back": "Back to the AED map",
+    "invalidCredentials": "The e-mail or the password is wrong.",
+    "lockedOut": "Too many failed attempts. Try again in 15 minutes.",
+    "quickFill": {
+        "title": "Quick fill (demo accounts)",
+        "wroclaw": "Holder – Wrocław",
+        "osp": "Holder – fire brigade",
+        "admin": "Administrator",
+        "hint": "Prototype: choose a demo account above and click “Sign in”."
+    }
+}

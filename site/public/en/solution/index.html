@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>How AED Radar works – AED map and open data</title>
-  <meta name="description" content="A map of the nearest AEDs, an owner panel, data validation and export to dane.gov.pl (CSV, GeoJSON). See how AED Radar collects, checks and publishes defibrillator data.">
+  <meta name="description" content="A map of the nearest AEDs, an owner panel, data validation and a provider list on dane.gov.pl (XML import, CSV, GeoJSON). See how AED Radar collects, checks and publishes defibrillator data.">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="theme-color" content="#00843a">
   <link rel="canonical" href="https://hacknation-2026.pl/en/solution/">
@@ -19,7 +19,7 @@
   <meta property="og:locale:alternate" content="pl_PL">
   <meta property="og:site_name" content="AED Radar">
   <meta property="og:title" content="How AED Radar works – AED map and open data">
-  <meta property="og:description" content="A map of the nearest AEDs, an owner panel, data validation and export to dane.gov.pl (CSV, GeoJSON). See how AED Radar collects, checks and publishes defibrillator data.">
+  <meta property="og:description" content="A map of the nearest AEDs, an owner panel, data validation and a provider list on dane.gov.pl (XML import, CSV, GeoJSON). See how AED Radar collects, checks and publishes defibrillator data.">
   <meta property="og:url" content="https://hacknation-2026.pl/en/solution/">
   <meta property="og:image" content="https://hacknation-2026.pl/assets/og-en.png">
   <meta property="og:image:type" content="image/png">
@@ -27,7 +27,7 @@
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="AED Radar – Share the data. Give someone a chance. Open data on AED defibrillators on dane.gov.pl.">
   <meta name="twitter:card" content="summary_large_image">
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://hacknation-2026.pl/#organization","name":"AED Radar","url":"https://hacknation-2026.pl/","logo":{"@type":"ImageObject","url":"https://hacknation-2026.pl/assets/apple-touch-icon.png","width":180,"height":180},"email":"kontakt@hacknation-2026.pl"},{"@type":"WebSite","@id":"https://hacknation-2026.pl/#website","url":"https://hacknation-2026.pl/","name":"AED Radar","description":"AED Radar brings scattered data on AED defibrillators together into one open dataset on dane.gov.pl, the Polish open data portal. A HackNation 2026 project (\"AED Mission – Data to the Rescue\").","inLanguage":["pl","en"],"about":{"@type":"Thing","name":"Automated external defibrillator (AED)","sameAs":"https://en.wikipedia.org/wiki/Automated_external_defibrillator"},"publisher":{"@id":"https://hacknation-2026.pl/#organization"}},{"@type":"WebPage","@id":"https://hacknation-2026.pl/en/solution/#webpage","url":"https://hacknation-2026.pl/en/solution/","name":"How AED Radar works – AED map and open data","description":"A map of the nearest AEDs, an owner panel, data validation and export to dane.gov.pl (CSV, GeoJSON). See how AED Radar collects, checks and publishes defibrillator data.","inLanguage":"en","isPartOf":{"@id":"https://hacknation-2026.pl/#website"},"primaryImageOfPage":{"@type":"ImageObject","url":"https://hacknation-2026.pl/assets/og-en.png","width":1200,"height":630},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://hacknation-2026.pl/en/"},{"@type":"ListItem","position":2,"name":"Solution","item":"https://hacknation-2026.pl/en/solution/"}]}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://hacknation-2026.pl/#organization","name":"AED Radar","url":"https://hacknation-2026.pl/","logo":{"@type":"ImageObject","url":"https://hacknation-2026.pl/assets/apple-touch-icon.png","width":180,"height":180},"email":"kontakt@hacknation-2026.pl"},{"@type":"WebSite","@id":"https://hacknation-2026.pl/#website","url":"https://hacknation-2026.pl/","name":"AED Radar","description":"AED Radar brings scattered data on AED defibrillators together into one open dataset on dane.gov.pl, the Polish open data portal. A HackNation 2026 project (\"AED Mission – Data to the Rescue\").","inLanguage":["pl","en"],"about":{"@type":"Thing","name":"Automated external defibrillator (AED)","sameAs":"https://en.wikipedia.org/wiki/Automated_external_defibrillator"},"publisher":{"@id":"https://hacknation-2026.pl/#organization"}},{"@type":"WebPage","@id":"https://hacknation-2026.pl/en/solution/#webpage","url":"https://hacknation-2026.pl/en/solution/","name":"How AED Radar works – AED map and open data","description":"A map of the nearest AEDs, an owner panel, data validation and a provider list on dane.gov.pl (XML import, CSV, GeoJSON). See how AED Radar collects, checks and publishes defibrillator data.","inLanguage":"en","isPartOf":{"@id":"https://hacknation-2026.pl/#website"},"primaryImageOfPage":{"@type":"ImageObject","url":"https://hacknation-2026.pl/assets/og-en.png","width":1200,"height":630},"breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://hacknation-2026.pl/en/"},{"@type":"ListItem","position":2,"name":"Solution","item":"https://hacknation-2026.pl/en/solution/"}]}}]}</script>
   <link rel="stylesheet" href="../../styles.css">
   <script src="../../assets/site.js"></script>
 </head>
@@ -46,7 +46,7 @@
       <button class="icon-button theme-toggle" type="button" aria-label="Toggle light / dark mode" title="Toggle light / dark mode" aria-pressed="false" hidden>
         <span class="icon-sun"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span><span class="icon-moon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg></span>
       </button>
-      <a class="button button-primary button-login" href="https://aed.hacknation-2026.pl/sign-in" target="_blank" rel="noopener" aria-label="Log in to the AED app"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="m10 17 5-5-5-5"/><path d="M15 12H3"/></svg><span>Log in</span></a>
+      <a class="button button-primary button-login" href="https://aed.hacknation-2026.pl/en" target="_blank" rel="noopener" aria-label="Log in to the AED app"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="m10 17 5-5-5-5"/><path d="M15 12H3"/></svg><span>Log in</span></a>
       <details class="dropdown lang">
         <summary aria-label="Language: English" title="Language">
           <span class="flag" aria-hidden="true"><svg viewBox="0 0 60 60"><rect width="60" height="60" fill="#012169"/><path d="M0 0l60 60M60 0 0 60" stroke="#fff" stroke-width="12"/><path d="M0 0l60 60M60 0 0 60" stroke="#c8102e" stroke-width="5"/><path d="M30 0v60M0 30h60" stroke="#fff" stroke-width="18"/><path d="M30 0v60M0 30h60" stroke="#c8102e" stroke-width="10"/></svg></span>
@@ -82,12 +82,12 @@
 </section>
 <section class="section">
   <div class="container">
-    <p class="section-intro">A mechanism that collects data from every AED owner, checks it and publishes one open dataset. Every record names its source and reference scope.</p>
+    <p class="section-intro">We do for AEDs what the Ministry of Digital Affairs has already done for lost and found items: a reference data scope and automatic XML import. Every AED owner is a data provider on dane.gov.pl, publishes its own AED list and is responsible for its quality. The lists of all providers form one nationwide list. Every record names its source and reference scope.</p>
     <ul class="grid grid-2">
       <li class="card"><h2 class="h3">Map and search</h2><p>The nearest AED by address or location, filtered by availability, status and type of place.</p></li>
       <li class="card"><h2 class="h3">Owner panel</h2><p>Local governments, schools, companies and fire brigades add and update their devices in one form.</p></li>
       <li class="card"><h2 class="h3">Validation and merging</h2><p>CSV, GeoJSON and API import, duplicate detection, checks of coordinates, addresses and dates.</p></li>
-      <li class="card"><h2 class="h3">Export to dane.gov.pl</h2><p>Open CSV and GeoJSON with metadata that follows the rules of the dane.gov.pl portal.</p></li>
+      <li class="card"><h2 class="h3">Provider list on dane.gov.pl</h2><p>For each owner an XML import file (portal schema 1.13) with an MD5 checksum. The portal downloads the list in CSV, GeoJSON and JSON by itself, with no manual upload.</p></li>
     </ul>
   </div>
 </section>
@@ -95,9 +95,9 @@
   <div class="container">
     <h2 id="steps-title">How it works</h2>
     <ol class="steps">
-      <li><strong>Collect</strong><span>Data from AED owners and existing databases, with the source of every record.</span></li>
+      <li><strong>Collect</strong><span>The owner fills in the reference data scope in the panel or imports a file. Every record keeps its source.</span></li>
       <li><strong>Check</strong><span>Coordinates, addresses, hours and verification dates; duplicates are merged into one record.</span></li>
-      <li><strong>Publish</strong><span>One dataset on dane.gov.pl, kept up to date by the owners themselves.</span></li>
+      <li><strong>Publish</strong><span>The owner registers its list on dane.gov.pl as a provider and is responsible for the data. The lists of all providers form one list.</span></li>
     </ol>
   </div>
 </section>

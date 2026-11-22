@@ -6,7 +6,7 @@ Traefik z HTTPS przed wizytówką, na adresach podobnych do serwera. Wzór: `C:\
 |---|---|
 | `https://hacknation-2026.test` | wizytówka (`site/public`, ten sam kontener busybox co na VPS) |
 | `https://www.hacknation-2026.test` | 301 → `https://hacknation-2026.test` |
-| `https://aed.hacknation-2026.test` | prototyp `apps/web` uruchomiony na tym komputerze (port 3000, później; do tego czasu 502) |
+| `https://aed.hacknation-2026.test` | prototyp `apps/web` uruchomiony na tym komputerze przez Aspire (port 3060; bez niego 502) |
 
 Certyfikat wystawia własne lokalne CA. Traefik wysyła te same nagłówki CSP co produkcja, więc zablokowany skrypt albo styl widać od razu lokalnie.
 
@@ -44,4 +44,4 @@ Potem otwórz `https://hacknation-2026.test`. Zmiany w `site/public` widać po o
 
 - Trasy i nagłówki: `routes.yml`. Po zmianie: `./deploy/scripts/local.sh restart` (montowania z Windows nie wysyłają zdarzeń o zmianie plików).
 - Nowy certyfikat (ważny 825 dni) robisz przez `./deploy/scripts/local.sh certs` i `restart`. CA zostaje to samo.
-- Przycisk „Zaloguj” prowadzi zawsze do produkcyjnego `https://aed.hacknation-2026.pl/sign-in`. Lokalny prototyp otwierasz ręcznie: `https://aed.hacknation-2026.test`.
+- Przycisk „Zaloguj” (i inne linki do aplikacji) prowadzi tu do lokalnego `https://aed.hacknation-2026.test/<język>`; podmienia go `site/public/assets/site.js`. Na produkcji: `https://aed.hacknation-2026.pl/<język>`.
